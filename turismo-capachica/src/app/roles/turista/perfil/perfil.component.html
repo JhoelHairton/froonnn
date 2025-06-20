@@ -1,0 +1,65 @@
+<!-- perfil.component.html -->
+<div class="p-6 max-w-3xl mx-auto bg-white shadow-md rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">👤 Mi Perfil</h2>
+
+  <form class="space-y-6">
+
+    <!-- Foto de perfil -->
+    <div class="flex items-center gap-4">
+      <img [src]="perfil.avatarUrl" class="h-20 w-20 rounded-full border object-cover" />
+      <div>
+        <label class="block text-sm font-medium mb-1">Cambiar foto</label>
+        <input type="file" class="file-input text-sm" />
+      </div>
+    </div>
+
+    <!-- Nombre -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Nombre completo</label>
+      <input type="text" [(ngModel)]="perfil.nombre" name="nombre"
+             class="w-full border px-4 py-2 rounded" />
+    </div>
+
+    <!-- Correo (solo lectura) -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Correo electrónico</label>
+      <input type="email" [value]="perfil.correo" readonly
+             class="w-full bg-gray-100 text-gray-600 border px-4 py-2 rounded" />
+    </div>
+
+    <!-- Teléfono -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Teléfono</label>
+      <input type="text" [(ngModel)]="perfil.telefono" name="telefono"
+             class="w-full border px-4 py-2 rounded" />
+    </div>
+
+    <!-- Nacionalidad -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Nacionalidad</label>
+      <input type="text" [(ngModel)]="perfil.nacionalidad" name="nacionalidad"
+             class="w-full border px-4 py-2 rounded" />
+    </div>
+
+    <!-- Preferencias -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Preferencia turística</label>
+      <select [(ngModel)]="perfil.preferencia" name="preferencia"
+              class="w-full border px-4 py-2 rounded">
+        <option value="">Seleccionar</option>
+        <option value="Aventura">Aventura</option>
+        <option value="Cultura">Cultura</option>
+        <option value="Naturaleza">Naturaleza</option>
+        <option value="Gastronomía">Gastronomía</option>
+      </select>
+    </div>
+
+    <!-- Botón -->
+    <div class="text-right">
+      <button type="button"
+              class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+        Guardar cambios
+      </button>
+    </div>
+  </form>
+</div>

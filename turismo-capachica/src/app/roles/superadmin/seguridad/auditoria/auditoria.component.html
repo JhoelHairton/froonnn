@@ -1,0 +1,39 @@
+<!-- auditoria.component.html -->
+<div class="p-6 max-w-6xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-4">🔍 Auditoría de Cambios en el Sistema</h2>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left font-semibold">Usuario</th>
+          <th class="px-4 py-2 text-left font-semibold">Rol</th>
+          <th class="px-4 py-2 text-left font-semibold">Acción</th>
+          <th class="px-4 py-2 text-left font-semibold">Entidad</th>
+          <th class="px-4 py-2 text-left font-semibold">Método</th>
+          <th class="px-4 py-2 text-left font-semibold">Fecha</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let item of auditoria">
+          <td class="px-4 py-2">{{ item.usuario }}</td>
+          <td class="px-4 py-2">
+            <span class="px-2 py-1 text-xs font-medium rounded"
+              [ngClass]="{
+                'bg-green-100 text-green-800': item.rol === 'Superadmin',
+                'bg-blue-100 text-blue-800': item.rol === 'Emprendedor'
+              }">
+              {{ item.rol }}
+            </span>
+          </td>
+          <td class="px-4 py-2">{{ item.accion }}</td>
+          <td class="px-4 py-2">{{ item.entidad }}</td>
+          <td class="px-4 py-2 font-mono text-xs">
+            <span class="bg-gray-100 px-2 py-1 rounded">{{ item.metodo }}</span>
+          </td>
+          <td class="px-4 py-2">{{ item.fecha }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

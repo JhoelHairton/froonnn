@@ -1,0 +1,9 @@
+<ul class="timeline">
+  <li *ngFor="let h of historial">
+    <div class="marker" [ngClass]="h.tipo"></div>
+    <div class="content">
+      <h4 class="text-base font-semibold">{{ h.evento }}</h4>
+      <p class="text-sm text-gray-500">{{ h.fecha }}</p>
+    </div>
+  </li>
+</ul>

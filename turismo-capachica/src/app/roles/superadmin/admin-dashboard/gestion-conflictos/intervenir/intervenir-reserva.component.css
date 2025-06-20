@@ -1,0 +1,5 @@
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  transition: all 0.2s;
+}

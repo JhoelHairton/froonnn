@@ -1,0 +1,48 @@
+<!-- inicio.component.html -->
+<div class="p-6 max-w-7xl mx-auto">
+  <!-- Bienvenida -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold">👋 ¡Bienvenido, {{ turista.nombre }}!</h2>
+    <p class="text-gray-600 mt-1">Explora nuevas experiencias en Capachica.</p>
+  </div>
+
+  <!-- Experiencias sugeridas -->
+  <div class="mb-8">
+    <h3 class="text-xl font-semibold mb-4">🔥 Experiencias sugeridas</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let exp of sugerencias" class="border rounded shadow hover:shadow-md transition">
+        <img [src]="exp.imagen" class="h-40 w-full object-cover rounded-t" />
+        <div class="p-4">
+          <h4 class="text-lg font-bold">{{ exp.titulo }}</h4>
+          <p class="text-sm text-gray-600">{{ exp.comunidad }}</p>
+          <button class="mt-3 bg-blue-600 text-white px-4 py-2 text-sm rounded hover:bg-blue-700">
+            Ver más
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paquetes recomendados -->
+  <div class="mb-8">
+    <h3 class="text-xl font-semibold mb-4">🎁 Paquetes recomendados</h3>
+    <div class="flex overflow-x-auto space-x-4 pb-2">
+      <div *ngFor="let paquete of paquetes" class="min-w-[250px] bg-white border rounded shadow-sm">
+        <img [src]="paquete.imagen" class="h-36 w-full object-cover rounded-t" />
+        <div class="p-4">
+          <h4 class="font-semibold">{{ paquete.nombre }}</h4>
+          <p class="text-sm text-gray-500">{{ paquete.precio }} PEN</p>
+          <button class="mt-2 text-blue-600 hover:underline text-sm">Ver detalle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Novedades -->
+  <div>
+    <h3 class="text-xl font-semibold mb-4">📢 Novedades de Capachica</h3>
+    <ul class="list-disc list-inside text-sm text-gray-700">
+      <li *ngFor="let noticia of novedades">{{ noticia }}</li>
+    </ul>
+  </div>
+</div>

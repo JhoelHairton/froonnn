@@ -1,0 +1,75 @@
+<div class="p-8 space-y-12 bg-gray-50 min-h-screen">
+
+  <!-- 🔹 1. RESUMEN GENERAL (KPIs) -->
+  <section class="bg-white p-6 rounded-2xl shadow">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">📊 Resumen General</h2>
+    <app-dashboard></app-dashboard>
+  </section>
+
+  <!-- 🔹 2. MAPA DE ZONAS ACTIVAS -->
+  <section class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-gray-700">🗺️ Mapa de Zonas Activas</h2>
+      <span class="text-sm text-gray-400">Basado en reservas recientes</span>
+    </div>
+    <div class="overflow-hidden rounded-xl border border-gray-200 shadow-inner">
+      <app-mapa-heatmap></app-mapa-heatmap>
+    </div>
+  </section>
+
+  <!-- 🔹 3. ESTADÍSTICAS DETALLADAS -->
+  <section class="bg-white p-6 rounded-2xl shadow">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">📈 Estadísticas Detalladas</h2>
+    <app-estadisticas></app-estadisticas>
+  </section>
+
+  <!-- 🔹 4. GESTIÓN DE CONFLICTOS -->
+  <section class="space-y-6">
+    <h2 class="text-xl font-bold text-gray-800">🛠 Gestión de Conflictos</h2>
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <!-- 🕒 Historial -->
+      <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-700">📂 Historial de Reserva</h3>
+          <span class="text-sm text-gray-400">Reserva #12345</span>
+        </div>
+        <app-historial-reserva></app-historial-reserva>
+      </div>
+
+      <!-- 🛠 Intervención -->
+      <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition flex flex-col justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-gray-700 mb-2">🛠 Intervención Administrativa</h3>
+          <p class="text-sm text-gray-500 mb-4">Realiza acciones sobre la reserva reportada.</p>
+          <app-intervenir-reserva (onAdvertencia)="mostrarModal = true"></app-intervenir-reserva>
+        </div>
+        <div class="mt-6 text-right">
+          <button
+            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm shadow-sm"
+            (click)="mostrarModal = true">
+            Enviar Advertencia
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <app-advertencia-modal
+      [mostrar]="mostrarModal"
+      (cerrar)="mostrarModal = false">
+    </app-advertencia-modal>
+  </section>
+
+  <!-- 🔹 5. ALERTAS AUTOMATIZADAS -->
+  <section class="bg-white p-6 rounded-2xl shadow">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">🚨 Alertas Automatizadas</h2>
+    <app-alertas-automatizadas></app-alertas-automatizadas>
+  </section>
+
+  <!-- 🔹 6. REPORTES E IMPACTO TURÍSTICO -->
+  <section class="bg-white p-6 rounded-2xl shadow">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">📤 Reportes e Impacto Turístico</h2>
+    <app-reportes-impacto></app-reportes-impacto>
+  </section>
+
+</div>

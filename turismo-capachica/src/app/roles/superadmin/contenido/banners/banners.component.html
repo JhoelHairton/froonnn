@@ -1,0 +1,26 @@
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+  <h2 class="text-2xl font-bold mb-4 text-slate-700">🎥 Editar sección Hero del Landing</h2>
+
+  <form [formGroup]="heroForm" (ngSubmit)="guardar()" enctype="multipart/form-data">
+    
+
+    <label class="block mb-2">o URL del video</label>
+    <input formControlName="hero_video_url" type="text" class="w-full mb-4 p-2 border rounded" />
+
+    <label class="block mb-2">Título principal</label>
+    <input formControlName="hero_title" type="text" class="w-full mb-4 p-2 border rounded" />
+
+    <label class="block mb-2">Subtítulo</label>
+    <input formControlName="hero_subtitle" type="text" class="w-full mb-4 p-2 border rounded" />
+
+    <label class="block mb-2">Texto del botón</label>
+    <input formControlName="cta_text" type="text" class="w-full mb-4 p-2 border rounded" />
+
+    <label class="block mb-2">Enlace del botón</label>
+    <input formControlName="cta_link" type="text" class="w-full mb-6 p-2 border rounded" />
+
+    <button type="submit" class="bg-sky-700 text-white px-6 py-2 rounded hover:bg-sky-800">
+      💾 Guardar cambios
+    </button>
+  </form>
+</div>

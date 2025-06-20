@@ -1,0 +1,17 @@
+.navbar-oval {
+    border-radius: 1rem;
+    /* Ovalado total */
+    margin: 1rem;
+    /* Espacio alrededor */
+    padding-left: 2rem;
+    padding-right: 2rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background-clip: padding-box;
+    /* Bordes limpios */
+
+    max-width: 100%;
+    width: calc(100% - 2rem);
+    /* para dejar margen horizontal */
+
+
+}

@@ -1,0 +1,75 @@
+<header class="fixed top-0 left-0 w-full z-50 transition-all duration-300" 
+        [ngClass]="{ 
+           'bg-[#031718] shadow-md text-white': isScrolled, 
+           'bg-transparent text-[#6EA5C1]': !isScrolled 
+        }">
+
+  <nav class="w-full px-6 lg:px-10 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex-shrink-0">
+      <img src="assets/images/logg.png" alt="Logo" class="h-12 w-auto" />
+    </div>
+
+    <!-- Navegación escritorio -->
+    <ul class="hidden lg:flex items-center gap-8 text-sm font-semibold transition-all duration-300">
+      <li><a routerLink="/" routerLinkActive="text-[#6EA5C1]" class="whitespace-nowrap hover:text-[#11969D] transition">INICIO</a></li>
+      <li><a routerLink="/zonas-turisticas" routerLinkActive="text-[#6EA5C1]" class="whitespace-nowrap hover:text-[#11969D] transition">ZONAS TURISTICAS</a></li>
+      <li><a routerLink="/servicios" routerLinkActive="text-[#6EA5C1]" class="whitespace-nowrap hover:text-[#11969D] transition">SERVICIOS</a></li>
+      <li><a routerLink="/resenas" routerLinkActive="text-[#6EA5C1]" class="whitespace-nowrap hover:text-[#11969D] transition">RESEÑAS</a></li>
+      <li><a routerLink="/sobre-capachica" routerLinkActive="text-[#6EA5C1]" class="whitespace-nowrap hover:text-[#11969D] transition">SOBRE CAPACHICA</a></li>
+      <li>
+        <a routerLink="/reservar" routerLinkActive="text-yellow-400" 
+           class="whitespace-nowrap text-yellow-400 font-bold hover:text-[#11969D] transition">
+           RESERVAR
+        </a>
+      </li>
+    </ul>
+
+    <!-- Botones escritorio -->
+    <div class="hidden lg:flex items-center gap-3 ml-4">
+      <a routerLink="/auth/login" 
+         class="px-5 py-2 text-sm bg-[#6EA5C1] text-[#031718] rounded-full hover:bg-[#11969D] transition font-semibold">
+        INICIAR SESIÓN
+      </a>
+
+      <a routerLink="/auth/register" 
+         [ngClass]="{
+           'px-5 py-2 text-sm rounded-full transition font-semibold': true,
+           'bg-[#0D7075] text-white hover:bg-[#11969D]': isScrolled,
+           'border border-white text-[#6EA5C1] hover:bg-[#0D7075] hover:text-white': !isScrolled
+         }">
+        REGISTRARSE
+      </a>
+    </div>
+
+    <!-- Botón menú móvil -->
+    <button (click)="menuAbierto = !menuAbierto" 
+            class="lg:hidden focus:outline-none" 
+            aria-label="Abrir menú">
+      <svg *ngIf="!menuAbierto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+           stroke="currentColor" class="w-6 h-6 text-current">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg *ngIf="menuAbierto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+           stroke="currentColor" class="w-6 h-6 text-current">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Menú móvil -->
+  <div *ngIf="menuAbierto" 
+       class="lg:hidden bg-[#031718] text-white px-6 py-4 space-y-3 shadow-lg">
+    <a routerLink="/" routerLinkActive="text-yellow-400" (click)="menuAbierto = false" class="block hover:text-yellow-300 transition">INICIO</a>
+    <a routerLink="/zonas-turisticas" routerLinkActive="text-yellow-400" (click)="menuAbierto = false" class="block hover:text-yellow-300 transition">ZONAS TURISTICAS</a>
+    <a routerLink="/servicios" routerLinkActive="text-yellow-400" (click)="menuAbierto = false" class="block hover:text-yellow-300 transition">SERVICIOS</a>
+    <a routerLink="/resenas" routerLinkActive="text-yellow-400" (click)="menuAbierto = false" class="block hover:text-yellow-300 transition">RESEÑAS</a>
+    <a routerLink="/sobre-capachica" routerLinkActive="text-yellow-400" (click)="menuAbierto = false" class="block hover:text-yellow-300 transition">SOBRE CAPACHICA</a>
+    <a routerLink="/contacto" routerLinkActive="text-yellow-400" (click)="menuAbierto = false" class="block font-bold text-yellow-400 hover:text-yellow-300 transition">RESERVAR</a>
+    <hr class="border-yellow-400/40" />
+    <a routerLink="/auth/login" (click)="menuAbierto = false" class="block bg-[#6EA5C1] text-[#031718] px-4 py-2 rounded-full text-center font-semibold hover:bg-[#11969D] transition">INICIAR SESIÓN</a>
+    <a routerLink="/auth/register" (click)="menuAbierto = false" class="block border border-yellow-400 text-yellow-400 px-4 py-2 rounded-full text-center font-semibold hover:bg-yellow-400 hover:text-black transition">REGISTRARSE</a>
+  </div>
+</header>

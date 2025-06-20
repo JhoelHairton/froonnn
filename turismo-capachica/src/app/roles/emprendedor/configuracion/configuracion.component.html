@@ -1,0 +1,58 @@
+<div class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow space-y-6">
+  <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+    <iconify-icon icon="mdi:cog-outline" width="26"></iconify-icon>
+    Configuración de Cuenta
+  </h2>
+
+  <!-- 🌐 Idioma -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Idioma</label>
+    <select [(ngModel)]="config.idioma"
+            class="mt-1 w-full border rounded-md px-3 py-2">
+      <option *ngFor="let idioma of idiomasDisponibles" [value]="idioma.value">
+        {{ idioma.label }}
+      </option>
+    </select>
+  </div>
+
+  <!-- 🔔 Notificaciones -->
+  <div class="flex items-center gap-3">
+    <input type="checkbox" id="notif" [(ngModel)]="config.notificaciones"
+           class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+    <label for="notif" class="text-sm text-gray-700">Recibir notificaciones por correo</label>
+  </div>
+
+  <!-- 💳 Método de pago -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Método de Pago Preferido</label>
+    <select [(ngModel)]="config.metodo_pago"
+            class="mt-1 w-full border rounded-md px-3 py-2">
+      <option *ngFor="let metodo of metodosPago" [value]="metodo.value">
+        {{ metodo.label }}
+      </option>
+    </select>
+  </div>
+
+  <!-- 📌 Política de cancelación -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Política de Cancelación</label>
+    <textarea [(ngModel)]="config.politica_cancelacion"
+              class="w-full mt-1 border rounded px-3 py-2"
+              rows="3"></textarea>
+  </div>
+
+  <!-- 👁 Mostrar perfil -->
+  <div class="flex items-center gap-3">
+    <input type="checkbox" id="mostrarPerfil" [(ngModel)]="config.mostrar_perfil"
+           class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+    <label for="mostrarPerfil" class="text-sm text-gray-700">Mostrar mi perfil públicamente</label>
+  </div>
+
+  <!-- 💾 Guardar -->
+  <div class="text-end">
+    <button (click)="guardar()"
+            class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+      Guardar Cambios
+    </button>
+  </div>
+</div>

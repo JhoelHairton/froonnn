@@ -1,0 +1,36 @@
+<header
+  class="bg-white dark:bg-[#1c385e] text-[#1c385e] dark:text-white shadow-xl rounded-2xl mx-4 mt-4 px-8 py-4 flex justify-between items-center transition-colors duration-300 navbar-oval"
+>
+  <!-- 🔹 Izquierda: título + breadcrumb opcional -->
+  <div class="flex items-center gap-4">
+    <h1 class="text-xl font-semibold text-[#1c385e] dark:text-white">Panel de Admin</h1>
+    <!-- opcional -->
+    <!-- <p class="text-sm text-gray-500 dark:text-gray-300">Dashboard / Inicio</p> -->
+  </div>
+
+  <!-- 🔹 Derecha: acciones -->
+  <div class="flex items-center gap-6">
+    <!-- 🔁 Toggle Dark Mode -->
+    <button (click)="toggleDarkMode()">
+      <iconify-icon
+        [icon]="isDarkMode ? 'mdi:weather-sunny' : 'mdi:weather-night'"
+        class="text-2xl"
+      ></iconify-icon>
+    </button>
+    
+    
+
+    <!-- 👤 Nombre de usuario -->
+    <div class="flex items-center gap-2 text-[#1c385e] dark:text-white" *ngIf="user">
+      <img src="assets/avatar.jpg" class="w-8 h-8 rounded-full" />
+      <p>Bienvenido, {{ user.name }}</p>
+    </div>
+
+    <!-- 🚪 Cerrar sesión -->
+    <!-- Botón en navbar.component.html -->
+    <button (click)="logout()" class="text-sm px-3 py-1 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+      Cerrar sesión
+    </button>
+
+  </div>
+</header>

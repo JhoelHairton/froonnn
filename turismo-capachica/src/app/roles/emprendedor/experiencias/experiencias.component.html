@@ -1,0 +1,415 @@
+<div class="flex flex-col h-screen overflow-hidden">
+
+<!-- Modal Crear/Editar Mejorado -->
+<ng-container *ngIf="showModal">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-2xl shadow-xl overflow-hidden">
+      <!-- Header -->
+      <div class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
+        <h3 class="text-2xl font-semibold">
+          <iconify-icon [icon]="isEditing ? 'mdi:pencil' : 'mdi:plus-box'" class="inline-block mr-2"></iconify-icon>
+          {{ isEditing ? 'Editar Servicio' : 'Crear Servicio' }}
+        </h3>
+        <button (click)="closeModal()" class="text-white hover:text-indigo-200">
+          <iconify-icon icon="mdi:close" class="w-6 h-6"></iconify-icon>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <form [formGroup]="form" (ngSubmit)="submit()" class="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
+        <!-- Sección 1: Datos básicos -->
+        <div class="space-y-4">
+          <h4 class="text-lg font-medium text-gray-700">Datos básicos</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Título *</label>
+              <input
+                formControlName="title"
+                type="text"
+                placeholder="Ej: Tour cultural en Capachica"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Ubicación *</label>
+              <input
+                formControlName="location"
+                type="text"
+                placeholder="Ej: Centro de Capachica"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-600 mb-1">Descripción *</label>
+              <textarea
+                formControlName="description"
+                rows="3"
+                placeholder="Descripción breve…"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-200" />
+
+        <!-- Sección 2: Detalles -->
+        <div class="space-y-4">
+          <h4 class="text-lg font-medium text-gray-700">Detalles</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Precio (S/.) *</label>
+              <input
+                formControlName="price"
+                type="number"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Capacidad</label>
+              <input
+                formControlName="capacity"
+                type="number"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Duración</label>
+              <input
+                formControlName="duration"
+                type="text"
+                placeholder="Ej: 3 horas"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-200" />
+
+        <!-- Sección 3: Categorización -->
+        <div class="space-y-4">
+          <h4 class="text-lg font-medium text-gray-700">Categorías y Zona</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Categoría *</label>
+              <select
+                formControlName="category_id"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              >
+                <option value="" disabled>— Selecciona categoría —</option>
+                <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.name }}</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Zona *</label>
+              <select
+                formControlName="location_id"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              >
+                <option value="" disabled>— Selecciona zona —</option>
+                <option *ngFor="let com of comunidades" [value]="com.id">{{ com.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-200" />
+
+        <!-- Sección 4: Política y Multimedia -->
+        <div class="space-y-4">
+          <h4 class="text-lg font-medium text-gray-700">Extras</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Política de cancelación</label>
+              <textarea
+                formControlName="policy_cancellation"
+                rows="2"
+                placeholder="Opcional…"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+              ></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Imagen (opcional)</label>
+              <label
+                class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-28 cursor-pointer hover:border-indigo-400 transition"
+              >
+                <iconify-icon icon="mdi:cloud-upload-outline" class="w-8 h-8 text-gray-400"></iconify-icon>
+                <span class="ml-2 text-gray-600">Subir foto</span>
+                <input type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden" />
+              </label>
+              <p *ngIf="selectedFiles.length" class="mt-2 text-sm text-gray-600">
+                {{ selectedFiles[0].name }}
+                <button type="button" (click)="selectedFiles = []" class="ml-2 text-red-500 hover:underline">✕</button>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-6 border-t border-gray-200 flex justify-end space-x-3">
+          <button
+            type="button"
+            (click)="closeModal()"
+            class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition"
+          >
+            {{ isEditing ? 'Actualizar' : 'Crear' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>
+
+
+  <!-- Contenedor principal scrollable -->
+  <div class="flex-1 min-h-0 overflow-y-auto">
+    <!-- KPI Header -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div class="bg-indigo-900 text-white rounded-2xl p-6 grid grid-cols-2 items-center h-40">
+        <div>
+          <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <span class="text-lg font-medium">Todos los productos</span>
+          </div>
+          <h3 class="text-4xl font-bold mt-2">{{ totalCount }}</h3>
+        </div>
+        <div class="text-right">
+          <p class="text-sm opacity-80">Activo</p>
+          <h3 class="text-3xl font-bold mt-1">{{ activeCount }}</h3>
+
+        </div>
+      </div>
+      <div class="relative bg-white rounded-2xl p-6 flex flex-col justify-between h-40">
+        <div class="absolute -mt-8 left-1/2 transform -translate-x-1/2">
+          <div class="bg-gray-100 p-2 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-3-3h-4m0 0V4a3 3 0 00-3-3H9m8 0H9m8 0L9 7m8 0H5" />
+            </svg>
+          </div>
+        </div>
+        <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+          <div>
+            <p class="text-sm text-red-600">Alerta stock bajo</p>
+            <h4 class="text-2xl font-semibold">23</h4>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Caducado</p>
+            <h4 class="text-2xl font-semibold">3</h4>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">1 Calif. inicial</p>
+            <h4 class="text-2xl font-semibold">2</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- Toolbar -->
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+      <button (click)="openCreate()"
+        class="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Agregar producto
+      </button>
+
+      <div class="flex items-center space-x-2">
+        <div class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1012 19.5a7.5 7.5 0 004.65-1.85z" />
+          </svg>
+          <input type="text" placeholder="Search"
+            class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" />
+        </div>
+        <button (click)="showFilterPanel = !showFilterPanel"
+          class="flex items-center border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition"><svg
+            xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 4a1 1 0 011-1h3m10 0h3a1 1 0 011 1v3m0 10a1 1 0 01-1 1h-3m-10 0H4a1 1 0 01-1-1v-3" />
+          </svg>Filtrar</button>
+        <button class="flex items-center border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition"><svg
+            xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10m-4 4h4m-12 0h4" />
+          </svg></button>
+      </div>
+
+
+
+    </div>
+
+
+
+    <!-- Panel colapsable de filtros -->
+    <div *ngIf="showFilterPanel" class="bg-white p-4 rounded-lg shadow mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+
+
+        <label class="block text-sm">Tipo</label>
+        <select class="w-full border rounded px-2 py-1" [(ngModel)]="filterType" (ngModelChange)="applyFilters()">
+          <option value="">Todos</option>
+          <option value="tour">Tour</option>
+          <option value="hospedaje">Hospedaje</option>
+          <option value="gastronomia">Gastronomía</option>
+          <option value="experiencia">Experiencia</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm">Estado</label>
+        <select class="w-full border rounded px-2 py-1" [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+          <option value="">Todos</option>
+          <option value="active">Activo</option>
+          <option value="inactive">Inactivo</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button class="ml-auto bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+          (click)="searchTerm = filterType = filterStatus = ''; applyFilters();">
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+
+
+
+
+<!-- Grid de Servicios Mejorado con Iconify -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  <ng-container *ngFor="let s of filteredServicios">
+    <div
+      class="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1"
+    >
+      <!-- Imagen Principal -->
+      <div class="relative h-56 overflow-hidden">
+        <img
+          *ngIf="s.media?.length"
+          [src]="'http://localhost:8000'+s.media[0].url"
+          alt="{{s.title}}"
+          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          (click)="openMediaModal(s)"
+        />
+        <div
+          *ngIf="!s.media?.length"
+          class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400"
+        >
+          <iconify-icon icon="mdi:camera-off" class="text-4xl"></iconify-icon>
+        </div>
+        <!-- Estado -->
+        <span
+          class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold"
+          [ngClass]="{
+            'bg-green-100 text-green-800': s.status === 'active',
+            'bg-red-100 text-red-800':   s.status === 'inactive'
+          }"
+        >
+          {{ s.status === 'active' ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+
+      <!-- Contenido -->
+      <div class="p-6 space-y-3">
+        <h4 class="text-xl font-semibold text-gray-800 truncate">{{ s.title }}</h4>
+        <p class="text-sm text-gray-600 line-clamp-3">{{ s.description }}</p>
+
+        <div class="flex items-baseline justify-between mt-4">
+          <div class="flex items-baseline">
+            <span class="text-2xl font-extrabold text-indigo-600">S/. {{ s.price }}</span>
+            <span class="ml-1 text-sm text-gray-500">/ pax</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones al Hover incluyendo Activar/Desactivar -->
+      <div
+        class="absolute inset-x-0 bottom-0 p-4 bg-white bg-opacity-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-between items-center"
+      >
+        <div class="flex space-x-2">
+          <button
+            (click)="openEdit(s)"
+            class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow hover:bg-indigo-50 transition"
+            title="Editar"
+          >
+            <iconify-icon icon="mdi:pencil" class="text-indigo-600"></iconify-icon>
+          </button>
+          <button
+            (click)="delete(s)"
+            class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow hover:bg-red-50 transition"
+            title="Eliminar"
+          >
+            <iconify-icon icon="mdi:trash-can" class="text-red-600"></iconify-icon>
+          </button>
+        </div>
+        <button
+          (click)="toggle(s)"
+          class="px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200"
+          [ngClass]="
+            s.status === 'active'
+              ? 'bg-red-50 text-red-600 hover:bg-red-100'
+              : 'bg-green-50 text-green-600 hover:bg-green-100'
+          "
+        >
+          {{ s.status === 'active' ? 'Desactivar' : 'Activar' }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+
+
+
+
+  </div>
+
+  <!-- Modal Gestionar Imágenes -->
+  <ng-container *ngIf="showMediaModal">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div class="bg-white rounded-xl p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold">🖼️ Gestionar Imágenes</h2><button (click)="closeMediaModal()"
+            class="text-gray-600 hover:text-gray-800">✕</button>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div *ngFor="let m of currentService.media" class="relative">
+            <img [src]="'http://localhost:8000'+m.url" class="w-full h-24 object-cover rounded" />
+            <button (click)="deleteMedia(m.id)"
+              class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-xs">✕</button>
+          </div>
+        </div>
+        <label class="block text-sm font-medium">Agregar Fotos</label>
+        <input type="file" multiple (change)="onMediaSelected($event)" class="w-full mb-2" />
+        <button (click)="uploadMedia()" [disabled]="!selectedMediaFiles.length"
+          class="px-4 py-2 bg-indigo-600 text-white rounded disabled:opacity-50">Subir {{selectedMediaFiles.length}}
+          archivo(s)</button>
+        <div class="mt-4 text-right"><button (click)="closeMediaModal()"
+            class="px-4 py-2 bg-gray-200 rounded">Cerrar</button></div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

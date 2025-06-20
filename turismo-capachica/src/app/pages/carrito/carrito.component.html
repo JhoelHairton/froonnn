@@ -1,0 +1,173 @@
+<!-- Fondo oscuro con efecto blur -->
+<div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 fade-in" (click)="cerrarCarrito()"></div>
+
+<!-- Panel lateral derecho mejorado -->
+<div class="fixed inset-y-0 right-0 z-50 max-w-md w-full glass-effect shadow-2xl overflow-hidden flex flex-col cart-slide-in">
+  
+  <!-- Encabezado con gradiente -->
+  <div class="gradient-bg px-6 py-6 text-white">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold">Mis Reservas</h2>
+      </div>
+      <button (click)="cerrarCarrito()" class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <p class="text-white/80 text-sm mt-2">{{ items?.length || 0 }} {{ items?.length === 1 ? 'servicio seleccionado' : 'servicios seleccionados' }}</p>
+  </div>
+
+  <!-- Contenido con scroll personalizado -->
+  <div class="flex-1 overflow-y-auto custom-scrollbar">
+    <div class="p-6 space-y-4">
+      
+      <div *ngIf="items?.length; else estadoVacio">
+  <div *ngFor="let item of items; let i = index" class="item-card rounded-xl p-4 border border-gray-200">
+    <div class="flex gap-4">
+      
+      <!-- Imagen -->
+      <div class="relative">
+        <img [src]="item.imagen"
+             class="w-20 h-20 object-cover rounded-lg shadow-md"
+             [alt]="item.nombre" />
+        <div class="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+          {{ item.cantidad }}
+        </div>
+      </div>
+
+      <!-- Contenido -->
+      <div class="flex-1 space-y-2">
+        
+        <!-- Título + botón eliminar -->
+        <div class="flex justify-between items-start">
+          <h3 class="font-semibold text-gray-900 text-sm">{{ item.nombre }}</h3>
+          <button (click)="eliminar(item)" class="text-red-400 hover:text-red-600 transition-colors p-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7
+                    m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Descripción -->
+        <p class="text-xs text-gray-600 line-clamp-2">{{ item.descripcion }}</p>
+
+        <!-- Precio + control de cantidad -->
+        <div class="flex items-center justify-between">
+          <p class="text-lg font-bold text-emerald-600">S/ {{ item.precio }}</p>
+          
+          <div class="flex items-center gap-2 bg-white rounded-lg border shadow-sm">
+            <!-- Disminuir -->
+            <button 
+              (click)="cambiarCantidad(item, -1)"
+              [disabled]="item.cantidad <= 1"
+              class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-l-lg disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+              </svg>
+            </button>
+
+            <!-- Cantidad -->
+            <span class="w-8 text-center text-sm font-semibold">{{ item.cantidad }}</span>
+
+            <!-- Aumentar -->
+            <button 
+              (click)="cambiarCantidad(item, 1)"
+              [disabled]="item.ref?.cupos != null && item.cantidad >= item.ref.cupos"
+              class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-r-lg disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cupos disponibles -->
+        <div class="flex items-center gap-2 text-xs">
+          <span [class]="getCuposClass(item)" class="px-2 py-1 rounded-full">
+            {{ getCuposDisponibles(item) }} cupos disponibles
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+      <!-- Estado vacío mejorado -->
+      <ng-template #estadoVacio>
+        <div class="empty-state rounded-xl p-8 text-center">
+          <div class="w-20 h-20 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
+            <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">Tu carrito está vacío</h3>
+          <p class="text-sm text-gray-500 mb-4">Explora nuestros servicios y paquetes para comenzar tu reserva</p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
+  <!-- Resumen y total mejorado -->
+  <div class="border-t border-gray-200" *ngIf="items?.length">
+    <!-- Resumen rápido -->
+    <div class="px-6 py-3 bg-gray-50">
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-600">Subtotal ({{ getTotalItems() }} items)</span>
+        <span class="font-semibold">S/ {{ total }}</span>
+      </div>
+      <div class="flex justify-between text-sm mt-1" *ngIf="descuento > 0">
+        <span class="text-gray-600">Descuento</span>
+        <span class="text-green-600 font-semibold">-S/ {{ descuento }}</span>
+      </div>
+    </div>
+    
+    <!-- Total final -->
+    <div class="total-section px-6 py-4 text-white">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-semibold">Total Final</span>
+        <span class="text-2xl font-bold">S/ {{ totalFinal }}</span>
+      </div>
+      
+      <button (click)="confirmarReserva()" class="confirm-btn w-full text-white py-3 rounded-xl text-sm font-semibold shadow-lg">
+        <span class="flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          Confirmar Reserva
+        </span>
+      </button>
+      
+      <p class="text-center text-white/80 text-xs mt-2">
+        🔒 Reserva segura • Cancela hasta 24h antes
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast mejorado -->
+<div *ngIf="mostrarToast" class="fixed bottom-6 right-6 z-[100]">
+  <div class="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl bounce-in flex items-center gap-3">
+    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+    <div>
+      <p class="font-semibold">¡Reserva Confirmada!</p>
+      <p class="text-sm text-green-100">Te hemos enviado los detalles por email</p>
+    </div>
+  </div>
+</div>

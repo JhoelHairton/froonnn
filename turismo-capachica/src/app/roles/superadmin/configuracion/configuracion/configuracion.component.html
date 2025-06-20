@@ -1,0 +1,58 @@
+<!-- configuracion.component.html -->
+<div class="p-6 max-w-4xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">⚙️ Configuración General del Sistema</h2>
+
+  <form class="space-y-6">
+
+    <!-- Logo -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Logo actual</label>
+      <div class="flex items-center gap-4">
+        <img [src]="config.logoUrl" alt="Logo" class="h-16 w-auto border rounded" />
+        <input type="file" class="file-input" />
+      </div>
+    </div>
+
+    <!-- Modo oscuro -->
+    <div class="flex items-center justify-between">
+      <span class="text-sm font-medium">¿Activar modo oscuro por defecto?</span>
+      <label class="inline-flex items-center cursor-pointer">
+        <input type="checkbox" [(ngModel)]="config.darkMode" class="sr-only" />
+        <div
+          class="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition duration-200 relative">
+          <div
+            class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform"
+            [ngClass]="{ 'translate-x-5': config.darkMode }"></div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Título -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Título de portada</label>
+      <input type="text" [(ngModel)]="config.titulo" name="titulo"
+             class="w-full border px-3 py-2 rounded" />
+    </div>
+
+    <!-- Descripción -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Descripción corta</label>
+      <textarea rows="3" [(ngModel)]="config.descripcion" name="descripcion"
+                class="w-full border px-3 py-2 rounded"></textarea>
+    </div>
+
+    <!-- Color -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Color principal</label>
+      <input type="color" [(ngModel)]="config.colorPrincipal" name="color"
+             class="w-16 h-10 border border-gray-300 rounded cursor-pointer" />
+    </div>
+
+    <!-- Botón -->
+    <div class="text-right">
+      <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+        Guardar cambios
+      </button>
+    </div>
+  </form>
+</div>

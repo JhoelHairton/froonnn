@@ -1,0 +1,119 @@
+<div class="p-6 space-y-8 bg-white text-gray-800 font-sans">
+  <!-- ENCABEZADO -->
+  <div class="flex justify-between items-center">
+    <h2 class="text-3xl font-bold flex items-center gap-2 tracking-tight">
+      <iconify-icon icon="mdi:account-voice" class="text-indigo-600 w-7 h-7"></iconify-icon>
+      Gestión de Testimonios
+    </h2>
+    <button
+      class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow hover:bg-indigo-700 transition duration-200"
+      (click)="abrirFormulario()"
+    >
+      + Nuevo Testimonio
+    </button>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <input type="text" placeholder="Buscar por nombre" [(ngModel)]="filtroNombre"
+      class="border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none" />
+    <select [(ngModel)]="filtroComunidad"
+      class="border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none">
+      <option value="">Todas las comunidades</option>
+      <option *ngFor="let c of comunidades" [value]="c">{{ c }}</option>
+    </select>
+    <select [(ngModel)]="filtroRol"
+      class="border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none">
+      <option value="">Todos los roles</option>
+      <option value="turista">Turista</option>
+      <option value="emprendedor">Emprendedor</option>
+    </select>
+    <select [(ngModel)]="filtroEstado"
+      class="border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none">
+      <option value="">Todos los estados</option>
+      <option value="activo">Activos</option>
+      <option value="inactivo">Inactivos</option>
+    </select>
+  </div>
+
+  <!-- TABLA DE TESTIMONIOS -->
+  <div class="overflow-x-auto shadow rounded-xl border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-100 text-sm text-left">
+      <thead class="bg-gray-100 font-semibold text-gray-700 uppercase text-xs tracking-wide">
+        <tr>
+          <th class="px-4 py-3">Nombre</th>
+          <th>Imagen</th>
+          <th>Comunidad</th>
+          <th>Rol</th>
+          <th>Testimonio (ES)</th>
+          <th>Testimonio (EN)</th>
+          <th>Estado</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white">
+        <tr *ngFor="let t of testimoniosFiltrados(); let i = index" class="hover:bg-gray-50 transition">
+          <td class="px-4 py-2 font-medium">{{ t.nombre }}</td>
+          <td class="px-2 py-2"><img [src]="t.imagen" class="w-12 h-12 rounded-full object-cover shadow-sm border" /></td>
+          <td class="px-2 py-2">{{ t.comunidad }}</td>
+          <td class="px-2 py-2 capitalize">{{ t.rol }}</td>
+          <td class="px-2 py-2 text-gray-600 italic max-w-[200px] truncate">{{ t.comentarioES }}</td>
+          <td class="px-2 py-2 text-gray-600 italic max-w-[200px] truncate">{{ t.comentarioEN }}</td>
+          <td class="px-2 py-2">
+            <span [ngClass]="t.activo ? 'bg-green-100 text-green-800' : 'bg-gray-300 text-gray-700'"
+              class="px-2 py-1 rounded-full text-xs font-semibold">
+              {{ t.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="px-2 py-2 flex justify-center gap-2">
+            <button (click)="editar(i)"
+              class="text-indigo-600 hover:text-indigo-800 transition"><iconify-icon icon="mdi:pencil-outline"></iconify-icon></button>
+            <button (click)="eliminar(i)"
+              class="text-red-600 hover:text-red-800 transition"><iconify-icon icon="mdi:trash-can-outline"></iconify-icon></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MODAL -->
+  <div *ngIf="mostrarModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+    <div class="bg-white w-full max-w-xl p-6 rounded-2xl shadow-xl space-y-4 overflow-y-auto max-h-[90vh] animate-fade-in">
+      <h3 class="text-xl font-bold mb-2">{{ editIndex !== null ? 'Editar' : 'Nuevo' }} Testimonio</h3>
+
+      <input type="text" placeholder="Nombre completo" [(ngModel)]="nuevoTestimonio.nombre"
+        class="w-full border px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none" />
+
+      <label class="font-medium">Imagen:</label>
+      <input type="file" (change)="cargarImagen($event)" accept="image/*" />
+      <img *ngIf="nuevoTestimonio.imagen" [src]="nuevoTestimonio.imagen"
+        class="w-24 h-24 object-cover rounded-full mt-2 border shadow-sm" />
+
+      <textarea placeholder="Comentario en español" [(ngModel)]="nuevoTestimonio.comentarioES"
+        class="w-full border px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none"></textarea>
+      <textarea placeholder="Comentario in English" [(ngModel)]="nuevoTestimonio.comentarioEN"
+        class="w-full border px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none"></textarea>
+
+      <select [(ngModel)]="nuevoTestimonio.comunidad"
+        class="w-full border px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none">
+        <option *ngFor="let c of comunidades" [value]="c">{{ c }}</option>
+      </select>
+
+      <select [(ngModel)]="nuevoTestimonio.rol"
+        class="w-full border px-4 py-2 rounded-lg shadow-sm focus:ring focus:ring-indigo-100 focus:outline-none">
+        <option value="turista">Turista</option>
+        <option value="emprendedor">Emprendedor</option>
+      </select>
+
+      <label class="flex items-center gap-2 font-medium">
+        <input type="checkbox" [(ngModel)]="nuevoTestimonio.activo" class="accent-indigo-600" />
+        <span>{{ nuevoTestimonio.activo ? 'Activo' : 'Inactivo' }}</span>
+      </label>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button (click)="cancelar()" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+        <button (click)="guardar()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

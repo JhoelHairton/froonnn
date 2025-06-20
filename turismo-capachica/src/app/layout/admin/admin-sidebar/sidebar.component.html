@@ -1,0 +1,402 @@
+<nav
+  class="h-screen p-4 flex flex-col justify-between transition-all duration-300 rounded-3xl shadow-2xl overflow-hidden sidebar-oval bg-white text-[#1c385e] dark:bg-[#1c385e] dark:text-white"
+  [ngClass]="{
+    'w-64': isExpanded,
+    'w-20': !isExpanded,
+    'sidebar-collapsed': !isExpanded
+  }"
+>
+  <!-- 🟢 Top - Logo y menú -->
+  <div>
+    <!-- Ventanitas -->
+    <div class="flex items-center justify-start space-x-2 mb-4">
+      <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+      <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+      <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+    </div>
+    <!-- Logo y toggle -->
+    <div
+      class="flex items-center justify-between px-3 py-4 hover:bg-white/10 rounded"
+    >
+      <img
+        src="assets/images/ico.jpg"
+        alt="Logo"
+        class="h-8"
+        *ngIf="isExpanded"
+      />
+      <button (click)="toggle()">
+        <iconify-icon icon="mdi:menu" class="text-xl"></iconify-icon>
+      </button>
+    </div>
+
+    <!-- 🔷 Menú principal y secciones -->
+    <div class="overflow-y-auto max-h-[calc(100vh-220px)]">
+      <div
+        class="sidebar-scroll max-h-[calc(100vh-220px)] overflow-y-auto px-1"
+      >
+        <!-- 🔹 Menú principal -->
+        <ul class="space-y-2">
+          <li>
+            <a
+              routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+              routerLink="/admin/dashboard"
+              class="flex items-center gap-3 px-3 py-2 rounded"
+            >
+              <iconify-icon icon="mdi:view-dashboard" width="20"></iconify-icon>
+              <span *ngIf="isExpanded">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- 🔹 GESTIÓN GENERAL -->
+        <div class="mt-4 border-t border-white/20 pt-4">
+          <p
+            *ngIf="isExpanded"
+            class="text-xs uppercase text-white/50 px-3 mb-2"
+          >
+            Gestión General
+          </p>
+
+          <!-- Usuarios -->
+          <!-- 🔹 Usuarios -->
+          <div class="relative">
+            <button
+              (click)="toggleSubmenu('usuarios')"
+              class="w-full flex items-center justify-between px-3 py-2 hover:bg-white/10 rounded transition"
+            >
+              <div class="flex items-center gap-3">
+                <iconify-icon
+                  icon="mdi:account-group-outline"
+                  width="20"
+                ></iconify-icon>
+                <span *ngIf="isExpanded">Usuarios</span>
+              </div>
+              <iconify-icon
+                *ngIf="isExpanded"
+                [icon]="
+                  openedSubmenu === 'usuarios'
+                    ? 'mdi:chevron-up'
+                    : 'mdi:chevron-down'
+                "
+                width="18"
+              />
+            </button>
+
+            <div *ngIf="openedSubmenu === 'usuarios'" class="submenu-clean">
+              <a routerLink="/admin/usuarios-turistas" class="submenu-item"
+                >Turistas</a
+              >
+              <a routerLink="/admin/usuarios-emprendedores" class="submenu-item"
+                >Emprendedores</a
+              >
+            </div>
+          </div>
+
+          <!-- Experiencias -->
+          <div class="relative">
+            <button
+              (click)="toggleSubmenu('experiencias')"
+              class="w-full flex items-center justify-between px-3 py-2 hover:bg-white/10 rounded"
+            >
+              <div class="flex items-center gap-3">
+                <iconify-icon
+                  icon="mdi:compass-outline"
+                  width="20"
+                ></iconify-icon>
+                <span *ngIf="isExpanded">Gestion Servicio</span>
+              </div>
+              <iconify-icon
+                *ngIf="isExpanded"
+                [icon]="
+                  openedSubmenu === 'experiencias'
+                    ? 'mdi:chevron-up'
+                    : 'mdi:chevron-down'
+                "
+                width="18"
+              />
+            </button>
+
+            <div *ngIf="openedSubmenu === 'experiencias'" class="submenu-clean">
+              <a routerLink="/admin/experiencias" class="submenu-item"
+                >Publicadas</a
+              >
+              <a
+                routerLink="/admin/experiencias-pendientes"
+                class="submenu-item"
+                >Sub Categorias</a
+              >
+              <a routerLink="/admin/categorias" class="submenu-item"
+                >Categorías</a
+              >
+            </div>
+          </div>
+
+          <!-- Empresas -->
+          <a
+            routerLink="/admin/empresas"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:briefcase-account-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Empresas</span>
+          </a>
+
+          <!-- Comunidades -->
+          <a
+            routerLink="/admin/comunidades"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:office-building-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Comunidades</span>
+          </a>
+        </div>
+
+        <!-- 🔹 CONTENIDO -->
+        <div class="mt-4 border-t border-white/20 pt-4">
+          <p
+            *ngIf="isExpanded"
+            class="text-xs uppercase text-white/50 px-3 mb-2"
+          >
+            Diseño del Sitio
+          </p>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/banners"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:image-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Banners</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/testimonios"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:comment-quote-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Testimonios</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/blog"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:post-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Blog</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/landing"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:web" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Landing</span>
+          </a>
+        </div>
+
+        <!-- 🔹 REPORTES -->
+        <div class="mt-4 border-t border-white/20 pt-4">
+          <p
+            *ngIf="isExpanded"
+            class="text-xs uppercase text-white/50 px-3 mb-2"
+          >
+            Reportes
+          </p>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/reportes-ventas"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:cash-multiple" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Ventas</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/reportes-usuarios"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:account-chart-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Usuarios</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/reportes-trafico"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:traffic-light" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Tráfico</span>
+          </a>
+        </div>
+
+        <!-- 🔹 CONFIGURACIÓN -->
+        <div class="mt-4 border-t border-white/20 pt-4">
+          <p
+            *ngIf="isExpanded"
+            class="text-xs uppercase text-white/50 px-3 mb-2"
+          >
+            Configuración
+          </p>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/configuracion"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:cog-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">General</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/configuracion-politicas"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:file-document-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Políticas</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/configuracion-visual"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:palette-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Visual</span>
+          </a>
+        </div>
+
+        <!-- 🔹 SEGURIDAD Y SOPORTE -->
+        <div class="mt-4 border-t border-white/20 pt-4">
+          <p
+            *ngIf="isExpanded"
+            class="text-xs uppercase text-white/50 px-3 mb-2"
+          >
+            Seguridad y Soporte
+          </p>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/logs"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:file-clock-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Logs</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/auditoria"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:magnify-scan" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Auditoría</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/soporte-tickets"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:ticket-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Tickets</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/sugerencias"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon
+              icon="mdi:lightbulb-on-outline"
+              width="20"
+            ></iconify-icon>
+            <span *ngIf="isExpanded">Sugerencias</span>
+          </a>
+        </div>
+
+        <!-- 🔹 CUENTA -->
+        <div class="mt-4 border-t border-white/20 pt-4">
+          <p
+            *ngIf="isExpanded"
+            class="text-xs uppercase text-white/50 px-3 mb-2"
+          >
+            Cuenta
+          </p>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/perfil"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:account-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Perfil</span>
+          </a>
+
+          <a
+            routerLinkActive="bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white"
+            routerLink="/admin/password"
+            class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded"
+          >
+            <iconify-icon icon="mdi:lock-outline" width="20"></iconify-icon>
+            <span *ngIf="isExpanded">Contraseña</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔻 Footer: Perfil + Dark mode -->
+  <div class="px-3 py-4 border-t border-white/20">
+    <div *ngIf="isExpanded" class="flex items-center gap-3 mb-4">
+      <img
+        src="assets/avatar.jpg"
+        class="w-9 h-9 rounded-full border border-white/30 object-cover"
+      />
+      <div>
+        <p class="text-sm font-semibold leading-tight">admin</p>
+        <p class="text-xs text-white/60 leading-tight">Superadmin</p>
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          class="sr-only peer"
+          [checked]="isDarkMode"
+          (change)="toggleDarkMode()"
+        />
+
+        <div
+          class="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-[#4399bd] dark:bg-gray-600 transition-colors"
+        ></div>
+        <div
+          class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"
+        ></div>
+      </label>
+    </div>
+  </div>
+</nav>

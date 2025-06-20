@@ -1,0 +1,92 @@
+/* Estilos adicionales para el componente de árbol */
+.category-tree {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.node-container {
+  position: relative;
+}
+
+/* Líneas conectoras opcionales */
+.node-container::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #e5e7eb;
+  opacity: 0.5;
+}
+
+/* Animación para el contenedor de hijos */
+.children-container {
+  animation: slideDown 0.2s ease-out;
+  transform-origin: top;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efecto hover mejorado */
+.node-container .flex:hover {
+  background-color: #f8fafc;
+  border-left: 3px solid #3b82f6;
+}
+
+/* Transiciones suaves */
+.node-container .flex,
+.children-container {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estilos para diferentes niveles de indentación */
+.pl-0 { padding-left: 0rem; }
+.pl-4 { padding-left: 1rem; }
+.pl-8 { padding-left: 2rem; }
+.pl-12 { padding-left: 3rem; }
+.pl-16 { padding-left: 4rem; }
+.pl-20 { padding-left: 5rem; }
+.pl-24 { padding-left: 6rem; }
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .category-tree {
+    padding: 0.5rem;
+  }
+  
+  .pl-4 { padding-left: 0.5rem; }
+  .pl-8 { padding-left: 1rem; }
+  .pl-12 { padding-left: 1.5rem; }
+  .pl-16 { padding-left: 2rem; }
+  .pl-20 { padding-left: 2.5rem; }
+  .pl-24 { padding-left: 3rem; }
+}
+
+/* Estados de focus mejorados para accesibilidad */
+button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Indicador de carga personalizado */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,35 @@
+<!-- logs.component.html -->
+<div class="p-6 max-w-6xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-4">📋 Registro de Logs del Sistema</h2>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left font-semibold">Usuario</th>
+          <th class="px-4 py-2 text-left font-semibold">Rol</th>
+          <th class="px-4 py-2 text-left font-semibold">Acción</th>
+          <th class="px-4 py-2 text-left font-semibold">IP</th>
+          <th class="px-4 py-2 text-left font-semibold">Fecha</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let log of logs">
+          <td class="px-4 py-2">{{ log.usuario }}</td>
+          <td class="px-4 py-2">
+            <span [ngClass]="{
+              'bg-blue-100 text-blue-800': log.rol === 'Turista',
+              'bg-yellow-100 text-yellow-800': log.rol === 'Emprendedor',
+              'bg-green-100 text-green-800': log.rol === 'Superadmin'
+            }" class="px-2 py-1 rounded text-xs font-medium">
+              {{ log.rol }}
+            </span>
+          </td>
+          <td class="px-4 py-2">{{ log.accion }}</td>
+          <td class="px-4 py-2">{{ log.ip }}</td>
+          <td class="px-4 py-2">{{ log.fecha }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

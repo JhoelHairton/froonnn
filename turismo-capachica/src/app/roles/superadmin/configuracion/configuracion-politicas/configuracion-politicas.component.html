@@ -1,0 +1,39 @@
+<!-- configuracion-politicas.component.html -->
+<div class="p-6 max-w-4xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">📜 Configuración de Políticas del Sistema</h2>
+
+  <form class="space-y-6">
+
+    <!-- Términos y condiciones -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Términos y condiciones</label>
+      <textarea rows="6" [(ngModel)]="politicas.terminos" name="terminos"
+                class="w-full border px-3 py-2 rounded"
+                placeholder="Escribe los términos y condiciones del sistema aquí..."></textarea>
+    </div>
+
+    <!-- Política de privacidad -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Política de privacidad</label>
+      <textarea rows="6" [(ngModel)]="politicas.privacidad" name="privacidad"
+                class="w-full border px-3 py-2 rounded"
+                placeholder="Describe cómo se protegen los datos personales..."></textarea>
+    </div>
+
+    <!-- Política de cancelación -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Política de cancelación de reservas</label>
+      <textarea rows="5" [(ngModel)]="politicas.cancelacion" name="cancelacion"
+                class="w-full border px-3 py-2 rounded"
+                placeholder="Indica las condiciones para cancelar una reserva..."></textarea>
+    </div>
+
+    <!-- Botón -->
+    <div class="text-right">
+      <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+        Guardar políticas
+      </button>
+    </div>
+
+  </form>
+</div>

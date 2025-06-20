@@ -1,0 +1,395 @@
+<!-- promociones.component.html -->
+
+<!-- Header Section -->
+<div class="bg-gradient-to-r bg-indigo-900 rounded-2xl p-6 mb-8 shadow-xl">
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-white mb-2">Gestión de Promociones</h1>
+      <p class="text-indigo-100">Administra y controla todas tus promociones activas</p>
+    </div>
+    <button
+      (click)="openCreate()"
+      class="inline-flex items-center px-6 py-3 bg-white text-indigo-600 font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+    >
+      <iconify-icon icon="mdi:plus" class="w-6 h-6 mr-2"></iconify-icon>
+      Nueva Promoción
+    </button>
+  </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <!-- Card Promociones Activas -->
+  <div
+    class="bg-indigo-900 rounded-2xl p-6 shadow-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300"
+  >
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-semibold text-white uppercase tracking-wide">
+          Promociones Activas
+        </p>
+        <h2 class="mt-1 text-3xl font-extrabold text-white">
+          {{ activePromosCount }}
+        </h2>
+      </div>
+      <div
+        class="w-14 h-14 flex items-center justify-center rounded-full
+               bg-gradient-to-br from-green-300 to-green-500
+               text-white text-2xl"
+      >
+<iconify-icon 
+  icon="mdi:check-circle-outline" 
+  class="text-4xl text-green-600">
+</iconify-icon>
+      </div>
+    </div>
+    <!-- Barra de progreso -->
+    <div class="mt-4">
+      <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div
+          class="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-500"
+          [style.width.%]="activePercentage"
+        ></div>
+      </div>
+      <p class="mt-2 text-xs text-white">
+        {{ activePercentage }}% del total
+      </p>
+    </div>
+  </div>
+
+
+    <!-- Card Promociones Inactivas -->
+
+<div class="bg-white rounded-2xl p-6 shadow-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300">
+  <div class="flex items-center justify-between">
+    <!-- Texto -->
+    <div>
+      <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+        Promociones Inactivas
+      </p>
+      <h2 class="mt-1 text-3xl font-extrabold text-gray-900">
+        {{ inactivePromosCount }}
+      </h2>
+    </div>
+    <!-- Icono dentro de un círculo degradado -->
+    <div
+      class="w-14 h-14 flex items-center justify-center rounded-full 
+             bg-gradient-to-br from-orange-200 to-orange-400 
+             text-white text-2xl"
+    >
+      <iconify-icon icon="mdi:pause-circle-outline" class="text-4xl"></iconify-icon>
+      
+    </div>
+  </div>
+  <!-- Barra de progreso simulada -->
+  <div class="mt-4">
+    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div
+        class="h-full bg-gradient-to-r from-orange-300 to-orange-500 transition-all duration-500"
+        [style.width.%]="inactivePercentage"
+      ></div>
+    </div>
+    <p class="mt-2 text-xs text-gray-500">
+      {{ inactivePercentage }}% del total
+    </p>
+  </div>
+</div>
+
+  
+   <!-- Card Total Promociones -->
+  <div
+    class="bg-indigo-900 rounded-2xl p-6 shadow-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300"
+  >
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-semibold text-white uppercase tracking-wide">
+          Total Promociones
+        </p>
+        <h2 class="mt-1 text-3xl font-extrabold text-white">
+          {{ promociones.length }}
+        </h2>
+      </div>
+      <div
+        class="w-14 h-14 flex items-center justify-center rounded-full
+               bg-gradient-to-br from-indigo-300 to-indigo-500
+               text-white text-2xl"
+      >
+        <iconify-icon icon="mdi:ticket-percent-outline" class="text-4xl"></iconify-icon>
+      </div>
+    </div>
+    <!-- Barra indicando distribución -->
+    <div class="mt-4">
+      <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div
+          class="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 transition-all duration-500"
+          [style.width.%]="100"
+        ></div>
+      </div>
+      <p class="mt-2 text-xs text-white">
+        100% del total de promociones
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Grid de Promociones -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+  <ng-container *ngFor="let p of promociones">
+    <div
+      class="group relative bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
+    >
+      <!-- Gradient Header -->
+      <div class="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+      
+      <!-- Badge de estado -->
+      <div class="absolute top-6 right-6 z-10">
+        <span
+          class="px-4 py-2 text-xs font-bold rounded-full shadow-lg backdrop-blur-sm"
+          [ngClass]="{
+            'bg-emerald-100 text-emerald-700 border border-emerald-200': p.status === 'active',
+            'bg-rose-100 text-rose-700 border border-rose-200': p.status === 'inactive'
+          }"
+        >
+          <iconify-icon 
+            [icon]="p.status === 'active' ? 'mdi:check-circle' : 'mdi:pause-circle'" 
+            class="w-3 h-3 mr-3 inline-block">
+          </iconify-icon>
+          {{ p.status === 'active' ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+
+      <div class="p-8 space-y-6">
+        <!-- Header con descuento destacado -->
+        <div class="flex items-start justify-between">
+          <div class="flex-1 pr-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2 line-clamp-2">{{ p.title }}</h3>
+            <p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">{{ p.description }}</p>
+          </div>
+        </div>
+
+        <!-- Descuento Destacado -->
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
+          <div class="flex items-center justify-center space-x-3">
+            <iconify-icon icon="mdi:ticket-percent-outline" class="w-8 h-8 text-indigo-600"></iconify-icon>
+            <div class="text-center">
+              <div class="flex items-baseline justify-center space-x-1">
+                <span class="text-5xl font-black text-indigo-600">{{ p.discount_percentage }}</span>
+                <span class="text-2xl font-bold text-indigo-500">%</span>
+              </div>
+              <span class="text-sm text-indigo-600 font-semibold uppercase tracking-wide">Descuento</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="space-y-4">
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <iconify-icon icon="mdi:calendar-range" class="w-4 h-4 text-gray-500"></iconify-icon>
+              <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Vigencia</span>
+            </div>
+            <p class="text-sm text-gray-800 font-medium">
+              {{ p.start_date }} <iconify-icon icon="mdi:arrow-right" class="w-4 h-4 mx-1 inline-block"></iconify-icon> {{ p.end_date }}
+            </p>
+          </div>
+          
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <iconify-icon icon="mdi:cog-outline" class="w-4 h-4 text-gray-500"></iconify-icon>
+              <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Servicios</span>
+            </div>
+            <p class="text-sm text-gray-800 line-clamp-2 font-medium">
+              {{ getServiceTitles(p) }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlay de acciones mejorado -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex items-end justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 p-8"
+      >
+        <div class="flex space-x-4">
+          <button
+            (click)="openEdit(p)"
+            class="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl hover:bg-white hover:scale-110 transition-all duration-300"
+            title="Editar Promoción"
+          >
+            <iconify-icon icon="mdi:pencil" class="text-4xl text-indigo-600"></iconify-icon>
+          </button>
+          <button
+            (click)="delete(p)"
+            class="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl hover:bg-white hover:scale-110 transition-all duration-300"
+            title="Eliminar Promoción"
+          >
+            <iconify-icon icon="mdi:trash-can" class="text-4xl text-red-500"></iconify-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Modal Crear/Editar Promoción Mejorado -->
+<ng-container *ngIf="showModal">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+    <div class="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden animate-slide-up">
+      <!-- Header con gradiente -->
+      <div class="bg-indigo-900 px-8 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <iconify-icon [icon]="isEditing ? 'mdi:pencil' : 'mdi:plus-box'" class="w-6 h-6 text-white"></iconify-icon>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">
+              {{ isEditing ? 'Editar Promoción' : 'Crear Nueva Promoción' }}
+            </h2>
+            <p class="text-indigo-100 text-sm">{{ isEditing ? 'Actualiza los datos de la promoción' : 'Complete los datos para crear una nueva promoción' }}</p>
+          </div>
+        </div>
+        <button (click)="closeModal()" class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+          <iconify-icon icon="mdi:close" class="w-6 h-6"></iconify-icon>
+        </button>
+      </div>
+
+      <!-- Body del formulario -->
+      <form [formGroup]="form" (ngSubmit)="submit()" class="p-8 space-y-8 max-h-[70vh] overflow-y-auto">
+        
+        <!-- Información básica -->
+        <div class=" from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <iconify-icon icon="mdi:information-outline" class="w-5 h-5 mr-2 text-indigo-600"></iconify-icon>
+            Información Básica
+          </h3>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Título -->
+            <div class="lg:col-span-2">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Título de la Promoción *</label>
+              <input
+                type="text"
+                formControlName="title"
+                placeholder="Ej: Descuento de Verano 2024"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <!-- Descripción -->
+            <div class="lg:col-span-2">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción *</label>
+              <textarea
+                formControlName="description"
+                rows="3"
+                placeholder="Describe los beneficios y condiciones de la promoción..."
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent resize-none transition-all"
+              ></textarea>
+            </div>
+
+            <!-- % Descuento -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Porcentaje de Descuento *</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  formControlName="discount_percentage"
+                  placeholder="0"
+                  class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 pr-10 focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+                />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+                  <span class="text-gray-500 font-semibold">%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Estado -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Estado *</label>
+              <select
+                formControlName="status"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+              >
+                <option value="active">Activo</option>
+                <option value="inactive">Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vigencia -->
+        <div class=" from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <iconify-icon icon="mdi:calendar-range" class="w-5 h-5 mr-2 "></iconify-icon>
+            Período de Vigencia
+          </h3>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Fecha Inicio -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de Inicio *</label>
+              <input
+                type="date"
+                formControlName="start_date"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2  focus:border-transparent transition-all"
+              />
+            </div>
+
+            <!-- Fecha Fin -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de Finalización *</label>
+              <input
+                type="date"
+                formControlName="end_date"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2  focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Servicios aplicables -->
+        <div class=" from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <iconify-icon icon="mdi:cog-outline" class="w-5 h-5 mr-2 text-green-600"></iconify-icon>
+            Servicios Aplicables
+          </h3>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Selecciona los servicios *</label>
+            <select
+              formControlName="service_ids"
+              multiple
+              class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-400 focus:border-transparent h-40 transition-all"
+            >
+              <option *ngFor="let s of servicios" [value]="s.id" class="py-2">{{ s.title }}</option>
+            </select>
+            <p class="text-xs text-gray-500 mt-2">Mantén presionado Ctrl (Cmd en Mac) para seleccionar múltiples servicios</p>
+          </div>
+        </div>
+      </form>
+
+      <!-- Footer con botones -->
+      <div class="border-t border-gray-200 px-8 py-6 bg-gray-50 flex justify-between items-center">
+        <div class="flex items-center space-x-2 text-sm text-gray-500">
+          <iconify-icon icon="mdi:information-outline" class="w-4 h-4"></iconify-icon>
+          <span>Los campos marcados con * son obligatorios</span>
+        </div>
+        
+        <div class="flex space-x-4">
+          <button
+            (click)="closeModal()"
+            class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-semibold"
+          >
+            Cancelar
+          </button>
+          <button
+            (click)="submit()"
+            [disabled]="form.invalid"
+            class="px-8 py-3 bg-indigo-900 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg"
+          >
+            <iconify-icon [icon]="isEditing ? 'mdi:check' : 'mdi:plus'" class="w-5 h-5 mr-2 inline-block"></iconify-icon>
+            {{ isEditing ? 'Actualizar Promoción' : 'Crear Promoción' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

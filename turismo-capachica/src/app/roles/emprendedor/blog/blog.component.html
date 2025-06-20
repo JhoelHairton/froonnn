@@ -1,0 +1,44 @@
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+
+  <!-- 📝 Nueva publicación -->
+  <div class="bg-white p-6 rounded-xl shadow space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">📝 Crear Publicación</h2>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-600">Título</label>
+      <input type="text" [(ngModel)]="nuevaPublicacion.titulo"
+             class="w-full mt-1 border rounded px-3 py-2" placeholder="Ej: Fiesta Patronal">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-600">Contenido</label>
+      <textarea rows="4" [(ngModel)]="nuevaPublicacion.contenido"
+                class="w-full mt-1 border rounded px-3 py-2"
+                placeholder="Escribe un resumen atractivo para los turistas..."></textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-600">Fecha</label>
+      <input type="date" [(ngModel)]="nuevaPublicacion.fecha"
+             class="w-full mt-1 border rounded px-3 py-2">
+    </div>
+
+    <button (click)="guardarPublicacion()"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+      Publicar
+    </button>
+  </div>
+
+  <!-- 📋 Lista de publicaciones -->
+  <div class="bg-white p-6 rounded-xl shadow space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">📋 Publicaciones</h2>
+
+    <div *ngIf="publicaciones.length === 0" class="text-gray-500">No hay publicaciones aún.</div>
+
+    <div *ngFor="let blog of publicaciones" class="border p-4 rounded hover:shadow transition">
+      <div class="text-lg font-bold text-indigo-700">{{ blog.titulo }}</div>
+      <p class="text-sm text-gray-600 mb-1">{{ blog.contenido }}</p>
+      <div class="text-xs text-gray-500 italic">Publicado el {{ blog.fecha }}</div>
+    </div>
+  </div>
+</div>

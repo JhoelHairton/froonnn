@@ -1,0 +1,44 @@
+<!-- perfil.component.html -->
+<div class="p-6 max-w-3xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">👤 Mi Perfil</h2>
+
+  <form class="space-y-6">
+    <!-- Foto de perfil -->
+    <div class="flex items-center gap-4">
+      <img [src]="perfil.avatarUrl" alt="Avatar" class="h-20 w-20 rounded-full border" />
+      <div>
+        <label class="block text-sm font-medium mb-1">Actualizar foto</label>
+        <input type="file" class="file-input" />
+      </div>
+    </div>
+
+    <!-- Nombre -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Nombre completo</label>
+      <input type="text" [(ngModel)]="perfil.nombre" name="nombre"
+             class="w-full border px-3 py-2 rounded" />
+    </div>
+
+    <!-- Correo -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Correo electrónico</label>
+      <input type="email" [value]="perfil.correo" readonly
+             class="w-full border px-3 py-2 rounded bg-gray-100 text-gray-600" />
+    </div>
+
+    <!-- Teléfono -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Teléfono</label>
+      <input type="text" [(ngModel)]="perfil.telefono" name="telefono"
+             class="w-full border px-3 py-2 rounded" />
+    </div>
+
+    <!-- Botón guardar -->
+    <div class="text-right">
+      <button type="button"
+              class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+        Guardar cambios
+      </button>
+    </div>
+  </form>
+</div>

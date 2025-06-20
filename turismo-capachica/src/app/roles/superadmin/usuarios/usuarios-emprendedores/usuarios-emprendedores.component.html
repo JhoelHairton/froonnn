@@ -1,0 +1,224 @@
+<!-- usuarios-emprendedor.component.html -->
+<div class="p-6">
+  <!-- 🔹 BLOQUE 1: KPIs -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <!-- Total Emprendedores -->
+    <div class="bg-gray-100 hover:scale-105 transition rounded-xl p-4 flex items-center gap-3">
+      <iconify-icon icon="mdi:account-group-outline" class="text-3xl text-blue-600"></iconify-icon>
+      <div>
+        <h4 class="text-sm text-gray-600">Total Emprendedores</h4>
+        <p class="text-xl font-semibold">{{ kpis.total }}</p>
+      </div>
+    </div>
+
+    <!-- Activos -->
+    <div class="bg-green-100 hover:scale-105 transition rounded-xl p-4 flex items-center gap-3">
+      <iconify-icon icon="mdi:check-circle" class="text-3xl text-green-600"></iconify-icon>
+      <div>
+        <h4 class="text-sm text-gray-600">Activos</h4>
+        <p class="text-xl font-semibold">{{ kpis.activos }}</p>
+      </div>
+    </div>
+
+    <!-- Pendientes -->
+    <div class="bg-yellow-100 hover:scale-105 transition rounded-xl p-4 flex items-center gap-3">
+      <iconify-icon icon="mdi:clock-outline" class="text-3xl text-yellow-600"></iconify-icon>
+      <div>
+        <h4 class="text-sm text-gray-600">Pendientes</h4>
+        <p class="text-xl font-semibold">{{ kpis.pendientes }}</p>
+      </div>
+    </div>
+
+    <!-- Suspendidos -->
+    <div class="bg-red-100 hover:scale-105 transition rounded-xl p-4 flex items-center gap-3">
+      <iconify-icon icon="mdi:close-circle" class="text-3xl text-red-600"></iconify-icon>
+      <div>
+        <h4 class="text-sm text-gray-600">Suspendidos</h4>
+        <p class="text-xl font-semibold">{{ kpis.suspendidos }}</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 🔹 BLOQUE 2: Botón Crear -->
+  <div class="flex justify-end mb-4">
+    <button (click)="abrirFormulario()"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg flex items-center gap-2">
+      <iconify-icon icon="mdi:account-plus-outline" class="w-5 h-5"></iconify-icon>
+      Crear Emprendedor
+    </button>
+  </div>
+
+  <!-- 🔹 BLOQUE 4: Tabla -->
+  <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+    <table class="w-full text-sm text-left">
+      <thead class="bg-gray-100 text-gray-600">
+        <tr>
+          <th class="px-6 py-3">Foto</th> <!-- Nueva columna -->
+          <th class="px-6 py-3">Nombre</th>
+          <th class="px-6 py-3">Correo</th>
+          <th class="px-6 py-3">Estado</th>
+          <th class="px-6 py-3">Registro</th>
+          <th class="px-6 py-3">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of emprendedores" class="border-b hover:bg-gray-50">
+          <td class="px-6 py-4">
+            <img [src]="'http://localhost:8000' + e.foto" class="w-10 h-10 rounded-full object-cover" alt="Foto" />
+          </td>
+
+          <td class="px-6 py-4">{{ e.nombre }}</td>
+          <td class="px-6 py-4">{{ e.email }}</td>
+          <td class="px-6 py-4">
+            <span [ngClass]="{
+              'bg-green-100 text-green-800': e.estado === 'activo',
+              'bg-yellow-100 text-yellow-800': e.estado === 'pendiente',
+              'bg-red-100 text-red-800': e.estado === 'suspendido'
+            }" class="px-2 py-1 rounded text-xs font-semibold">
+              {{ e.estado | titlecase }}
+            </span>
+          </td>
+          <td class="px-6 py-4">{{ e.fecha_registro }}</td>
+          <td class="px-6 py-4 space-x-2">
+            <button class="text-blue-600" (click)="verDetalle(e.id)">
+              <iconify-icon icon="mdi:eye" class="text-2xl"></iconify-icon>
+            </button>
+            <!-- Activar -->
+  <button 
+    class="text-green-600 hover:scale-110 transition"
+    *ngIf="e.estado !== 'activo'"
+    (click)="cambiarEstado(e.id, 'activo')">
+    <iconify-icon icon="mdi:check-circle-outline" class="text-2xl" ></iconify-icon>
+  </button>
+
+  <!-- Suspender -->
+  <button 
+    class="text-red-600 hover:scale-110 transition"
+    *ngIf="e.estado !== 'suspendido'"
+    (click)="cambiarEstado(e.id, 'suspendido')">
+    <iconify-icon icon="mdi:cancel" class="text-2xl"></iconify-icon>
+  </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🔹 BLOQUE 3: Modal de Registro -->
+  <div *ngIf="mostrandoFormulario"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 animate-fade-in">
+      <div class="flex justify-between items-center mb-4">
+        <h5 class="text-xl font-semibold text-gray-800">Nuevo Emprendedor</h5>
+        <button (click)="cerrarFormulario()" class="text-gray-500 hover:text-red-500">
+          <iconify-icon icon="mdi:close" class="w-6 h-6"></iconify-icon>
+        </button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="guardar()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Nombre completo</label>
+          <div class="flex items-center gap-2">
+            <iconify-icon icon="mdi:account" class="w-5 h-5 text-gray-500"></iconify-icon>
+            <input formControlName="nombre" type="text" class="w-full border border-gray-300 rounded px-3 py-2">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Correo electrónico</label>
+          <div class="flex items-center gap-2">
+            <iconify-icon icon="mdi:email" class="w-5 h-5 text-gray-500"></iconify-icon>
+            <input formControlName="email" type="email" class="w-full border border-gray-300 rounded px-3 py-2">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Contraseña</label>
+          <div class="flex items-center gap-2">
+            <iconify-icon icon="mdi:lock" class="w-5 h-5 text-gray-500"></iconify-icon>
+            <input [type]="verPass ? 'text' : 'password'" formControlName="password"
+              class="w-full border border-gray-300 rounded px-3 py-2">
+            <button type="button" (click)="verPass = !verPass">
+              <iconify-icon [icon]="verPass ? 'mdi:eye-off' : 'mdi:eye'" class="w-5 h-5"></iconify-icon>
+            </button>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Confirmar contraseña</label>
+          <input type="password" formControlName="confirmPassword"
+            class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Foto de perfil (opcional)</label>
+          <input type="file" (change)="onImageSelected($event)" class="w-full">
+          <img *ngIf="imagenUrl" [src]="imagenUrl" alt="preview" class="w-20 h-20 rounded-full mt-2">
+        </div>
+        <div class="flex justify-end gap-2 pt-3">
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Guardar</button>
+          <button type="button" (click)="cerrarFormulario()"
+            class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+    <!-- 🔹 BLOQUE 3: Modal de Detalle -->
+
+<div 
+  *ngIf="detalleSeleccionado"
+  class="fixed inset-0 glass-dark flex items-center justify-center z-50 p-4 md:p-5"
+  role="dialog"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description">
+
+  <div 
+    class="bg-white glass rounded-3xl max-w-lg w-full shadow-2xl border border-white/20 relative overflow-hidden"
+    (click)="$event.stopPropagation()">
+    
+    <!-- Encabezado -->
+    <div class="flex justify-between items-center bg-indigo-600 px-6 py-4">
+      <h2 class="text-2xl font-semibold text-white">Detalle del Emprendedor</h2>
+      <button (click)="detalleSeleccionado = null" class="text-white hover:text-red-300 transition">
+        <iconify-icon icon="mdi:close" class="w-6 h-6"></iconify-icon>
+      </button>
+    </div>
+
+    <!-- Contenido -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 text-gray-800 text-sm">
+
+      <div class="col-span-full flex justify-center">
+        <img *ngIf="detalleSeleccionado.foto" [src]="'http://localhost:8000' + detalleSeleccionado.foto" 
+             alt="Foto" class="w-24 h-24 rounded-full border-2 border-indigo-300 shadow-md object-cover" />
+      </div>
+
+      <div><span class="font-medium">📛 Nombre:</span> {{ detalleSeleccionado.nombre }}</div>
+      <div><span class="font-medium">📧 Email:</span> {{ detalleSeleccionado.email }}</div>
+      <div>
+        <span class="font-medium">🔖 Estado:</span>
+        <span [ngClass]="{
+          'text-green-600 font-semibold': detalleSeleccionado.estado === 'activo',
+          'text-yellow-600 font-semibold': detalleSeleccionado.estado === 'pendiente',
+          'text-red-600 font-semibold': detalleSeleccionado.estado === 'suspendido'
+        }">
+          {{ detalleSeleccionado.estado | titlecase }}
+        </span>
+      </div>
+      <div><span class="font-medium">🗓️ Registro:</span> {{ detalleSeleccionado.fecha_registro }}</div>
+
+      <div class="col-span-full">
+        <span class="font-medium">🏢 Empresa:</span>
+        <div class="mt-1">
+          <ng-container *ngIf="detalleSeleccionado.empresa.nombre; else noEmpresa">
+            {{ detalleSeleccionado.empresa.nombre }} 
+            <span class="text-gray-500">({{ detalleSeleccionado.empresa.comunidad }})</span> – 
+            <span class="text-gray-700">📞 {{ detalleSeleccionado.empresa.celular }}</span>
+          </ng-container>
+          <ng-template #noEmpresa>
+            <span class="italic text-gray-400">Sin empresa vinculada</span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

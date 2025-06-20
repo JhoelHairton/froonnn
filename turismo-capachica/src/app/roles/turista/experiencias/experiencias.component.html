@@ -1,0 +1,50 @@
+<!-- experiencias.component.html -->
+<div class="p-6 max-w-7xl mx-auto">
+  <!-- Título y búsqueda -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+    <h2 class="text-2xl font-bold">🔍 Explorar experiencias</h2>
+    <input type="text" [(ngModel)]="filtro.texto" placeholder="Buscar experiencias..."
+           class="w-full sm:w-80 border px-4 py-2 rounded shadow-sm" />
+  </div>
+
+  <!-- Filtros -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+    <select [(ngModel)]="filtro.categoria" class="border px-3 py-2 rounded">
+      <option value="">Todas las categorías</option>
+      <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+    </select>
+
+    <select [(ngModel)]="filtro.comunidad" class="border px-3 py-2 rounded">
+      <option value="">Todas las comunidades</option>
+      <option *ngFor="let z of comunidades" [value]="z">{{ z }}</option>
+    </select>
+
+    <select [(ngModel)]="filtro.ratingMinimo" class="border px-3 py-2 rounded">
+      <option value="">Calificación mínima</option>
+      <option *ngFor="let r of [5, 4, 3, 2, 1]" [value]="r">★ {{ r }}+</option>
+    </select>
+  </div>
+
+  <!-- Lista de experiencias -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <ng-container *ngFor="let exp of experienciasFiltradas()">
+      <div class="border rounded shadow hover:shadow-md transition">
+        <img [src]="exp.imagen" class="h-40 w-full object-cover rounded-t" />
+        <div class="p-4">
+          <h3 class="text-lg font-bold">{{ exp.titulo }}</h3>
+          <p class="text-sm text-gray-600">{{ exp.comunidad }} · 
+            <span class="text-yellow-500">★ {{ exp.rating }}</span>
+          </p>
+          <button class="mt-3 bg-blue-600 text-white px-4 py-2 text-sm rounded hover:bg-blue-700">
+            Ver más
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Sin resultados -->
+  <p *ngIf="experienciasFiltradas().length === 0" class="mt-6 text-center text-gray-500">
+    No se encontraron experiencias con los filtros aplicados.
+  </p>
+</div>

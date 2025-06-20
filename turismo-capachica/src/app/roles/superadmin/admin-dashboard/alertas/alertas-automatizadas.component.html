@@ -1,0 +1,43 @@
+<div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold text-gray-700">Alertas Automatizadas</h2>
+    <span class="text-sm text-gray-400">Monitoreo en tiempo real</span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left">
+      <thead class="text-xs uppercase text-gray-500 border-b">
+        <tr>
+          <th class="py-2">Tipo</th>
+          <th class="py-2">Entidad</th>
+          <th class="py-2">Cantidad</th>
+          <th class="py-2">Mensaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alerta of alertas" class="border-b hover:bg-gray-50 transition">
+          <td class="py-2">
+            <span
+              [ngClass]="{
+                'bg-red-100 text-red-600': alerta.tipo === 'rechazo',
+                'bg-yellow-100 text-yellow-600': alerta.tipo === 'queja'
+              }"
+              class="px-2 py-1 rounded-full text-xs font-semibold"
+            >
+              {{ alerta.tipo === 'rechazo' ? 'Rechazo' : 'Queja' }}
+            </span>
+          </td>
+          <td class="py-2">
+            {{ alerta.empresa || alerta.turista }}
+          </td>
+          <td class="py-2">
+            <span class="font-medium text-gray-800">{{ alerta.cantidad }}</span>
+          </td>
+          <td class="py-2">
+            {{ alerta.mensaje }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<!-- configuracion.component.html -->
+<div class="p-6 max-w-2xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">⚙️ Configuración personal</h2>
+
+  <form class="space-y-6">
+
+    <!-- Idioma -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Idioma preferido</label>
+      <select [(ngModel)]="config.idioma" name="idioma"
+              class="w-full border px-4 py-2 rounded">
+        <option value="es">Español</option>
+        <option value="en">Inglés</option>
+        <option value="ay">Aymara</option>
+        <option value="qu">Quechua</option>
+      </select>
+    </div>
+
+    <!-- Notificaciones -->
+    <div>
+      <label class="block text-sm font-semibold mb-2">Notificaciones</label>
+      <div class="space-y-2">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" [(ngModel)]="config.notificacionEmail" name="email" />
+          <span>Recibir correos de confirmación</span>
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="checkbox" [(ngModel)]="config.notificacionApp" name="app" />
+          <span>Notificaciones dentro de la aplicación</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Recomendaciones -->
+    <div>
+      <label class="block text-sm font-semibold mb-2">Contenido personalizado</label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="config.recomendaciones" name="recomendaciones" />
+        <span>Mostrar experiencias según mis intereses</span>
+      </label>
+    </div>
+
+    <!-- Guardar -->
+    <div class="text-right">
+      <button type="button"
+              class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+              (click)="guardarConfiguracion()">
+        Guardar configuración
+      </button>
+    </div>
+  </form>
+</div>

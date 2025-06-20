@@ -1,0 +1,78 @@
+<div class="p-4 md:p-8 relative">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <h1 class="text-2xl font-bold">Experiencias Publicadas</h1>
+        <div class="flex flex-wrap gap-2">
+          <input [(ngModel)]="search" placeholder="Buscar por título o emprendedor"
+                 class="border border-gray-300 rounded px-3 py-1 text-sm w-64"/>
+          <select [(ngModel)]="filtroCategoria" class="border rounded px-2 py-1 text-sm">
+            <option value="">Categoría</option>
+            <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+          </select>
+          <select [(ngModel)]="filtroComunidad" class="border rounded px-2 py-1 text-sm">
+            <option value="">Comunidad</option>
+            <option *ngFor="let com of comunidades" [value]="com">{{ com }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div *ngFor="let experiencia of experienciasFiltradas()" class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row gap-4 hover:ring-2 ring-blue-100 transition duration-300">
+          <div class="w-full md:w-48 h-32 overflow-hidden rounded-lg">
+            <img [src]="experiencia.imagen" alt="img" class="w-full h-full object-cover" />
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-2">
+              <h2 class="text-lg font-semibold">{{ experiencia.titulo }}</h2>
+              <span class="text-xs px-2 py-1 rounded-full"
+                    [ngClass]="{
+                      'bg-green-100 text-green-700': experiencia.estado === 'Publicado',
+                      'bg-yellow-100 text-yellow-800': experiencia.estado === 'Pausado',
+                      'bg-blue-100 text-blue-700': experiencia.estado === 'Destacado'
+                    }">
+                {{ experiencia.estado }}
+              </span>
+            </div>
+            <p class="text-sm text-gray-600 mb-1 truncate">{{ experiencia.descripcion }}</p>
+            <p class="text-xs text-gray-500 mb-2">{{ experiencia.comunidad }} • {{ experiencia.categoria }} / {{ experiencia.subcategoria }}</p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+              <iconify-icon icon="mdi:eye-outline" width="18"></iconify-icon>
+              {{ experiencia.vistas }}
+              <iconify-icon icon="mdi:bookmark-outline" width="18"></iconify-icon>
+              {{ experiencia.reservas }}
+            </div>
+          </div>
+          <div class="flex flex-row md:flex-col justify-start md:justify-between gap-2 md:ml-auto">
+            <button (click)="verDetalle(experiencia)" class="p-2 hover:bg-blue-100 rounded-full relative group">
+              <iconify-icon icon="mdi:eye-outline" width="20"></iconify-icon>
+              <span class="absolute hidden group-hover:block text-xs bg-gray-800 text-white px-2 py-1 rounded top-full mt-1 whitespace-nowrap z-10 left-1/2 -translate-x-1/2">Ver detalle</span>
+            </button>
+            <button (click)="pausar(experiencia)" class="p-2 hover:bg-yellow-100 rounded-full relative group">
+              <iconify-icon icon="mdi:pause-circle-outline" width="20"></iconify-icon>
+              <span class="absolute hidden group-hover:block text-xs bg-gray-800 text-white px-2 py-1 rounded top-full mt-1 whitespace-nowrap z-10 left-1/2 -translate-x-1/2">Pausar</span>
+            </button>
+            <button (click)="actualizar(experiencia)" class="p-2 hover:bg-green-100 rounded-full relative group">
+              <iconify-icon icon="mdi:update" width="20"></iconify-icon>
+              <span class="absolute hidden group-hover:block text-xs bg-gray-800 text-white px-2 py-1 rounded top-full mt-1 whitespace-nowrap z-10 left-1/2 -translate-x-1/2">Actualizar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel lateral para Ver Detalle -->
+      <div *ngIf="selectedExperiencia" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg border-l z-50 p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">Detalle de la experiencia</h2>
+          <button (click)="selectedExperiencia = null" class="text-gray-500 hover:text-red-600">✖</button>
+        </div>
+        <img [src]="selectedExperiencia.imagen" class="w-full h-40 object-cover rounded mb-4" />
+        <p class="text-lg font-semibold">{{ selectedExperiencia.titulo }}</p>
+        <p class="text-sm text-gray-600 mb-2">{{ selectedExperiencia.descripcion }}</p>
+        <p class="text-sm">Categoría: {{ selectedExperiencia.categoria }}</p>
+        <p class="text-sm">Subcategoría: {{ selectedExperiencia.subcategoria }}</p>
+        <p class="text-sm">Comunidad: {{ selectedExperiencia.comunidad }}</p>
+        <p class="text-sm">Fecha de publicación: {{ selectedExperiencia.fecha }}</p>
+        <p class="text-sm">Estado actual: {{ selectedExperiencia.estado }}</p>
+        <p class="text-sm">Vistas: {{ selectedExperiencia.vistas }}</p>
+        <p class="text-sm">Reservas: {{ selectedExperiencia.reservas }}</p>
+      </div>
+    </div>

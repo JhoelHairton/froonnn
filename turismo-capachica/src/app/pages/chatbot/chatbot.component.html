@@ -1,0 +1,27 @@
+<!-- Botón flotante -->
+<button 
+  (click)="toggleChat()"
+  class="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full w-14 h-14 shadow-lg z-50"
+>
+  💬
+</button>
+
+<!-- Caja de chat -->
+<div *ngIf="showChat()" class="fixed bottom-24 right-6 w-80 bg-white border shadow-xl rounded-lg z-50 overflow-hidden">
+  <div class="bg-indigo-600 text-white px-4 py-2 font-bold">Chat con Capachica 🤖</div>
+  <div class="p-3 h-64 overflow-y-auto space-y-2 bg-gray-50 text-sm">
+    <div *ngFor="let msg of messages()">
+      <div [ngClass]="msg.sender === 'user' ? 'text-right text-blue-600' : 'text-left text-gray-800'">
+        <span class="inline-block p-2 rounded-xl bg-white shadow-sm max-w-xs" 
+              [class.bg-blue-100]="msg.sender === 'user'"
+              [class.bg-gray-200]="msg.sender === 'bot'">
+          {{ msg.text }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="flex border-t p-2">
+    <input type="text" [(ngModel)]="userInput" class="flex-1 px-2 py-1 border rounded-lg text-sm" placeholder="Escribe..." />
+    <button (click)="sendMessage()" class="ml-2 text-indigo-600 font-bold">Enviar</button>
+  </div>
+</div>

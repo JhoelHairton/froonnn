@@ -1,0 +1,23 @@
+<!-- paquetes-recomendados.component.html -->
+<div class="p-6 max-w-7xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6">🎁 Paquetes turísticos recomendados</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let paquete of paquetes" class="border rounded-lg shadow hover:shadow-md transition">
+      <img [src]="paquete.imagen" class="h-48 w-full object-cover rounded-t" />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">{{ paquete.nombre }}</h3>
+        <p class="text-sm text-gray-600 mb-1">{{ paquete.comunidad }} · {{ paquete.duracion }}</p>
+        <p class="text-green-700 font-semibold mb-2">S/ {{ paquete.precio }}</p>
+
+        <ul class="text-sm text-gray-700 list-disc list-inside mb-3">
+          <li *ngFor="let servicio of paquete.servicios">{{ servicio }}</li>
+        </ul>
+
+        <button class="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700">
+          Reservar ahora
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

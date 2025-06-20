@@ -1,0 +1,698 @@
+<!-- LOADER GLOBAL -->
+<div
+  *ngIf="isLoading"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur"
+>
+  <div
+    class="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
+  ></div>
+</div>
+
+
+
+<app-navbar></app-navbar>
+
+
+<section class="relative h-screen">
+  <video
+    #myVideo
+    autoplay
+    muted
+    loop
+    class="absolute inset-0 w-full h-full object-cover"
+  >
+     <!-- <source src="assets/video/turismo.mp4" type="video/mp4" /> -->
+    Tu navegador no soporta videos HTML5.
+  </video>
+
+  <!-- Capa oscura con tinte azul-verde -->
+  <div class="absolute inset-0 bg-black/35"></div>
+
+  <div
+    class="relative z-10 h-full flex flex-col justify-center items-center text-center px-6"
+  >
+    <h1
+      id="typewriter"
+      class="typewriter text-white text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg"
+    ></h1>
+       <p class="text-[#6EA5C1] text-lg md:text-2xl mb-6">
+      {{ heroData.hero_subtitle }}
+    </p>
+
+    <!-- Botón CTA -->
+     <a
+      [href]="heroData.cta_link"
+      class="inline-block bg-[#0D7075] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#11969D] transition shadow-lg"
+    >
+      {{ heroData.cta_text }}
+    </a>
+
+  </div>
+</section>
+
+<!-- SECCIÓN DE CARDS UNIDA AL HERO -->
+<section
+  id="explorar"
+  class="bg-transparent relative z-20 -mt-10 overflow-hidden"
+>
+  <div
+    class="scroll-cards flex w-[200%] animate-scrollLoop hover:[animation-play-state:paused]"
+  >
+    <!-- BLOQUE DE 6 CARDS: 3 ORIGINALES + 3 COPIAS -->
+    <div class="flex w-full">
+      <!-- CARD 1 -->
+      <div class="w-1/3 h-[35rem] group overflow-hidden clip-superior relative">
+        <img
+          src="https://scontent.flim6-4.fna.fbcdn.net/v/t39.30808-6/486291902_1089161083253720_6852735923983331791_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFO48ycl81kJKhNRaZXoKrWbW-JbF_ni0dtb4lsX-eLR1CndN1OkW35Wrhy33zSBJQWUkMvgbwADrT4fOixiVoP&_nc_ohc=ZYfGHHDFvO4Q7kNvwH7taTs&_nc_oc=Adk0D6ytLVOn0KulQz9uAWmAsnv9mO_m0hy1aTp4g7xvDjfCCJPnKqX1tTlWQZdw94Y&_nc_zt=23&_nc_ht=scontent.flim6-4.fna&_nc_gid=5H24ol7BwasjGL8XmGqI0Q&oh=00_AfPtQrRj21M-Sb9qqi6tmyMC9RGWjrDbLyu2rHuJsdLXAA&oe=684CE543"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:opacity-100 opacity-0 transition duration-500"
+        >
+          <h2 class="text-white text-3xl font-bold">Wild Nature</h2>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="w-1/3 h-[35rem] group overflow-hidden clip-superior relative">
+        <img
+          src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExMVFRUWFRUVGBgXFxgXFRcVFxUXFxUVFxUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFxAQGisdHR0tLS0tLS0tKystLS0tLS0tLSstLSstLS0tLS0tLS0tLS0tLS0tKy0tLS0rLS0tKy0rLf/AABEIALcBEwMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAADBAECBQAGBwj/xABGEAABAwIDAwgHBAgGAQUAAAABAAIRAyEEEjFBUWEFEyJxgZGhsQYyQpLB0fAUUmLhFSNTcoKisvEHFjNDg9I0JERUk8L/xAAZAQEBAQEBAQAAAAAAAAAAAAAAAQIDBAX/xAAkEQEAAgIBBAIDAQEAAAAAAAAAARECElEhIjFBAxMjkdFhof/aAAwDAQACEQMRAD8AVa2UwygmW4NN4fDAETdfYnKHxoxKU6MbFqUsJITdPDN2BPBgjRcss3XHBn0aJARQIRqx3JZz1Ltrwk1EliJJTLnQgOaStYsyRexCcAtA0FT7OJsukSxRNoRqTNyOcKAiUmpMlIo0k7QwxOiph2LUY2B8FzyluIUa0NHFLVnSjVXb0Dm56lIWQCFJYjOEJardahA3whVHWhGFInYiNoDdmPBW2KZ7cMXFEGDA1/NaIonbYbgrCkBoE2XUgKROggIjcMNqZyKRTOwKWUX5ndZW5sBGFHefiVDwP7qWtAEToFwpK7lUjeUEOgID3nYEfLuC4UjuSyigYSpyJz7Odq7mQmyakHDcFQ0N6fc3cqGmmxRLmguTfNLk2KWFMjYrtbwWgKCIKPBct3XVOD0V6nBFo0I0RxQWNm6ZNSmSop4Vav2eVduHhXdNWY7CDVDfQWq9iA5oWoyScWYaCplWi6lK5uFlajJnVmGkSi0sMTZazMOAiBgGxJzXQrRw0XVqgR3uS5YSVm1BLe1ULTtRyxUcwrcSgQog6lQ6m0bJR20lxopaUD4qQSdiO2iitZCmxRYUyu5pMlpVMiWUo2iNVDx9f2RHBdzZ3KWUVc3cEM0inxTVSOCuxRMYbep5lnWmDTK7mUsorI2NU3TQp8FHNKWtFMig0005iG5iWUWLUN6ZLQhuAS2aKrkXON4UrVo9A2iiNoooCuF5NnroIMVw1WXJZToVXNV4UwllF3U0M0wm8ikUlqJZooykUUUE2xiuGJsupMUFBolP5FBppsmrPNBWbQCd5hWFKE2NWa7DKPs/BaZpqpoq7JqzTSUc0tLmFPNBNzVm8yuNIrS5sKITZNWeMOVIwydKghNjUmKCg0E0ZVCwq2UXNIKmQJk0lUsVtKL82FUgI5YhuplLKBcUJ9RMOooZohWJSij6iA5x3J9zGhDLgraUQc1xQ3UDtTz37ggulW2Zgp9nXJjKeC5WyoelCsAqNRAvG9aQFaFysAlrSA1SGq4VgEspUBWhcArgJZSoarhSuhLKcFcNUBcpZSwCghVldKtlLQoULkspBVVJK6VbSkQoyqTKjKUtKRlUEK2UqMitlBkhVLkXmlHNpslAFyo6UyWBRlCbFFHNKoWFOmFRxCbJqTdTKG6iU65yG56uxqTOHVTh0y6ohOqK3KVABwwVHYcIr6iC6pwVuUqFDRauVTUO5Srcs9HnD/iZSm2HqRvc5re7UHvT+F/xFwpjO2rT2yWZm97CT4L5bKkwfrxXl2ezSH3Pk3lyhXjma1N5N8oMPjjTMOHaFoh5X57aw2I1BkHQiNocND2Fek5P9NMdSgc8KoFstZofs2vEPPa5XZNX2IPKuKi+eYP/ABO/bYYcCyoRP8Lmn+pbFH/ELBkSWVmndlYe451Jk1etFTgrCovJs/xBwUgZa445GwOuHz3blp4f0swL9MQwfvBzPF7QEs1lth6tKyB6T4L/AOVR99vmtKhiqbxmY5r2na1wc3vBhLKGlSCqCq3eFYVW8EspYQphVFZvBTzwSyk5VOUKv2gLufCWUsGqcqpz4Uc+lpS+VVLFXn1H2hLFi1VIUGuoNRLKSWqMirnXZxvTYTkXc2q5xvXZgllJNMKhphcagVTUCWU40whuphcaoQ3VRvVtKQ5gQXtVn1RvS9SrxViUmEPS1Rys9/FL1CtRLMwqXlcgkrlq2afKG4St+zd3HzV2YGt+yd3R5r6BS5LcbCDr7VOdv4+pVdyRXMgNg8DSdt1jnFy1h22y4eF+wVv2T+4ealmBrn/Zf2gH4r3Y5Fr5pJtcRFGTJBH+5eIds0PC7bOR6sXB2xekB/UZTWDbJ8+/RlbTmakHWMvicyq7kquD0aL+wiDfdNl9EdyU+NPGnMd+ipVwJYBnzC4bYssd02SoTfJ4RmArzehUHu7OowevwUswOIn/AEXHjI8iV7apXoifWJnZlcf5ZQxj6A1D/cBnqvZXXE3yeRfyXWP+0f5fmjYXB4qm7NTa9p2w5oJ6+lftXqxi8OfZffewdgEFdVxlIT+qqkb8oj++xSsVnPLgpgeW8a0/rKXODrY1w3XaY8FsU+WpuabgdxIkdaSdiqIAIY8z+7I7S2O5LnlbDtMOzDh+qnXbLVvHKI/1zyjKfHRtDlg/dd4Io5cO53cPOVn4Ngqtz06VRzSDDmtbBixjo7CEQ4J2oo1fcaZtPCdq1tjPpnXPk5+nRud9dqIOXh+Lw+ayxgXmf1NUbppWPc5DfydBz8xUcZtFJodMRH+pYx5ptjwVm2f0838XcpHL7fxdyxmYOrb/ANLVG31G+Wcqhw1cW+yVY/d2bNql4cL3twcvt3u90rncvN2F3urDdh6o/wDa1D1RHVcjYEviMQGQH0HNc4iA4tkjSRJEhS8OE73o28vDe7u+S48vN3n3SvN/aWTBovudgYfDNxHemqVIEf8AiYo8RSbB91yt4H5GyeXW7Z90qv6eHGOorKqU4H/h4id5pcd87UKrUpsgPw72zpmyNvsN9mu9LwX8jbHLgNr+6VDuXG7/AOUrzeLdQf0X0WH/AJGx4PtoLozsZSbH6qnuHTbpxKdnB38th/Lw+94Kh5e4+CyH4qnE5WDtBtN9CY61T7Qw7GdQdYQOH5LXZwz3tl3LvEdxSlX0kcDamXdw8zKzjiad7DZsd4b+xDfiG6xI6j8TbZ3peHCfkOv9Iq2ym3hLr+CUq+kWK2UW/LrOZLjFtOjRJ2Xnjq4LqdZtxlkjaGnfOo7EvHhe9ery3ijoxrfGPFJ4nEVXXcTM7CPDcnWiROURHE+KrUpXnJbdBH0VqMsY9J3s81MRsquA/e/Ncnjh3fcHf+ala3hNcjDadAn/AEu+nPhKMynRGlNo/wCL8tUcgfRM+Cvzbd3iR5rxvYG7IIBY2NxpcdgyolJ7aYOQU2DblGUHrimrBrBsjZYl3erupzoPegDyQpzOV3erzgj96p5ZExS5QJHRIcQDEF4gnT2CgsogbW9kjycEUYkiwcBwIc4+DillKDF1CSSXA8HuM8BmYD/dQKj2nM0VZM3AqSeHqFFGJdmnMNNCDH5IwxUXyk9RHghQdOtVc39Zz20EBziD/DlCAcbSkZhVzC3SpuPDY02snqWIBuGkTvJHkYR24gxpfrMd4BQokx49Yc5MRAaT3jLIRqDnRfOOw7OEBGrOzN2nqc8f0m6HQe2wADY3l09x+KCjsQIkvEcZEdqGyu0HpAC2uYCT7htomTiQ6QRTI23E935oT8UAf9MxvaGnwkIOw9abSyL6VATOzoml8V1am8kESeAfSg97AhPxFI6h3GWHwhqC6tQvDy12hu5umzRLGqMOMt4B1ixM7pLQNu9UzQILXO4SwW7HBZj2McQRX7nmD2FHpsJNntdHAAhW0oau8n1KVVuvquaR3l/HcgClVdEurCBEOewjvaCruaf2bTxD+72VzxViw2/fI/8AygltCoAP1tQDaOjF+1UGHcRPOyZ1EE9UZiFk4/lp1J5puY7MAJIqCLibSxLn0hi0VGzu5t3iWolNz7C9181S24AX6iFY4UwJFV3WGjr6+1ZdLlsn1Z7Q3u6Lgqu5Zdf1geHl6ypTTNBo6WQzxDZPXBHmhVOceIFN7II0NiAdLGR+aQPpC4bHk8cvxupp8ql7faF9zCO4WRDDcONDTqN687hPvz4KWU2tvzdSeA+Gf4pVvKFQe26OLaf5KH8o1SdYHBrPMkqLR/1helU7S7x6aq6sGew/sFR3hmIWeeUq9+m+OqnKD+maw2vPWGd1lbKbHObQHe7VHhN1xxPE7PZqz4ys+ryjUAB53Lw5tvnlSFX0leIh7vcZB7hKWmreqVCBtvva+e/LCTfWY4wZndD4/oCxsR6VnMIadmje/VyK30jdJ6J7Wi3cVbTVp5hub9fwrlmfpt5v0O1l1y1aUN9vdsy96szGO+8OwBJtxDvw+7+SIKwOoHuj5LjcO+sm/tU+0/usO0BXGIB9oE6Q6Qe438EoHN3N90A94ajNLTqe+D8Eso3zpnQ7Lg/MSuzO3u7b+RQ6VBhs0geHjACZZhH8SOt3wSygzW/Hljs+u9UNSb5id/THdqjOovHtEePmFwY/758PklrQH2ozYCx2gnZsIkq9LEkaU44sJAHePnqjy6fXPh/1Vmh21x/lPmFLKAfj7/6VUG2kH+oI1PGg6ue3gWCO9sSiscRv7mfJWFc73dzf+qFIGJBEc6ztA8iUSm8ffYeMj5WVRid5PaG/9VBqs4dcAFW0oU1fx0+8jwCJE36J33Mf1Qls7N4VDhmH2R2NA8kKNmiNwH8RjqgOQm4T8LOsZh8UI0QNGT1F3kSk8fypQoAc90CdAS4uPU1pJjjELUY5T4hmZxjy1RhRMx3uP/YwuNGdQ0/vEO8XCfFZuC5Sw9QZmODh+8ZHWCZCZ+0UxtHvfmk45R6SJxn28n6QuDcS5vRFm2a212jQAr0NT0ZoteW866abXueIp5oa9jAQBOUOL5g3AbBF15X0hqNOKcQR7EXBk5RAg69S2+UMfi6tTLmaX0nOzjDPc51Oq85XNeWuJa4lpGUENlpgapTTdw3JGGAYCx7zkxRLgAMzqTnBpy7D0bDqlZ2K5DpBrKkzzjS5gOwNpgvJANiHkt7CqYDCYjLI51sPIHTe084Q/Nlvr0HAnvWbyxiarnhmR7HU2ZQym19ml7mkw2Scz84naZ6kDlTkimZaw1M36wNE6mm4DSds2GzincHyMwtEOJb+8LdPITngNMRMCeBtKx3cjYklobzjicw6JJE53tcC6wEupu23haXJjMYGSW1HyBao2oXGcxaWxeLE7t6Bh3JdFpBz/dM30dTL2yY6OgEnfNoKSxlIhxbAtxIJ2gkhxGhGlkUU8U4Z5eenUvLgGvbd8geobm1tqDjMDWZLqg9sskk9JwzTBPrCWm6BWrRad4/iKDSwoGhn4Ipc7ghVJ3A+feoKVxJ1b3CFi8otiTPd+aaxj3DYe2/isjEYk7lQo7Ew4Xcjs5XfsPff4LHr1OkTeNFVla6D0reU3/e8G/JcsVtcLkSntWk6fV1IdpcIeZ4nMaR6nGPCfNTSryQC5lxaHTOzVcLdh2O2axO7u1siOnZYx7QJGnCPNLw+bBuWYkFxNuyOCZAjdw+oS1Sx19R4+KzsF6WYcyHuqUiJBDmkkEajom3fsTzqbTPHaJB8ErX5FoOdmdTDieBBmNpBvpqunxzjdZOfyxlXanlP00Yyg59KoHuu1gdHrQIJbJsJ27uxYGB9KuVK8mlTp1MsTFMAdROYSeA3rQxfohhXmcr2WGjzrJ+9KD/kWiR0arx1ta7yhd4jCZ4hxvOI5kzgPSPlPMKb8A9z3OhpFOtTBJ0ElpGu2QI1I1W0KXLj/U5OY3997ZHGefb4BeeHohiGWpYojqNSn/SSrswXK7PUxRP/ADE9+cLf14+phnfL3DS5fxnKWEbOIfgaLi3M2m5znVXcGsY55N7SYHFePxPpnjagLTWyg/ca1jvfaA7xWrW/SbpFWjSr5Y/1KOHqEDYBaQEmzFYqk7M3A0aewxhZae14cB2QF0+PGuP+OXyZcWSp+lGNa0NGIfA3wT7xBd4qtT0jxrtcVV7HR5JupythgengcrtuSvzd94YaTg3q0VRjcCbkY5m8Nfh6g7DzbF37XK8pIHlLFG5xFc/8j+HFXBxJzZX1iA2fWfrLQY3nW3WtCnWwR0xOLZwfSafGnV+CtXZgXaYypr7VKsDlnSWk7D4JlETHSUjLKJ6x+mG6lVPrc7E+1nib7SiM5Oqlpc2bR7YE3i0kTaVuNwOCh0YphkQMwqgt47dw8U9hcFgDTLX46kDDYLGFuUg3u8GZErPiJ6/ouZmKj9vPHkd5DDY9CXzVYMpD3AjpO1yhp7UH9ExYlgNol7bi97HqXq8SeTm02t+1Pq5WlrQ10Zpe9/6wZBN3RugLFqco0Zc11Og1hInm31TUsZHTOYHS/QGuwLUTjUf1mYzuf5P9LUMC1kS5tiCS0yReSRpeLr2mAqPqONWjimZucbVc9uGpsJqNz9OoQ0Znfrak5tc5lYVflnkgN5sYfE1B0oJe1kF4bmyuDs18g2b7XROSOXzQz/YuSxTLxDnVKlasHNNocHZWxC8vyY3Nw9Xx5dKl6huNeSR+kaLnD1g2nRLwJfAMHMAOdqQDpnMJYMdRe+sznXPf63N0aDQ7pF+fK5kZg4+tqLbAsenynyqQGsNDCt3UmMbaNwDila/I1WrJxGLrVBtEnL/MSPDYsVEeZdLmfENWv6V12y3n6bLtnM2k54GZzyC1ocJLnutpEi6bw/pm9zW0WVHVSWBgbkY0ABpbrE+qTJjTqXlhR5PpHLao6YABNVxO7I20r1vJOHawA5AyRYCBl3g5bE8QplnjHhccMr6tA8qV+lf1i8uORsk1CC++WQCQDGlgl8dyjXqCHnMM2b1Wgz0rktEn1j3or6kbb9Y71U1yde9cbdaZjq0ayOsfko50nQE9RBT1RoOqTrYbaLcZgfXclhLFNkaPHWFi4jDvOgf2A/JeiGJqNPrntc0jvg27VV2MOrmMPWR55QfFNinj62BcNQ+9/qyBT5MqE+q6N5XuqWObuj+L81apWpOsHC+8MPmraPKM5MdHquXL03Mt3sP8LPmuTYLw12gk7A+XEcYnxRGYX2qnS01FraR+aHRAbIyG52RfcTBV67yNxgTeSfzXCIdRqdc3AY3LOuYCd5ygIwdsCWw1bMNI4aD80VpVaFzEXsOyfCQqvqzOa82jUHrCo9wi4vs0hAAqatptfF4zgX7QrEJMw8xy1ydWoTUw76vN3ccjndACJzQbtEi5333nPo+lWMbpXJG5wa7zEr1XKePxk3ouEAiA1zm5Tslttg7l4/lDBVC4kUXM3jKWgHg3Yt9WYyhr4f08xI9ZtJ38Lmn+V0eC0aP+Ix9rDjrFQ+RYfNeJODrfs3+674BVOGq/s3+675KxMr28PotL09w59ZlUdjXDvDp8E9R9McEf9wt62PHkIXys0Kv3He64fBUex41aRG+3mrtLMxg+xN9I8I6wr044uA80UVMJU20H/wD1uK+Lc4eHeFwqcPJajOWdcH2V/I+GdpRonqY34JPE+j+FFzRHZmHkV8nDx93yRvtjxoXj+Iq/Zkn14PpLvRrCnSmffqDzKX/yxh5PQPvuXz446qfaf77vmhurPOs9pKv25J9WD6E7kPCMuWDtqO+JS734Gn+wHc8+ZXgYO4KzabjpPYpvJpi91/mXDM9SeplPKD5JLEemgjoUu17ov1CZ715duAqH2XdxCZpci1D7MdZ+SxOX+tREeoN4n0sxDrBwaPwt+LpWXiMbVqHpuc/95xI7BoFr0vR7e8dg+JT+G5Cpi5Bd2/AQs7w1rJPk2rTIDWNAd902JP4T7Xbdes5LrV2wHUyR+KJA6zHcSl8DSaz1AG9TYP8AStKli3RFnAWvqOrRPsv0kfHMe2hI3xfZp4FcHk7J80mzEDbmHcR8Piu5xp0eO0R52Wbao25wm9u2PFUqOIv0uxw8iLoRzAXiN8W6pGnahtruFgWdjo+U9yqUJm25ndrQPFdkH3Z42+GiG8E+yJ4XPibIJDvPYJ8Cqgr6I+59daXqUG7Wn66wiNJ4+E+fxKsKr9A49v56ohQ0mfiXJvn37m+7+ahWi0MdxhXfABkjt071anQMEgEgQDAJidATvMHuRn4KtoaT9urHWIOU2A3kDtCxTbNaDMZtNzS3YDabRfQI5JRG4HERem4wfuuGyb8YBPUh18HHSewi8S5pF8odF9LOB7QpTUS4PKmOzvBVHP0kG+63ZrIVmMMGN9icx27RrPapaocw8fePzQDhgLusOP5o1Wg63SdG0Dognz8UhXwhcTmc47mh4aTsvA37bolopuol2UGTsiQO8q9WixvSltruBMmNTAB1SlfAUmaRABEWeR2yTc70GpTbzfRIkESALamIBIJiNfoSksy/HsmzSRcTFgRxA8Vf7S2bGZJtpA2Heeu6ycxG4HfG+1j2eKtSmJzCdAIMxsOkbBaZulLbZe5tpc0yYgBwuNnSAk/NQ6g06tHcPik6FbNmIBc3L0iYtpJlulm7d++6NTqvByw0ixDiZBB1NtfmFmJ5W1zgmHVjD/C1DPJdH9lT9wfAJ4XXXiQCd2ztjVaVnnkqj+zZ7oXP5OogTzdP3BHktCAY47/EcexQKQ3TYqTfpOhehgWgSGtDeAHwSPKTgDDCR/fWdi1qkRE2sbAmOMblkYsN0ynbebcI29i1DnlZI3Mm4tMlaLHUwBEDcBt7FmRczJHCB8Cnab3C023EGdNbBJMZOB42T9bwpLhtv9eCDTL7gaiOrr4ojWbz5SpTdmaTxtmOFz4/NNtfueHDc4X/AJvgs/Dkxtjqk+Ca5o74+StIayl2kdwVXUX7wOraqMfGuiMxhIkEHhoe5WKlC7GOaZBE7xEqz8Q7bfiQPgiWOtlDmjiVaFOcn7vbI64MotR1pIdG8EuHfbzQK1AEEgxA0KFSe4G2u8besLM5xjPVOgpINsxniPiXSrmm7iR2+RCA6ow6iDvGnXC4fgd4x1WMLdpQl/r+65CNWruPcPkpVsaeExtSnmDIGbLfXQyIBtPEgxshMVPSGsXAnJPSjowJc5rjYGB6o4a75XLlm1opjuWHkFxIGbMLNk9JrWON9XZWhsk7TtMqK/KRLQyzQS10DMZLGZBqTBgC+2BOilcpMysQAaLdXAGNpFx3IFXlEA5WjNA6gDxm65cpLUk3Yx7+0GwJDZ8zsspoYGpMEADSx43FhquXKII6hAADyTYOBAA7ABwOpKFjXRTbkJyi94yBp6Owz2QuXJ7JZFZoG3jJvA7kNrhMSZAPdFxstbwULlqGVsPXgh7SLETmEjNxbobJptQOcG1C4Em2XWbXk7CdRwXLlJhYPUC4ONNpvoCQC3SwixvGqdo4eobufPUIGtreC5csx4WBDTF9VVw2bPqFy5VpQ0t/gg1MCDqfrsXLlYZmEs5PYINyRfYB4eaPkE/Wi5cpK6wgUm7B1qCwfXzXLlSlSzwRKdSBf67Vy5LBH0pEtvCAHuERGvh81y5WWYXqVhE7vrRQK3HwUrlUUdUIsRH1wVXUmm8Qd4MHvC5ckxE+RDqcmZPbqg1GHfIP1t12KVykYxHgVvsHkoXLlR//2Q=="
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:opacity-100 opacity-0 transition duration-500"
+        >
+          <h2 class="text-white text-3xl font-bold">Cultura Viva</h2>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="w-1/3 h-[35rem] group overflow-hidden clip-superior relative">
+        <img
+          src="data:image/jpeg;base64,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"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:opacity-100 opacity-0 transition duration-500"
+        >
+          <h2 class="text-white text-3xl font-bold">Where to go</h2>
+        </div>
+      </div>
+
+      <!-- REPETICIÓN PARA LOOP INFINITO -->
+      <!-- CARD 1 -->
+      <div class="w-1/3 h-[35rem] group overflow-hidden clip-superior relative">
+        <img
+          src="https://scontent.flim6-4.fna.fbcdn.net/v/t39.30808-6/486291902_1089161083253720_6852735923983331791_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFO48ycl81kJKhNRaZXoKrWbW-JbF_ni0dtb4lsX-eLR1CndN1OkW35Wrhy33zSBJQWUkMvgbwADrT4fOixiVoP&_nc_ohc=ZYfGHHDFvO4Q7kNvwH7taTs&_nc_oc=Adk0D6ytLVOn0KulQz9uAWmAsnv9mO_m0hy1aTp4g7xvDjfCCJPnKqX1tTlWQZdw94Y&_nc_zt=23&_nc_ht=scontent.flim6-4.fna&_nc_gid=5H24ol7BwasjGL8XmGqI0Q&oh=00_AfPtQrRj21M-Sb9qqi6tmyMC9RGWjrDbLyu2rHuJsdLXAA&oe=684CE543"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:opacity-100 opacity-0 transition duration-500"
+        >
+          <h2 class="text-white text-3xl font-bold">Wild Nature</h2>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="w-1/3 h-[35rem] group overflow-hidden clip-superior relative">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzt9KKc0CQi5kFh9Sk-w5iUO5BZxo4ducpNg&s"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:opacity-100 opacity-0 transition duration-500"
+        >
+          <h2 class="text-white text-3xl font-bold">Cultura Viva</h2>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="w-1/3 h-[35rem] group overflow-hidden clip-superior relative">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtp4dbFVnRMHHD_NsZdNaCi-LeREPamZJ-TA&s"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:opacity-100 opacity-0 transition duration-500"
+        >
+          <h2 class="text-white text-3xl font-bold">Where to go</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 🧩 Beneficios turísticos mejorados -->
+<section class="py-24 bg-gradient-to-b from-white to-[#E6F4F7]">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-[#031718] mb-4 tracking-tight">
+      ¿Por qué visitar Capachica?
+    </h2>
+    <p class="text-[#2A4F62] text-lg md:text-xl mb-16">
+      Sumérgete en una experiencia única donde la cultura, la naturaleza y la comunidad se unen.
+    </p>
+
+    <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+
+      <!-- 🏡 Hospedajes familiares -->
+      <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 group">
+        <div class="flex justify-center mb-6">
+          <div
+            class="w-20 h-20 bg-gradient-to-tr from-[#C0F0F2] to-[#E0F7F7] text-[#0D7075] rounded-full flex items-center justify-center group-hover:scale-110 shadow-inner transition-transform duration-300 ease-in-out">
+            <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M3 9.75L12 4.5l9 5.25M4.5 10.5v9.75h15V10.5M9 21V12h6v9"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold mb-3 text-[#031718]">Hospedajes familiares</h3>
+        <p class="text-[#2A4F62] text-sm">
+          Vive como un local, hospedándote en casas tradicionales junto a familias acogedoras.
+        </p>
+      </div>
+
+      <!-- ✨ Cultura viva -->
+      <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 group">
+        <div class="flex justify-center mb-6">
+          <div
+            class="w-20 h-20 bg-gradient-to-tr from-[#FFE8B0] to-[#FFF3D0] text-[#F4B400] rounded-full flex items-center justify-center group-hover:scale-110 shadow-inner transition-transform duration-300 ease-in-out">
+            <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M9.75 3v3.75H6v3h3.75V21h3.5V9.75H18v-3h-3.75V3h-4.5z"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold mb-3 text-[#031718]">Cultura viva</h3>
+        <p class="text-[#2A4F62] text-sm">
+          Participa en danzas, rituales andinos y costumbres ancestrales únicas del altiplano.
+        </p>
+      </div>
+
+      <!-- 🤝 Apoyo a comunidades -->
+      <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 group">
+        <div class="flex justify-center mb-6">
+          <div
+            class="w-20 h-20 bg-gradient-to-tr from-[#C2F5E4] to-[#DFF6EE] text-[#0CA678] rounded-full flex items-center justify-center group-hover:scale-110 shadow-inner transition-transform duration-300 ease-in-out">
+            <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path
+                d="M12 3v2.25M12 18.75V21M21 12h-2.25M3 12H5.25M17.25 6.75l-1.5 1.5M6.75 17.25l-1.5 1.5M6.75 6.75l1.5 1.5M17.25 17.25l1.5 1.5M12 9.75a2.25 2.25 0 110 4.5 2.25 2.25 0 010-4.5z"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold mb-3 text-[#031718]">Apoyo a comunidades</h3>
+        <p class="text-[#2A4F62] text-sm">
+          Cada visita genera ingresos directos para las familias locales y fortalece su economía.
+        </p>
+      </div>
+
+      <!-- 🌄 Experiencias auténticas -->
+      <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 group">
+        <div class="flex justify-center mb-6">
+          <div
+            class="w-20 h-20 bg-gradient-to-tr from-[#E4DFFC] to-[#EDE9FF] text-[#6B4EFF] rounded-full flex items-center justify-center group-hover:scale-110 shadow-inner transition-transform duration-300 ease-in-out">
+            <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path
+                d="M12 21.75C17.108 21.75 21.75 17.108 21.75 12S17.108 2.25 12 2.25 2.25 6.892 2.25 12 6.892 21.75 12 21.75zM12 8.25v4.5l3 1.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold mb-3 text-[#031718]">Experiencias auténticas</h3>
+        <p class="text-[#2A4F62] text-sm">
+          Desde pesca tradicional hasta tejidos andinos: sé parte activa de su modo de vida.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- SECCIÓN DE DESTINOS -->
+<section class="relative w-full h-screen overflow-hidden">
+  <!-- IMAGEN PRINCIPAL DE FONDO -->
+  <div
+    id="mainImage"
+    class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-700"
+    style="background-image: url('/img/1.jpg')"
+  ></div>
+
+  <!-- CAPA NEGRA SUAVE -->
+  <div class="absolute inset-0 bg-black/40 z-10"></div>
+
+  <!-- TEXTO CENTRADO VERTICAL Y A LA IZQUIERDA -->
+  <div
+    class="absolute left-20 top-1/2 -translate-y-1/2 z-20 text-white max-w-xl"
+  >
+    <h2
+      id="location"
+      class="text-green-400 text-xl md:text-2xl font-semibold mb-4"
+    >
+      Palawan, Philippines
+    </h2>
+    <h1
+      id="title"
+      class="text-5xl md:text-9xl font-extrabold leading-tight mb-6"
+    >
+      EL NIDO ISLAND
+    </h1>
+    <p id="description" class="text-lg text-gray-100 leading-relaxed">
+      El Nido is a Philippine municipality on Palawan island. It’s known for
+      white-sand beaches, coral reefs and as the gateway to the Bacuit
+      archipelago, a group of islands with steep karst cliffs. Miniloc Island is
+      famed for the clear waters of its Small and Big lagoons.
+    </p>
+  </div>
+
+  <!-- MINI CARDS DERECHA INFERIOR -->
+  <div id="cardContainer" class="absolute bottom-8 right-28 z-30 flex gap-8">
+    <div
+      onclick="changeContent(0)"
+      class="cursor-pointer w-52 h-72 bg-cover bg-center rounded-md relative shadow-lg"
+      style="background-image: url('/img/2.jpg')"
+    >
+      <div
+        class="absolute bottom-0 w-full bg-black/70 text-center py-1 text-sm font-bold"
+      >
+        MAYON
+      </div>
+    </div>
+    <div
+      onclick="changeContent(1)"
+      class="cursor-pointer w-52 h-72 bg-cover bg-center rounded-md relative shadow-lg"
+      style="background-image: url('/img/3.jpg')"
+    >
+      <div
+        class="absolute bottom-0 w-full bg-black/70 text-center py-1 text-xs font-bold"
+      >
+        CHOCOLATE
+      </div>
+    </div>
+    <div
+      onclick="changeContent(2)"
+      class="cursor-pointer w-52 h-72 bg-cover bg-center rounded-md relative shadow-lg"
+      style="background-image: url('/img/4.jpg')"
+    >
+      <div
+        class="absolute bottom-0 w-full bg-black/70 text-center py-1 text-xs font-bold"
+      >
+        BORACAY
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Explora las comunidades de Capachica -->
+<section id="experiencias" class="py-20 bg-[#FFFFFF]">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-extrabold text-[#031718] mb-6 tracking-tight">
+      Explora nuestras experiencias
+    </h2>
+    <p class="text-[#082D33] text-lg max-w-3xl mx-auto mb-14 leading-relaxed">
+      Desde caminatas ancestrales hasta pesca tradicional, vive Capachica como
+      nunca antes con estas experiencias únicas.
+    </p>
+
+    <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div
+        class="group bg-gradient-to-b from-[#FFFFFF] to-[#E6F0F2] rounded-3xl shadow-lg p-8 flex flex-col items-center text-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer border border-[#6EA5C1]"
+      >
+        <div
+          class="w-80 h-60 rounded-2xl overflow-hidden mb-6 border-4 border-[#11969D] group-hover:border-[#2A4F62] transition-colors duration-300"
+        >
+          <img
+            src="assets/images/4.jpg"
+            alt="Pesca tradicional"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <h3
+          class="text-2xl font-semibold text-[#031718] mb-3 group-hover:text-[#082D33] transition-colors duration-300"
+        >
+          Pesca tradicional
+        </h3>
+        <p class="text-[#082D33] mb-6 leading-relaxed px-4">
+          Únete a los pescadores locales y aprende sus técnicas milenarias en el
+          lago Titicaca.
+        </p>
+        <a
+          [routerLink]="['/reservar', 'pesca']"
+          class="inline-block px-6 py-3 rounded-full bg-[#11969D] text-white font-semibold hover:bg-[#0D7075] transition-colors duration-300"
+        >
+          Reservar ahora →
+        </a>
+      </div>
+
+      <div
+        class="group bg-gradient-to-b from-[#FFFFFF] to-[#E6F0F2] rounded-3xl shadow-lg p-8 flex flex-col items-center text-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer border border-[#6EA5C1]"
+      >
+        <div
+          class="w-80 h-60 rounded-2xl overflow-hidden mb-6 border-4 border-[#11969D] group-hover:border-[#2A4F62] transition-colors duration-300"
+        >
+          <img
+            src="assets/images/5.jpg"
+            alt="Danzas andinas"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <h3
+          class="text-2xl font-semibold text-[#031718] mb-3 group-hover:text-[#082D33] transition-colors duration-300"
+        >
+          Danzas andinas
+        </h3>
+        <p class="text-[#082D33] mb-6 leading-relaxed px-4">
+          Participa en celebraciones tradicionales llenas de color, música y
+          cultura viva.
+        </p>
+        <a
+          [routerLink]="['/reservar', 'danzas']"
+          class="inline-block px-6 py-3 rounded-full bg-[#11969D] text-white font-semibold hover:bg-[#0D7075] transition-colors duration-300"
+        >
+          Reservar ahora →
+        </a>
+      </div>
+
+      <div
+        class="group bg-gradient-to-b from-[#FFFFFF] to-[#E6F0F2] rounded-3xl shadow-lg p-8 flex flex-col items-center text-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer border border-[#6EA5C1]"
+      >
+        <div
+          class="w-80 h-60 rounded-2xl overflow-hidden mb-6 border-4 border-[#11969D] group-hover:border-[#2A4F62] transition-colors duration-300"
+        >
+          <img
+            src="assets/images/6.jpg"
+            alt="Tejidos artesanales"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <h3
+          class="text-2xl font-semibold text-[#031718] mb-3 group-hover:text-[#082D33] transition-colors duration-300"
+        >
+          Tejidos artesanales
+        </h3>
+        <p class="text-[#082D33] mb-6 leading-relaxed px-4">
+          Aprende el arte ancestral del tejido en telares de cintura junto a
+          maestras tejedoras.
+        </p>
+        <a
+          [routerLink]="['/reservar', 'tejidos']"
+          class="inline-block px-6 py-3 rounded-full bg-[#11969D] text-white font-semibold hover:bg-[#0D7075] transition-colors duration-300"
+        >
+          Reservar ahora →
+        </a>
+      </div>
+    </div>
+
+    <!-- CTA final -->
+    <div class="mt-16">
+      <a
+        routerLink="/paquetes"
+        class="inline-block bg-gradient-to-r from-[#11969D] via-[#0D7075] to-[#082D33] text-white font-extrabold text-lg px-10 py-4 rounded-full shadow-lg transition-colors duration-300 tracking-wide hover:from-[#082D33] hover:via-[#0D7075] hover:to-[#11969D]"
+      >
+        Ver todos los paquetes turísticos
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Paquetes turísticos destacados -->
+
+<section class="py-20 bg-[#FFFFFF]">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-[#031718] mb-4">
+      Paquetes turísticos destacados
+    </h2>
+    <p class="text-[#082D33] text-lg mb-12">
+      Vive experiencias auténticas en comunidades del lago Titicaca.
+    </p>
+
+    <div
+      class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
+      <!-- Paquete 1 -->
+      <div
+        class="bg-gradient-to-br from-[#FFFFFF] via-[#E6F0F2] to-[#D0E2E6] rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition duration-300"
+      >
+        <img
+          src="assets/images/7.jpg"
+          alt="Llachón Mágico"
+          class="w-full h-48 object-cover"
+        />
+        <div class="p-5 text-left">
+          <h3 class="text-xl font-semibold text-[#0D7075]">Llachón Mágico</h3>
+          <p class="text-[#6EA5C1] text-sm mb-2">2 días / 1 noche</p>
+          <p class="text-[#11969D] font-bold mb-2">S/ 180.00</p>
+          <div class="flex items-center gap-1 text-yellow-400 mb-3">
+            ⭐⭐⭐⭐☆ <span class="text-sm text-[#2A4F62]">(24)</span>
+          </div>
+          <a
+            href="/paquetes/llachon"
+            class="inline-block px-4 py-2 bg-gradient-to-r from-[#11969D] to-[#0D7075] text-[#FFFFFF] rounded-lg hover:from-[#6EA5C1] hover:to-[#2A4F62] transition"
+          >
+            Ver detalles
+          </a>
+        </div>
+      </div>
+
+      <!-- Paquete 2 -->
+      <div
+        class="bg-gradient-to-br from-[#FFFFFF] via-[#E6F0F2] to-[#D0E2E6] rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition duration-300"
+      >
+        <img
+          src="assets/images/8.jpg"
+          alt="Gastronomía en Chillora"
+          class="w-full h-48 object-cover"
+        />
+        <div class="p-5 text-left">
+          <h3 class="text-xl font-semibold text-[#0D7075]">
+            Gastronomía en Chillora
+          </h3>
+          <p class="text-[#6EA5C1] text-sm mb-2">1 día completo</p>
+          <p class="text-[#11969D] font-bold mb-2">S/ 90.00</p>
+          <div class="flex items-center gap-1 text-yellow-400 mb-3">
+            ⭐⭐⭐⭐⭐ <span class="text-sm text-[#2A4F62]">(15)</span>
+          </div>
+          <a
+            href="/paquetes/chillora"
+            class="inline-block px-4 py-2 bg-gradient-to-r from-[#11969D] to-[#0D7075] text-[#FFFFFF] rounded-lg hover:from-[#6EA5C1] hover:to-[#2A4F62] transition"
+          >
+            Ver detalles
+          </a>
+        </div>
+      </div>
+
+      <!-- Paquete 3 -->
+      <div
+        class="bg-gradient-to-br from-[#FFFFFF] via-[#E6F0F2] to-[#D0E2E6] rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition duration-300"
+      >
+        <img
+          src="assets/images/9.jpg"
+          alt="Aventura en Collpa"
+          class="w-full h-48 object-cover"
+        />
+        <div class="p-5 text-left">
+          <h3 class="text-xl font-semibold text-[#0D7075]">
+            Aventura en Collpa
+          </h3>
+          <p class="text-[#6EA5C1] text-sm mb-2">3 días / 2 noches</p>
+          <p class="text-[#11969D] font-bold mb-2">S/ 250.00</p>
+          <div class="flex items-center gap-1 text-yellow-400 mb-3">
+            ⭐⭐⭐⭐☆ <span class="text-sm text-[#2A4F62]">(8)</span>
+          </div>
+          <a
+            href="/paquetes/collpa"
+            class="inline-block px-4 py-2 bg-gradient-to-r from-[#11969D] to-[#0D7075] text-[#FFFFFF] rounded-lg hover:from-[#6EA5C1] hover:to-[#2A4F62] transition"
+          >
+            Ver detalles
+          </a>
+        </div>
+      </div>
+
+      <!-- Paquete 4 -->
+      <div
+        class="bg-gradient-to-br from-[#FFFFFF] via-[#E6F0F2] to-[#D0E2E6] rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition duration-300"
+      >
+        <img
+          src="assets/images/10.jpg"
+          alt="Capano Cultural"
+          class="w-full h-48 object-cover"
+        />
+        <div class="p-5 text-left">
+          <h3 class="text-xl font-semibold text-[#0D7075]">Capano Cultural</h3>
+          <p class="text-[#6EA5C1] text-sm mb-2">1 día</p>
+          <p class="text-[#11969D] font-bold mb-2">S/ 70.00</p>
+          <div class="flex items-center gap-1 text-yellow-400 mb-3">
+            ⭐⭐⭐⭐⭐ <span class="text-sm text-[#2A4F62]">(19)</span>
+          </div>
+          <a
+            href="/paquetes/capano"
+            class="inline-block px-4 py-2 bg-gradient-to-r from-[#11969D] to-[#0D7075] text-[#FFFFFF] rounded-lg hover:from-[#6EA5C1] hover:to-[#2A4F62] transition"
+          >
+            Ver detalles
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPAS-->
+
+<section class="py-20 bg-[#FFFFFF]">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2
+      class="text-3xl md:text-4xl font-extrabold text-[#031718] text-center mb-4"
+    >
+      Mapa Turístico de Capachica
+    </h2>
+    <p class="text-center text-[#082D33] text-lg mb-8 max-w-3xl mx-auto">
+      Descubre las comunidades y lugares turísticos del distrito de Capachica.
+    </p>
+
+    <!-- Contenedor del mapa -->
+    <div
+      id="map"
+      class="w-full h-[500px] md:h-[600px] rounded-3xl shadow-xl border-4 border-[#11969D] transition-filter duration-300 hover:filter hover:brightness-95"
+      style="min-height: 350px"
+      aria-label="Mapa turístico interactivo del distrito de Capachica"
+      role="region"
+      tabindex="0"
+    ></div>
+  </div>
+</section>
+
+<section class="bg-white py-16">
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 text-center">
+    <h2 class="text-4xl font-extrabold text-[#031718] mb-12 tracking-tight">
+      Testimonios de nuestros visitantes
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <!-- Testimonio 1 -->
+      <div
+        class="bg-[#6EA5C1] bg-opacity-10 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+        role="blockquote"
+        tabindex="0"
+        aria-label="Testimonio de Laura Gómez"
+      >
+        <div class="flex items-center space-x-5 mb-6">
+          <img
+            src="https://i.pravatar.cc/100?img=1"
+            alt="Foto de Laura Gómez"
+            class="w-14 h-14 rounded-full ring-4 ring-[#0D7075]"
+            loading="lazy"
+          />
+          <div class="text-left">
+            <h4 class="text-xl font-semibold text-[#082D33]">Laura Gómez</h4>
+            <div class="text-yellow-400 text-lg" aria-label="5 estrellas">
+              ★★★★★
+            </div>
+          </div>
+        </div>
+        <p class="text-[#2A4F62] italic leading-relaxed text-left">
+          “Una experiencia inolvidable en Llachón. Me sentí como en casa y la
+          vista del Titicaca es impresionante.”
+        </p>
+      </div>
+
+      <!-- Testimonio 2 -->
+      <div
+        class="bg-[#6EA5C1] bg-opacity-10 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+        role="blockquote"
+        tabindex="0"
+        aria-label="Testimonio de Carlos Ruiz"
+      >
+        <div class="flex items-center space-x-5 mb-6">
+          <img
+            src="https://i.pravatar.cc/100?img=2"
+            alt="Foto de Carlos Ruiz"
+            class="w-14 h-14 rounded-full ring-4 ring-[#0D7075]"
+            loading="lazy"
+          />
+          <div class="text-left">
+            <h4 class="text-xl font-semibold text-[#082D33]">Carlos Ruiz</h4>
+            <div
+              class="text-yellow-400 text-lg"
+              aria-label="4 estrellas y media"
+            >
+              ★★★★☆
+            </div>
+          </div>
+        </div>
+        <p class="text-[#2A4F62] italic leading-relaxed text-left">
+          “Hospedé con una familia en Chillora. Muy amable gente, rica comida,
+          ¡y viví su cultura de cerca!”
+        </p>
+      </div>
+
+      <!-- Testimonio 3 -->
+      <div
+        class="bg-[#6EA5C1] bg-opacity-10 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+        role="blockquote"
+        tabindex="0"
+        aria-label="Testimonio de Marta Quispe"
+      >
+        <div class="flex items-center space-x-5 mb-6">
+          <img
+            src="https://i.pravatar.cc/100?img=3"
+            alt="Foto de Marta Quispe"
+            class="w-14 h-14 rounded-full ring-4 ring-[#0D7075]"
+            loading="lazy"
+          />
+          <div class="text-left">
+            <h4 class="text-xl font-semibold text-[#082D33]">Marta Quispe</h4>
+            <div class="text-yellow-400 text-lg" aria-label="5 estrellas">
+              ★★★★★
+            </div>
+          </div>
+        </div>
+        <p class="text-[#2A4F62] italic leading-relaxed text-left">
+          “Nunca imaginé que podía dormir frente al lago, aprender quechua y
+          compartir con niños locales. ¡Hermoso todo!”
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-[#0D7075] py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-4xl font-extrabold text-white mb-6">
+      ¿Listo para vivir la experiencia única de Capachica?
+    </h2>
+    <p class="text-[#C2E8FF] mb-8 text-lg max-w-xl mx-auto">
+      Descubre comunidades, paquetes turísticos y actividades que te conectarán
+      con la cultura y naturaleza.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <!-- Botón 1 -->
+      <a
+        routerLink="/zonas-turisticas"
+        class="pulse-slow inline-block bg-white text-[#0D7075] font-semibold px-8 py-3 rounded-lg shadow hover:bg-[#E6F7F8] transition"
+      >
+        Explora ahora
+      </a>
+
+      <!-- Botón 2 -->
+      <a
+        routerLink="/auth/register"
+        class="inline-block border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-[#0D7075] transition"
+      >
+        Regístrate
+      </a>
+
+      <!-- Botón 3 -->
+      <a
+        routerLink="/zonas-turisticas"
+        class="inline-block bg-[#6EA5C1] text-[#031718] font-semibold px-8 py-3 rounded-lg shadow hover:bg-[#A5CDE0] transition"
+      >
+        Reserva tu experiencia
+      </a>
+    </div>
+  </div>
+</section>
+
+ 
+
+<app-footer></app-footer>

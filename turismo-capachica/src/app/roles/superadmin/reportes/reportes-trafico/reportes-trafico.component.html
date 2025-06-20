@@ -1,0 +1,49 @@
+<div class="p-6 bg-white rounded-2xl shadow max-w-6xl mx-auto space-y-10">
+    <!-- 🧾 Encabezado -->
+    <div>
+      <h2 class="text-2xl font-bold text-indigo-700">📈 Tráfico y Visitas</h2>
+      <p class="text-sm text-gray-500">Actividad de usuarios en la plataforma</p>
+    </div>
+  
+    <!-- 🧩 Resumen en tarjetas -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="bg-blue-100 p-4 rounded-xl text-center shadow">
+        <p class="text-sm text-gray-500">Visitas Hoy</p>
+        <h3 class="text-2xl font-bold text-blue-800">{{ visitasHoy }}</h3>
+      </div>
+      <div class="bg-purple-100 p-4 rounded-xl text-center shadow">
+        <p class="text-sm text-gray-500">Este Mes</p>
+        <h3 class="text-2xl font-bold text-purple-800">{{ visitasMes }}</h3>
+      </div>
+      <div class="bg-green-100 p-4 rounded-xl text-center shadow">
+        <p class="text-sm text-gray-500">Usuarios Activos</p>
+        <h3 class="text-2xl font-bold text-green-800">{{ usuariosActivos }}</h3>
+      </div>
+      <div class="bg-yellow-100 p-4 rounded-xl text-center shadow">
+        <p class="text-sm text-gray-500">Página más visitada</p>
+        <h3 class="text-sm font-semibold text-yellow-800">{{ paginaMasVisitada }}</h3>
+      </div>
+    </div>
+  
+    <!-- 📆 Tabla de visitas por día (simulada) -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-700 mb-3">Visitas por día</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm border bg-white rounded-lg shadow">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-2 text-left">Fecha</th>
+              <th class="px-4 py-2 text-left">Visitas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dia of visitasPorDia" class="border-t hover:bg-gray-50">
+              <td class="px-4 py-2">{{ dia.fecha }}</td>
+              <td class="px-4 py-2">{{ dia.cantidad }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

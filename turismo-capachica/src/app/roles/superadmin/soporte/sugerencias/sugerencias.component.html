@@ -1,0 +1,45 @@
+<!-- sugerencias.component.html -->
+<div class="p-6 max-w-6xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-4">💬 Sugerencias de Usuarios</h2>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left font-semibold">Usuario</th>
+          <th class="px-4 py-2 text-left font-semibold">Rol</th>
+          <th class="px-4 py-2 text-left font-semibold">Categoría</th>
+          <th class="px-4 py-2 text-left font-semibold">Sugerencia</th>
+          <th class="px-4 py-2 text-left font-semibold">Fecha</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let sug of sugerencias">
+          <td class="px-4 py-2">{{ sug.usuario }}</td>
+          <td class="px-4 py-2">
+            <span [ngClass]="{
+              'bg-blue-100 text-blue-800': sug.rol === 'Turista',
+              'bg-yellow-100 text-yellow-800': sug.rol === 'Emprendedor'
+            }" class="px-2 py-1 rounded text-xs font-medium">
+              {{ sug.rol }}
+            </span>
+          </td>
+          <td class="px-4 py-2">
+            <span [ngClass]="{
+              'bg-green-100 text-green-800': sug.categoria === 'Mejora',
+              'bg-red-100 text-red-800': sug.categoria === 'Error',
+              'bg-blue-100 text-blue-800': sug.categoria === 'Idea',
+              'bg-gray-100 text-gray-700': sug.categoria === 'Otro'
+            }" class="px-2 py-1 rounded text-xs font-medium">
+              {{ sug.categoria }}
+            </span>
+          </td>
+          <td class="px-4 py-2 max-w-md truncate" title="{{ sug.texto }}">
+            {{ sug.texto }}
+          </td>
+          <td class="px-4 py-2">{{ sug.fecha }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

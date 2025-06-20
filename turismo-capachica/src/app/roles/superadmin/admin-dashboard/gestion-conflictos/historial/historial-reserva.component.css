@@ -1,0 +1,22 @@
+.timeline {
+  list-style: none;
+  padding-left: 0;
+}
+.timeline li {
+  position: relative;
+  margin-bottom: 20px;
+}
+.marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: absolute;
+  left: -7px;
+  top: 5px;
+}
+.marker.creado { background-color: #60a5fa; }
+.marker.confirmado { background-color: #34d399; }
+.marker.reporte { background-color: #f87171; }
+.content {
+  margin-left: 24px;
+}

@@ -1,0 +1,64 @@
+<!-- configuracion-visual.component.html -->
+<div class="p-6 max-w-4xl mx-auto bg-white shadow rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">🎨 Configuración Visual del Sistema</h2>
+
+  <form class="space-y-6">
+
+    <!-- Activar carrusel -->
+    <div class="flex items-center justify-between">
+      <span class="text-sm font-medium">¿Mostrar carrusel en la portada?</span>
+      <label class="inline-flex items-center cursor-pointer">
+        <input type="checkbox" [(ngModel)]="visual.carruselActivo" class="sr-only" />
+        <div
+          class="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 relative transition">
+          <div
+            class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform"
+            [ngClass]="{ 'translate-x-5': visual.carruselActivo }"></div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Número de slides -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Número de slides en carrusel</label>
+      <input type="number" min="1" max="10" [(ngModel)]="visual.numeroSlides" name="slides"
+             class="w-full border px-3 py-2 rounded" />
+    </div>
+
+    <!-- Estilo de fondo -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Estilo de fondo de portada</label>
+      <select [(ngModel)]="visual.fondoEstilo" name="fondo"
+              class="w-full border px-3 py-2 rounded">
+        <option value="imagen">Imagen</option>
+        <option value="color">Color sólido</option>
+        <option value="video">Video de fondo</option>
+      </select>
+    </div>
+
+    <!-- Color de fondo -->
+    <div *ngIf="visual.fondoEstilo === 'color'">
+      <label class="block text-sm font-semibold mb-1">Color de fondo (modo color sólido)</label>
+      <input type="color" [(ngModel)]="visual.colorFondo" name="colorFondo"
+             class="w-20 h-10 border border-gray-300 rounded cursor-pointer" />
+    </div>
+
+    <!-- Estilo de botones -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Estilo visual de los botones</label>
+      <select [(ngModel)]="visual.estiloBoton" name="boton"
+              class="w-full border px-3 py-2 rounded">
+        <option value="redondeado">Redondeado</option>
+        <option value="cuadrado">Cuadrado</option>
+        <option value="sombra">Con sombra</option>
+      </select>
+    </div>
+
+    <!-- Botón -->
+    <div class="text-right">
+      <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+        Guardar configuración
+      </button>
+    </div>
+  </form>
+</div>
