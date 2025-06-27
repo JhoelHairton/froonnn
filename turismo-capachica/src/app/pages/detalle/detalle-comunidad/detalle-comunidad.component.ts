@@ -42,40 +42,43 @@ export class DetalleComunidadComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private comunidadService: ComunidadPublicaService
-  ) {}
+  ) { }
 
- ngOnInit(): void {
-  const comunidadId = this.route.snapshot.paramMap.get('id');
-  if (comunidadId) {
-    this.comunidadService.obtenerPorId(+comunidadId).subscribe((data: any) => {
-      this.comunidad = {
-        id: data.id,
-        nombre: data.name,
-        descripcionCorta: data.descripcion_corta,
-        descripcionLarga: data.descripcion_larga,
-        atractivos: data.atractivos,
-        habitantes: data.habitantes,
-        estado: data.estado,
-        imagen: data.imagen ? this.apiBase + data.imagen : 'assets/images/hero-comunidad.jpg',
-        galeria: (data.galeria || []).map((g: string) => this.apiBase + g),
-        experiencias: [],
+  ngOnInit(): void {
+    const comunidadId = this.route.snapshot.paramMap.get('id');
+    if (comunidadId) {
+      this.comunidadService.obtenerPorId(+comunidadId).subscribe((data: any) => {
+        this.comunidad = {
+          id: data.id,
+          nombre: data.name,
+          descripcionCorta: data.descripcion_corta,
+          descripcionLarga: data.descripcion_larga,
+          atractivos: data.atractivos,
+          habitantes: data.habitantes,
+          estado: data.estado,
+          imagen: data.imagen ? this.apiBase + data.imagen : 'assets/images/hero-comunidad.jpg',
+          galeria: (data.galeria || []).map((g: string) => this.apiBase + g),
+          experiencias: [],
 
-        // 👇 Aquí se mapean los emprendedores
-        emprendedores: data.companies.map((emp: any) => ({
-          id: emp.id,
-          nombre: emp.trade_name || emp.business_name,
-          descripcion: emp.description,
-          especialidad: emp.service_type,
-          logo: emp.logo_url || 'assets/images/avatar1.jpg',
-          categoria: emp.status,
-          tags: emp.services.map((s: any) => s.title)
-        }))
-      };
-    });
+          // 👇 Aquí se mapean los emprendedores
+          emprendedores: data.companies.map((emp: any) => ({
+            id: emp.id,
+            nombre: emp.trade_name || emp.business_name,
+            descripcion: emp.description,
+            especialidad: emp.service_type,
+            logo: emp.user?.foto
+              ? 'http://localhost:8000' + emp.user.foto
+              : emp.logo_url || 'assets/images/avatar1.jpg',
+            categoria: emp.status,
+            tags: emp.services.map((s: any) => s.title)
+          }))
+
+        };
+      });
+    }
+
+
   }
-
-  
-}
 
 
   previousImage() {

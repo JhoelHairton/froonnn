@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { EmpresaService } from '../services/empresa.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ComunidadDTO, ComunidadService } from '../services/comunidad.service';
 
 @Component({
   selector: 'app-registrar-empresa',
@@ -15,7 +16,17 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './registrar-empresa.component.html',
   styleUrl: './registrar-empresa.component.css'
 })
-export class RegistrarEmpresaComponent {
+export class RegistrarEmpresaComponent implements OnInit {
+
+   serviceTypes = [
+    'hospedaje',
+    'tours',
+    'hospedaje y tours',
+    'transporte turístico',
+    'restauración',
+    'agencia de viajes',
+    'otros'
+  ];
 
   previewUrl: string | null = null;
 
@@ -23,6 +34,7 @@ export class RegistrarEmpresaComponent {
     this.authService.logout();
   }
   form: FormGroup;
+  comunidades: ComunidadDTO[] = [];
   isLoading = false;
   selectedLogoFile!: File;
 
@@ -30,8 +42,14 @@ export class RegistrarEmpresaComponent {
     private fb: FormBuilder,
     private empresaService: EmpresaService,
     private router: Router,
-    private authService: AuthService
-  ) {
+    private authService: AuthService,
+    private comunidadService: ComunidadService,
+
+  ) 
+
+  
+  
+  {
     this.form = this.fb.group({
       ruc: ['', Validators.required],
       business_name: ['', Validators.required],
@@ -42,8 +60,24 @@ export class RegistrarEmpresaComponent {
       website: [''],
       description: ['', Validators.required],
       logo: [null, Validators.required],
+      location_id:    [null, Validators.required],    // ← nuevo control
+
     });
   }
+  ngOnInit(): void {
+    // Llamas al servicio para traer todas las "locations"
+    this.comunidadService.list().subscribe({
+      next: (lista) => {
+        // Filtra sólo las activas, si tu DTO trae 'estado'
+        this.comunidades = lista.filter(c => c.estado === 'activa');
+      },
+      error: () => {
+        Swal.fire('Error', 'No se pudieron cargar las comunidades', 'error');
+      }
+    });
+  }
+
+  
 
   onLogoSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -62,53 +96,31 @@ export class RegistrarEmpresaComponent {
   }
 
 
-
 onSubmit() {
-  console.log(this.form.value, this.form.valid);
-
-  if (this.form.invalid || !this.selectedLogoFile) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Formulario incompleto',
-      text: 'Por favor, llena todos los campos correctamente.',
-    });
-    return;
-  }
-
-  const formData = new FormData();
-  Object.entries(this.form.value).forEach(([key, value]) => {
-    if (key !== 'logo') {
-      formData.append(key, value as string);
+    if (this.form.invalid || !this.selectedLogoFile) {
+      Swal.fire('Atención', 'Completa todos los campos', 'warning');
+      return;
     }
-  });
-  formData.append('logo', this.selectedLogoFile);
 
-  this.isLoading = true;
+    const formData = new FormData();
+    Object.entries(this.form.value).forEach(([k, v]) => {
+      if (k !== 'logo') formData.append(k, v as string);
+    });
+    formData.append('logo', this.selectedLogoFile);
 
-  this.empresaService.registrarEmpresa(formData).subscribe({
-    next: (res: any) => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Empresa registrada',
-        text: res.mensaje || 'Tu empresa ha sido registrada correctamente.',
-        confirmButtonText: 'Entendido',
-      }).then(() => {
-        this.router.navigate(['/empresa/espera-aprobacion']);
-      });
-      this.isLoading = false;
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al registrar',
-        text: err?.error?.mensaje || 'Hubo un problema al registrar la empresa. Intenta nuevamente.',
-      });
-      this.isLoading = false;
-    },
-  });
-
-}
+    this.isLoading = true;
+    this.empresaService.registrarEmpresa(formData).subscribe({
+      next: (res: any) => {
+        Swal.fire('¡Listo!', res.mensaje, 'success')
+          .then(() => this.router.navigate(['/empresa/espera-aprobacion']));
+        this.isLoading = false;
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error?.mensaje || 'No se pudo registrar', 'error');
+        this.isLoading = false;
+      }
+    });
+  }
 
 removePreview() {
   this.previewUrl = null;

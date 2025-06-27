@@ -49,6 +49,7 @@ getUser(): { id: string; nombre: string; email: string; rol: string } | null {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('carritoPendiente');  // 👈 Limpieza obligatoria
     localStorage.removeItem('user');
     this.router.navigate(['/']);
   }

@@ -1,103 +1,78 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface CarritoItem {
-  uid: string; // Identificador único por ítem
-  id: string;
-  nombre: string;
-  precio: number;
-  cantidad: number;
-  tipo: 'servicio' | 'paquete';
-  imagen?: string;
-  descripcion?: string;
+  type: 'service' | 'promotion';
+  id: number;
+  title: string;
+  price: number;
+  quantity: number;
+
   cupos?: number;
-  ref?: any;
+
+}
+
+export interface CartSummary {
+  cart: CarritoItem[];
+    total: number;
+
+  // Si tu API devuelve más campos, agrégalos aquí
 }
 
 @Injectable({ providedIn: 'root' })
 export class CarritoService {
-  private readonly STORAGE_KEY = 'carrito_items';
-  private carrito = new BehaviorSubject<CarritoItem[]>(this.cargarDesdeStorage());
-  carrito$ = this.carrito.asObservable();
+  private readonly API_BASE = 'http://localhost:8000/api/cart';
 
-  // Carga del localStorage
-  private cargarDesdeStorage(): CarritoItem[] {
-    const data = localStorage.getItem(this.STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+  constructor(private http: HttpClient) {}
+
+  /** Obtiene el carrito completo */
+  getCart(): Observable<CarritoItem[]> {
+    return this.http.get<CarritoItem[]>(
+      `${this.API_BASE}`,
+      { withCredentials: true }
+    );
   }
 
-  // Guardar en localStorage
-  private guardarEnStorage(items: CarritoItem[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
-    this.carrito.next(items);
+  /** Agrega un servicio al carrito */
+  addService(id: number): Observable<CarritoItem[]> {
+    return this.http.post<CarritoItem[]>(
+      `${this.API_BASE}/service/${id}`,
+      {},
+      { withCredentials: true }
+    );
   }
 
-  // Obtener lista actual
-  obtenerItems(): CarritoItem[] {
-    return this.carrito.value;
+  /** Agrega una promoción al carrito */
+  addPromotion(id: number): Observable<CarritoItem[]> {
+    return this.http.post<CarritoItem[]>(
+      `${this.API_BASE}/promotion/${id}`,
+      {},
+      { withCredentials: true }
+    );
   }
 
-  // Agregar nuevo ítem (con uid)
-  agregar(item: Omit<CarritoItem, 'uid'>): void {
-    const nuevoItem: CarritoItem = { ...item, uid: uuidv4() };
-    const items = this.obtenerItems();
-    items.push(nuevoItem);
-    this.guardarEnStorage(items);
+  /** Elimina un ítem del carrito */
+  removeItem(tipo: 'service' | 'promotion', id: number): Observable<CarritoItem[]> {
+    return this.http.delete<CarritoItem[]>(
+      `${this.API_BASE}/${tipo}/${id}`,
+      { withCredentials: true }
+    );
   }
 
-  // Eliminar por UID único
-  eliminarPorUid(uid: string): void {
-    const items = this.obtenerItems().filter(item => item.uid !== uid);
-    this.guardarEnStorage(items);
+  /** Vacía todo el carrito */
+  clearCart(): Observable<void> {
+    return this.http.delete<void>(
+      `${this.API_BASE}`,
+      { withCredentials: true }
+    );
   }
 
-  // Limpiar todo el carrito
-  limpiar(): void {
-    this.guardarEnStorage([]);
-  }
-
-  // Total acumulado
-  obtenerTotal(): number {
-    return this.obtenerItems().reduce((total, item) =>
-      total + item.precio * item.cantidad, 0);
-  }
-
-  // Cantidad total de unidades
-  obtenerCantidadTotal(): number {
-    return this.obtenerItems().reduce((acc, item) => acc + item.cantidad, 0);
-  }
-
-  // ✅ Actualizar cantidad exacta por UID
- actualizarCantidadPorUid(uid: string, cantidad: number): void {
-  const items = this.obtenerItems().map(item => {
-    if (item.uid === uid) {
-      return { ...item, cantidad };
-    }
-    return item;
-  });
-  this.guardarEnStorage(items);
-}
-
-
-  // Verificar si todos los ítems tienen cupos válidos
-  tieneCuposSuficientes(): boolean {
-    return this.obtenerItems().every(item =>
-      item.ref?.cupos == null || item.cantidad <= item.ref.cupos);
-  }
-
-  // Cálculo de descuentos automáticos
-  calcularDescuento(): number {
-    const total = this.obtenerTotal();
-    const cantidad = this.obtenerCantidadTotal();
-
-    if (cantidad >= 5) return total * 0.15;
-    if (cantidad >= 3) return total * 0.10;
-    if (total >= 500) return 50;
-    return 0;
-  }
-  
-
-
-
+  /** Obtiene sólo el resumen (totales, descuentos) 
+  getSummary(): Observable<CartSummary> {
+    return this.http.get<CartSummary>(
+      `${this.API_BASE}/summary`,
+      { withCredentials: true }
+    );
+  } */
 }

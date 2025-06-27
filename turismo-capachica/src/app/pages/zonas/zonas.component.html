@@ -286,16 +286,9 @@
       </div>
     </div>
   </ng-container>
-</div>
+</div>    
 
-
-
-        
-
-
-
-
-          <!-- Botón Ver más -->
+<!-- Botón Ver más -->
           <div *ngIf="comunidadesFiltradas.length > limite" class="text-center pt-8">
             <button 
               (click)="verMasComunidades()" 
@@ -310,66 +303,6 @@
             </button>
           </div>
         </div>
-
-        <!-- SEPARADOR -->
-        <div class="border-t border-gray-200"></div>
-
-        <!-- SECCIÓN CENTROS POBLADOS -->
-        <div class="space-y-8">
-          <div class="text-center space-y-4">
-            <h2 class="text-4xl md:text-5xl font-black text-slate-800 relative">
-              Centros Poblados de 
-              <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
-                Capachica
-              </span>
-              <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-full"></div>
-            </h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-              Descubre los principales centros urbanos con sus servicios y atractivos únicos
-            </p>
-          </div>
-
-          <!-- Grid de Centros Poblados 
-          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div
-              *ngFor="let c of centrosPobladosFiltrados; let i = index"
-              class="group relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl h-[380px] cursor-pointer transform hover:-translate-y-2 transition-all duration-500"
-              [style.background-image]="'url(' + c.image + ')'"
-              style="background-size: cover; background-position: center;"
-              [style.animation-delay.ms]="i * 150"
-              tabindex="0"
-            >
-         
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-black/80 transition-all duration-500"></div>
-              
-          
-              <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
-              
-       
-              <div class="absolute bottom-0 p-6 text-white z-10 space-y-3">
-                <div class="space-y-2">
-                  <h3 class="text-2xl font-bold leading-tight group-hover:text-emerald-400 transition-colors">
-                    {{ c.nombre }}
-                  </h3>
-                  <p class="text-gray-200 text-sm leading-relaxed line-clamp-3">
-                    {{ c.resumen }}
-                  </p>
-                </div>
-                
-                <a
-                  [routerLink]="c.link"
-                  class="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-emerald-500 text-white font-semibold rounded-2xl hover:bg-emerald-400 transition-all duration-300 transform hover:scale-105 shadow-lg group"
-                >
-                  <span>{{ c.boton }}</span>
-                  <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>-->
-        </div>
-
       </div>
     </div>
   </div>
@@ -397,14 +330,12 @@
 
 .line-clamp-2 {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .line-clamp-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

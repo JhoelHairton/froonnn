@@ -284,71 +284,7 @@
         </div>
       </div>
 
-      <!-- Sección de experiencias con timeline
-      <section *ngIf="comunidad?.experiencias?.length" class="relative">
-        <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Tu Itinerario Completo</h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-            Cada momento ha sido cuidadosamente diseñado para ofrecerte una experiencia auténtica e inolvidable
-          </p>
-        </div>
-
-        <div class="relative max-w-6xl mx-auto">
-         
-          <div
-            class="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-400 to-blue-500 transform -translate-x-1/2 hidden lg:block">
-          </div>
-
-          <div class="space-y-12">
-            <div *ngFor="let exp of getExperienciasDemo(); let i = index"
-              class="relative flex flex-col lg:flex-row items-center gap-8" [class.lg:flex-row-reverse]="i % 2 !== 0">
-
-              <div class="flex-1 max-w-lg">
-                <div
-                  class="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-                  [class.animate-slide-in-left]="i % 2 === 0" [class.animate-slide-in-right]="i % 2 !== 0">
-
-                  <div
-                    class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    {{exp.hora}}
-                  </div>
-
-                  <h3 class="text-2xl font-bold text-gray-900 mb-4">{{exp.nombre}}</h3>
-                  <p class="text-gray-600 leading-relaxed mb-6">{{exp.descripcion}}</p>
-
-                  <div class="flex items-center justify-between text-sm">
-                    <span class="text-emerald-600 font-semibold">{{exp.duracion}}</span>
-                    <span class="text-gray-500">{{exp.dificultad}}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="relative z-10 hidden lg:block">
-                <div
-                  class="w-16 h-16 bg-white border-4 border-emerald-400 rounded-full shadow-lg flex items-center justify-center">
-                  <div class="w-6 h-6 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full"></div>
-                </div>
-              </div>
-
-              <div class="flex-1 max-w-lg">
-                <div class="relative group overflow-hidden rounded-3xl shadow-xl">
-                  <img [src]="exp.imagen"
-                    class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
-                    [alt]="exp.nombre" />
-                  <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> -->
-
+    
 
 
 
@@ -418,306 +354,639 @@
       
       
       
-      <!-- Contenedor global --> 
-      <section
-        class="relative py-16 px-4 sm:px-8 lg:px-16 bg-gradient-to-br from-white via-[#f5fdf7] to-[#fff9f5] rounded-3xl shadow-xl border border-gray-100">
+   <!-- Contenedor global rediseñado -->
+<section class="relative py-20 px-6 lg:px-12 overflow-hidden">
+  <!-- Background con patrones decorativos -->
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/50"></div>
+  <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-emerald-200/20 to-transparent rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-orange-200/20 to-transparent rounded-full blur-3xl"></div>
+  
+  <!-- Decorative elements -->
+  <div class="absolute top-10 right-10 w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+  <div class="absolute top-20 right-20 w-1 h-1 bg-orange-400 rounded-full animate-pulse delay-75"></div>
+  <div class="absolute bottom-20 left-20 w-3 h-3 bg-blue-400 rounded-full animate-pulse delay-150"></div>
 
-        <div class="text-center mb-12">
-          <h2 class="text-4xl font-bold text-gray-900 mb-2">¿Qué incluye tu experiencia?</h2>
-          <p class="text-lg text-gray-600">Conoce todo lo que recibirás (y lo que debes considerar) antes de tu visita.
-          </p>
-        </div>
+  <div class="relative max-w-7xl mx-auto">
+    
+    <!-- Header mejorado -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-full mb-8 shadow-lg">
+        <i class="fas fa-magic animate-pulse"></i>
+        <span class="font-bold">Detalles de la Experiencia</span>
+      </div>
+      <h2 class="text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+        ¿Qué incluye tu 
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">experiencia</span>?
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        Descubre todos los beneficios incluidos y las consideraciones importantes para que tengas la mejor experiencia posible
+      </p>
+    </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <!-- Grid principal con diseño asimétrico -->
+    <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
 
-          <!-- INCLUIDO -->
-          <div>
-            <h3 class="text-2xl font-semibold text-emerald-700 mb-6 flex items-center gap-2">
-              <svg class="w-7 h-7 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      <!-- INCLUIDO - Columna más ancha -->
+      <div class="xl:col-span-3">
+        <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 h-full">
+          <!-- Header de incluido -->
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
               </svg>
-              Incluido en tu experiencia
-            </h3>
-
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div *ngFor="let servicio of getServiciosIncluidos()"
-                class="relative bg-white border border-emerald-100 rounded-xl p-5 shadow-sm hover:shadow-md transition duration-300">
-                <div
-                  class="absolute -top-3 -left-3 w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md animate-pulse">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <p class="text-gray-800 font-medium">{{servicio}}</p>
-              </div>
             </div>
-
+            <div>
+              <h3 class="text-3xl font-black text-emerald-700">Incluido</h3>
+              <p class="text-emerald-600 font-medium">Todo lo que recibirás</p>
+            </div>
           </div>
 
-          <!-- NO INCLUIDO -->
-          <div>
-            <h3 class="text-2xl font-semibold text-orange-700 mb-6 flex items-center gap-2">
-              <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
-              Ten en cuenta
-            </h3>
+          <!-- Lista de servicios incluidos -->
+          <div class="space-y-4">
+            <div *ngFor="let servicio of getServiciosIncluidos(); let i = index"
+                 class="group relative bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-100 rounded-2xl p-6 hover:shadow-lg hover:border-emerald-200 transition-all duration-300 hover:-translate-y-1">
+              
+              <!-- Número de orden -->
+              <div class="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-full flex items-center justify-center shadow-lg font-bold text-sm">
+                {{i + 1}}
+              </div>
+              
+              <!-- Icono check animado -->
+              <div class="absolute top-4 right-4 w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              
+              <!-- Contenido -->
+              <div class="pr-12">
+                <p class="text-gray-800 font-semibold text-lg leading-relaxed">{{servicio}}</p>
+              </div>
+              
+              <!-- Decorative line -->
+              <div class="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div *ngFor="let item of getNoIncluido()"
-                class="relative bg-white border border-orange-100 rounded-xl p-5 shadow-sm">
-                <div
-                  class="absolute -top-3 -left-3 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      <!-- NO INCLUIDO - Columna más estrecha -->
+      <div class="xl:col-span-2">
+        <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 h-full">
+          <!-- Header de no incluido -->
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-3xl font-black text-orange-700">Considera</h3>
+              <p class="text-orange-600 font-medium">Aspectos importantes</p>
+            </div>
+          </div>
+
+          <!-- Lista de no incluido -->
+          <div class="space-y-4">
+            <div *ngFor="let item of getNoIncluido(); let i = index"
+                 class="group relative bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-100 rounded-2xl p-5 hover:shadow-lg hover:border-orange-200 transition-all duration-300">
+              
+              <!-- Icono de advertencia -->
+              <div class="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              
+              <!-- Contenido -->
+              <div class="pr-8">
+                <p class="text-gray-800 font-medium leading-relaxed">{{item}}</p>
+              </div>
+              
+              <!-- Punto decorativo -->
+              <div class="absolute top-2 left-2 w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+
+          <!-- Nota adicional -->
+          <div class="mt-8 p-4 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-xl">
+            <div class="flex items-center gap-2 mb-2">
+              <i class="fas fa-lightbulb text-amber-500"></i>
+              <span class="text-amber-800 font-semibold text-sm">Tip</span>
+            </div>
+            <p class="text-amber-700 text-sm leading-relaxed">
+              Revisa estos puntos antes de tu visita para una experiencia perfecta
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative bottom element -->
+    <div class="mt-16 text-center">
+      <div class="inline-flex items-center gap-2 text-gray-400">
+        <div class="w-8 h-px bg-gradient-to-r from-transparent to-gray-300"></div>
+        <i class="fas fa-heart text-pink-400"></i>
+        <div class="w-8 h-px bg-gradient-to-l from-transparent to-gray-300"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Mapa y ubicación rediseñado -->
+<section class="relative py-20 px-6 overflow-hidden">
+  <!-- Background dinámico -->
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 "></div>
+  
+  <!-- Elementos decorativos flotantes -->
+  <div class="absolute top-20 left-10 w-4 h-4 bg-blue-400 rounded-full animate-pulse opacity-60"></div>
+  <div class="absolute top-40 right-20 w-2 h-2 bg-emerald-400 rounded-full animate-pulse delay-75 opacity-60"></div>
+  <div class="absolute bottom-20 left-20 w-3 h-3 bg-purple-400 rounded-full animate-pulse delay-150 opacity-60"></div>
+
+  <div class="relative max-w-7xl mx-auto">
+    
+    <!-- Header de la sección -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full mb-8">
+        <i class="fas fa-map-marked-alt text-blue-400 animate-pulse"></i>
+        <span class="text-white font-bold">Ubicación & Acceso</span>
+      </div>
+      <h2 class="text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+        Encuentra tu 
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400">destino</span>
+      </h2>
+      <p class="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+        Te guiamos paso a paso para que llegues sin complicaciones y disfrutes al máximo tu experiencia
+      </p>
+    </div>
+
+    <!-- Grid principal con diseño moderno -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+      <!-- Información de ubicación - 2 columnas -->
+      <div class="xl:col-span-2 space-y-6">
+        
+        <!-- Card principal de ubicación -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 lg:p-12">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <i class="fas fa-route text-white text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="text-3xl font-black text-gray-900">Cómo llegar</h3>
+              <p class="text-gray-600 font-medium">Tu ruta paso a paso</p>
+            </div>
+          </div>
+
+          <!-- Lista de pasos mejorada -->
+          <div class="space-y-6">
+            <!-- Ubicación -->
+            <div class="group relative bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-100 rounded-2xl p-6 hover:shadow-lg hover:border-emerald-200 transition-all duration-300">
+              <div class="flex items-start gap-6">
+                <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
                 </div>
-                <p class="text-gray-800 font-medium">{{item}}</p>
+                <div class="flex-1">
+                  <h4 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    Destino Final
+                    <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-xs font-semibold">PASO 1</span>
+                  </h4>
+                  <p class="text-gray-700 leading-relaxed text-lg">
+                    <i class="fas fa-map-pin text-emerald-500 mr-2"></i>
+                    Isla Taquile, Lago Titicaca, Puno - Perú
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transporte -->
+            <div class="group relative bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-100 rounded-2xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-300">
+              <div class="flex items-start gap-6">
+                <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    Transporte Incluido
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-semibold">PASO 2</span>
+                  </h4>
+                  <p class="text-gray-700 leading-relaxed text-lg">
+                    <i class="fas fa-ship text-blue-500 mr-2"></i>
+                    Recojo desde tu hotel en Puno y traslado en lancha rápida
+                  </p>
+                  <div class="mt-3 flex items-center gap-2 text-sm text-blue-600 bg-blue-50 px-3 py-2 rounded-lg w-fit">
+                    <i class="fas fa-gift"></i>
+                    <span class="font-semibold">Servicio gratuito incluido</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tiempo de viaje -->
+            <div class="group relative bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-100 rounded-2xl p-6 hover:shadow-lg hover:border-purple-200 transition-all duration-300">
+              <div class="flex items-start gap-6">
+                <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    Duración del Viaje
+                    <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-semibold">PASO 3</span>
+                  </h4>
+                  <p class="text-gray-700 leading-relaxed text-lg">
+                    <i class="fas fa-clock text-purple-500 mr-2"></i>
+                    2.5 horas desde el centro de Puno (incluye navegación)
+                  </p>
+                  <div class="mt-3 flex items-center gap-4 text-sm">
+                    <div class="flex items-center gap-2 text-purple-600 bg-purple-50 px-3 py-2 rounded-lg">
+                      <i class="fas fa-car"></i>
+                      <span>30 min en auto</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-blue-600 bg-blue-50 px-3 py-2 rounded-lg">
+                      <i class="fas fa-ship"></i>
+                      <span>2 hrs en lancha</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-
-
-
-
-
-
-    </div>
-  </div>
-</div>
-
-<!-- Mapa y ubicación -->
-<section class="relative rounded-3xl overflow-hidden bg-white shadow-2xl border border-gray-100">
-  <div class="grid grid-cols-1 lg:grid-cols-2">
-
-    <!-- Información de ubicación -->
-    <div class="p-12 lg:p-16 flex flex-col justify-center">
-      <h3 class="text-4xl font-bold text-gray-900 mb-8">Cómo llegar</h3>
-
-      <div class="space-y-8">
-        <!-- Ubicación -->
-        <div class="flex items-start gap-5">
-          <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center shadow">
-            <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            </svg>
-          </div>
-          <div>
-            <h4 class="text-lg font-semibold text-gray-900 mb-1">Ubicación</h4>
-            <p class="text-gray-600 leading-relaxed">
-              Isla Taquile, Lago Titicaca, Puno - Perú
-            </p>
-          </div>
-        </div>
-
-        <!-- Transporte -->
-        <div class="flex items-start gap-5">
-          <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center shadow">
-            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          </div>
-          <div>
-            <h4 class="text-lg font-semibold text-gray-900 mb-1">Transporte incluido</h4>
-            <p class="text-gray-600 leading-relaxed">
-              Recojo desde tu hotel en Puno y traslado en lancha rápida.
-            </p>
-          </div>
-        </div>
-
-        <!-- Tiempo de viaje -->
-        <div class="flex items-start gap-5">
-          <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center shadow">
-            <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h4 class="text-lg font-semibold text-gray-900 mb-1">Tiempo estimado</h4>
-            <p class="text-gray-600 leading-relaxed">
-              2.5 horas desde el centro de Puno (incluye navegación).
-            </p>
-          </div>
-        </div>
       </div>
 
-      <button
-        class="mt-10 w-fit bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white font-semibold px-8 py-4 shadow-lg hover:shadow-xl transition duration-300">
-        Abrir en Google Maps
-      </button>
+      <!-- Sidebar con acciones y mapa -->
+      <div class="xl:col-span-1 space-y-6">
+        
+        <!-- Card de acciones -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8">
+          <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <i class="fas fa-compass text-indigo-500"></i>
+            Navegación
+          </h4>
+          
+          <!-- Botón principal mejorado -->
+          <button class="group w-full bg-gradient-to-r from-emerald-500 via-blue-500 to-purple-500 hover:from-emerald-600 hover:via-blue-600 hover:to-purple-600 text-white font-bold px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 mb-6">
+            <div class="flex items-center justify-center gap-3">
+              <i class="fas fa-external-link-alt group-hover:rotate-12 transition-transform duration-300"></i>
+              <span>Abrir en Google Maps</span>
+            </div>
+          </button>
+
+          <!-- Información adicional -->
+          <div class="space-y-4">
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i class="fas fa-info-circle text-amber-600"></i>
+                <span class="text-amber-800 font-semibold text-sm">Recomendación</span>
+              </div>
+              <p class="text-amber-700 text-sm leading-relaxed">
+                Te sugerimos llegar 15 minutos antes del horario acordado
+              </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i class="fas fa-phone text-green-600"></i>
+                <span class="text-green-800 font-semibold text-sm">Contacto de Emergencia</span>
+              </div>
+              <p class="text-green-700 text-sm leading-relaxed">
+                +51 999 123 456 disponible 24/7
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder para mapa -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-6">
+          <h4 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i class="fas fa-map text-blue-500"></i>
+            Vista Previa
+          </h4>
+          
+          <!-- Mapa placeholder con mejor diseño -->
+          <div class="relative h-64 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-2xl overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center">
+                <i class="fas fa-map-marked-alt text-4xl text-blue-600 mb-3"></i>
+                <p class="text-blue-800 font-semibold">Mapa Interactivo</p>
+                <p class="text-blue-600 text-sm">Vista satelital disponible</p>
+              </div>
+            </div>
+            <!-- Decorative map elements -->
+            <div class="absolute top-4 left-4 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
+            <div class="absolute bottom-6 right-6 w-2 h-2 bg-green-500 rounded-full"></div>
+          </div>
+          
+          <!-- Comentario para desarrollador -->
+          <!-- Mapa interactivo Leaflet
+          <div class="relative h-64 bg-gray-100 rounded-2xl overflow-hidden">
+            <div leaflet [leafletOptions]="mapOptions" [leafletLayers]="mapLayers" [leafletZoom]="zoom"
+              [leafletCenter]="center" class="w-full h-full z-10">
+            </div>
+          </div> -->
+        </div>
+      </div>
     </div>
 
-    <!-- Mapa interactivo Leaflet
-    <div class="relative h-96 lg:h-[32rem] bg-gray-100">
-      <div leaflet [leafletOptions]="mapOptions" [leafletLayers]="mapLayers" [leafletZoom]="zoom"
-        [leafletCenter]="center" class="w-full h-full z-10 rounded-l-3xl">
+    <!-- Barra inferior decorativa -->
+    <div class="mt-16 text-center">
+      <div class="inline-flex items-center gap-4 text-white/60">
+        <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+        <i class="fas fa-compass text-blue-400"></i>
+        <span class="text-sm font-medium">Tu aventura comienza aquí</span>
+        <i class="fas fa-heart text-pink-400"></i>
+        <div class="w-12 h-px bg-gradient-to-l from-transparent via-white/40 to-transparent"></div>
       </div>
-    </div>  -->
+    </div>
   </div>
 </section>
 
 
 
-<!-- Testimonios con carrusel -->
-<section class="relative overflow-hidden mt-20">
-  <div class="text-center mb-16">
-    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Lo que dicen nuestros visitantes</h2>
-    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-      Experiencias reales de personas que han vivido la magia de nuestra comunidad
+<!-- Testimonios con diseño moderno y dinámico -->
+<section class="relative py-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-hidden">
+  <!-- Elementos decorativos de fondo -->
+  <div class="absolute inset-0 opacity-30">
+    <div class="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-pink-400 to-orange-500 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-r from-green-400 to-blue-500 rounded-full blur-2xl"></div>
+  </div>
+
+  <!-- Encabezado con diseño glassmorphism -->
+  <div class="relative z-10 text-center mb-20">
+    <div class="inline-block">
+      <span class="inline-block px-6 py-2 bg-white/80 backdrop-blur-sm rounded-full text-indigo-600 font-semibold text-sm border border-white/20 shadow-lg mb-6">
+        ⭐ Testimonios Verificados
+      </span>
+    </div>
+    <h2 class="text-5xl md:text-6xl font-black bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent mb-8 leading-tight">
+      Lo que dicen nuestros<br>
+      <span class="relative">
+        visitantes
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+      </span>
+    </h2>
+    <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+      Experiencias auténticas de personas que han descubierto la magia y la belleza única de nuestra comunidad
     </p>
   </div>
 
-  <div class="relative max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- Grid de testimonios con efectos avanzados -->
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
       <div *ngFor="let testimonio of getTestimonios(); let i = index"
-        class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-        [style.animation-delay.ms]="i * 150">
+        class="group relative bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-4 hover:scale-105 border border-white/30"
+        [style.animation-delay.ms]="i * 200"
+        [ngClass]="{'xl:translate-y-8': i % 3 === 1, 'xl:translate-y-4': i % 3 === 2}">
 
-        <!-- Rating -->
-        <div class="flex items-center gap-2 mb-6">
-          <div class="flex text-yellow-400">
-            <svg *ngFor="let star of [1,2,3,4,5]" class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-              </path>
-            </svg>
+        <!-- Efecto de brillo en hover -->
+        <div class="absolute inset-0 rounded-3xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <!-- Contenido del testimonio -->
+        <div class="relative z-10">
+          <!-- Rating con animación -->
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex text-yellow-400 gap-1">
+              <svg *ngFor="let star of [1,2,3,4,5]; let j = index" 
+                class="w-6 h-6 fill-current transform transition-transform duration-300 hover:scale-125" 
+                [style.animation-delay.ms]="j * 100"
+                viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+            </div>
+            <span class="text-gray-500 text-sm font-medium bg-gray-100 px-3 py-1 rounded-full">
+              {{testimonio.fecha}}
+            </span>
           </div>
-          <span class="text-gray-600 text-sm">{{testimonio.fecha}}</span>
+
+          <!-- Testimonio con diseño mejorado -->
+          <blockquote class="relative text-gray-700 leading-relaxed mb-8 text-lg">
+            <div class="absolute -top-4 -left-2 text-6xl text-indigo-200 font-serif leading-none">"</div>
+            <div class="relative z-10 italic font-medium pl-6">
+              {{testimonio.comentario}}
+            </div>
+            <div class="absolute -bottom-6 -right-2 text-6xl text-indigo-200 font-serif leading-none rotate-180">"</div>
+          </blockquote>
+
+          <!-- Autor con diseño premium -->
+          <div class="flex items-center gap-4 pt-6 border-t border-gray-200/50">
+            <div class="relative">
+              <img [src]="testimonio.avatar" 
+                [alt]="testimonio.nombre" 
+                class="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-lg group-hover:ring-indigo-200 transition-all duration-300" />
+              <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-2 border-white flex items-center justify-center">
+                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="font-bold text-gray-900 text-lg mb-1">{{testimonio.nombre}}</div>
+              <div class="text-sm text-gray-600 font-medium flex items-center gap-2">
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                </svg>
+                {{testimonio.origen}}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Testimonio -->
-        <blockquote class="text-gray-700 leading-relaxed mb-6 text-lg italic">
-          "{{testimonio.comentario}}"
-        </blockquote>
-
-        <!-- Autor -->
-        <div class="flex items-center gap-4">
-          <img [src]="testimonio.avatar" [alt]="testimonio.nombre" class="w-12 h-12 rounded-full object-cover" />
-          <div>
-            <div class="font-semibold text-gray-900">{{testimonio.nombre}}</div>
-            <div class="text-sm text-gray-600">{{testimonio.origen}}</div>
-          </div>
+        <!-- Indicador de posición para tablets y desktop -->
+        <div class="absolute top-4 right-4 w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span class="text-indigo-600 font-bold text-sm">{{i + 1}}</span>
         </div>
+      </div>
+    </div>
+
+    <!-- Elemento decorativo inferior -->
+    <div class="text-center mt-16">
+      <div class="inline-flex items-center gap-4 px-8 py-4 bg-white/60 backdrop-blur-sm rounded-full border border-white/30 shadow-lg">
+        <div class="flex -space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full border-2 border-white"></div>
+          <div class="w-8 h-8 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full border-2 border-white"></div>
+          <div class="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full border-2 border-white"></div>
+        </div>
+        <span class="text-gray-700 font-semibold">Miles de visitantes satisfechos</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Call to Action final mejorado -->
-<div
-  class="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-700 p-16 text-center shadow-2xl mt-20">
-  <!-- Elementos decorativos -->
-  <div class="absolute top-0 left-0 w-full h-full opacity-10">
-    <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full animate-float"></div>
-    <div class="absolute top-20 right-20 w-16 h-16 bg-white rounded-full animate-float" style="animation-delay: 1s">
+<!-- Call to Action final ultra moderno -->
+<div class="relative overflow-hidden bg-gradient-to-br from-slate-900  to-slate-900 mt-20">
+  <!-- Efectos de fondo dinámicos -->
+  <div class="absolute inset-0">
+    <!-- Malla de gradiente animada -->
+    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/30 to-pink-500/20 animate-pulse"></div>
+    
+    <!-- Elementos flotantes mejorados -->
+    <div class="absolute top-0 left-0 w-full h-full">
+      <div class="absolute top-16 left-16 w-32 h-32 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-3xl opacity-60 animate-float"></div>
+      <div class="absolute top-32 right-24 w-24 h-24 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full blur-2xl opacity-40 animate-float" style="animation-delay: 1.5s"></div>
+      <div class="absolute bottom-32 left-32 w-20 h-20 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded-full blur-2xl opacity-50 animate-float" style="animation-delay: 3s"></div>
+      <div class="absolute bottom-20 right-16 w-28 h-28 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full blur-3xl opacity-30 animate-float" style="animation-delay: 0.5s"></div>
     </div>
-    <div class="absolute bottom-20 left-20 w-12 h-12 bg-white rounded-full animate-float" style="animation-delay: 2s">
+
+    <!-- Patrón geométrico de fondo -->
+    <div class="absolute inset-0 opacity-5">
+      <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <defs>
+          <pattern id="geometric" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <polygon points="10,1 4,7 10,13 16,7" fill="white"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#geometric)"/>
+      </svg>
     </div>
   </div>
 
-  <div class="relative z-10">
-    <h2 class="text-4xl md:text-6xl font-bold text-white mb-6">¿Listo para la aventura?</h2>
-    <p class="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl mx-auto leading-relaxed">
-      Reserva ahora y vive una experiencia auténtica que recordarás para toda la vida
-    </p>
+  <!-- Contenido principal -->
+  <div class="relative z-10 px-6 py-24 lg:py-32">
+    <!-- Badge superior -->
+    <div class="text-center mb-8">
+      <span class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white font-semibold text-sm border border-white/20 shadow-xl">
+        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        Disponible ahora
+      </span>
+    </div>
 
-    <!-- Estadísticas rápidas -->
-    <div class="flex justify-center gap-12 mb-12">
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white">500+</div>
-        <div class="text-blue-200">Huéspedes felices</div>
-      </div>
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white">4.9★</div>
-        <div class="text-blue-200">Rating promedio</div>
-      </div>
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white">100%</div>
-        <div class="text-blue-200">Auténtico</div>
+    <!-- Título principal con efectos -->
+    <div class="text-center mb-12">
+      <h2 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+        <span class="block bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent">
+          ¿Listo para la
+        </span>
+        <span class="block bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent relative">
+          aventura?
+          <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full"></div>
+        </span>
+      </h2>
+      <p class="text-xl md:text-2xl text-slate-300 mb-16 max-w-4xl mx-auto leading-relaxed font-light">
+        Sumérgete en una experiencia auténtica que transformará tu perspectiva y creará recuerdos imborrables para toda la vida
+      </p>
+    </div>
+
+    <!-- Estadísticas premium -->
+    <div class="max-w-4xl mx-auto mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center group cursor-pointer">
+          <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
+            <div class="text-5xl font-black bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent mb-2">500+</div>
+            <div class="text-slate-300 font-medium">Aventureros satisfechos</div>
+            <div class="mt-4 flex justify-center">
+              <div class="flex -space-x-1">
+                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center group cursor-pointer">
+          <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
+            <div class="text-5xl font-black bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent mb-2">4.9★</div>
+            <div class="text-slate-300 font-medium">Calificación excepcional</div>
+            <div class="mt-4 text-yellow-400 text-sm">Verificado por Google</div>
+          </div>
+        </div>
+        
+        <div class="text-center group cursor-pointer">
+          <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
+            <div class="text-5xl font-black bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent mb-2">100%</div>
+            <div class="text-slate-300 font-medium">Experiencia auténtica</div>
+            <div class="mt-4 text-emerald-400 text-sm">Garantizado</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Botones finales -->
-    <div class="flex flex-col sm:flex-row gap-6 justify-center max-w-lg mx-auto">
-      <button
-        class="bg-white text-gray-900 hover:bg-gray-100 font-bold px-10 py-5 rounded-2xl shadow-2xl hover:shadow-white/25 transition-all duration-300 transform hover:-translate-y-2 text-lg">
-        Reservar Experiencia
-      </button>
-      <button
-        class="border-2 border-white text-white hover:bg-white hover:text-gray-900 font-bold px-10 py-5 rounded-2xl transition-all duration-300 text-lg">
-        WhatsApp: +51 987 654 321
-      </button>
-    </div>
-
-    <!-- Garantías -->
-    <div class="flex flex-wrap justify-center gap-8 mt-12 text-blue-100">
-      <div class="flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span>Cancelación gratuita</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-          </path>
-        </svg>
-        <span>Pago seguro</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-          </path>
-        </svg>
-        <span>Satisfacción garantizada</span>
+    <!-- Botones de acción modernos -->
+    <div class="max-w-2xl mx-auto mb-16">
+      <div class="flex flex-col lg:flex-row gap-6 justify-center">
+        <button class="group relative overflow-hidden bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-bold px-12 py-6 rounded-2xl shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 text-lg">
+          <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+            Reservar Experiencia
+          </div>
+        </button>
+        
+        <button class="group relative overflow-hidden border-2 border-white/30 hover:border-white text-white hover:bg-white hover:text-slate-900 font-bold px-12 py-6 rounded-2xl backdrop-blur-md transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 text-lg">
+          <div class="relative flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.63"/>
+            </svg>
+            WhatsApp: +51 987 654 321
+          </div>
+        </button>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Lightbox modal mejorado -->
-<div *ngIf="lightboxOpen" class="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-  (click)="closeLightbox()">
-  <div class="relative max-w-7xl w-full">
-    <img [src]="comunidad?.galeria?.[lightboxIndex] || getDefaultImage(lightboxIndex)"
-      class="w-full h-auto max-h-[90vh] object-contain rounded-2xl shadow-2xl" alt="Imagen ampliada" />
-
-    <!-- Controles del lightbox mejorados -->
-    <button (click)="previousLightboxImage(); $event.stopPropagation()"
-      class="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/30 text-white p-4 rounded-full hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-      </svg>
-    </button>
-
-    <button (click)="nextLightboxImage(); $event.stopPropagation()"
-      class="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/30 text-white p-4 rounded-full hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-      </svg>
-    </button>
-
-    <button (click)="closeLightbox(); $event.stopPropagation()"
-      class="absolute top-6 right-6 bg-white/20 backdrop-blur-xl border border-white/30 text-white p-3 rounded-full hover:bg-red-500/80 hover:border-red-400/50 transition-all duration-300 shadow-lg">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-
-    <!-- Contador en lightbox -->
-    <div
-      class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-xl text-white px-6 py-3 rounded-full font-medium">
-      {{lightboxIndex + 1}} de {{comunidad?.galeria?.length || 6}}
+    <!-- Garantías premium -->
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div class="flex flex-col items-center gap-4 group">
+            <div class="w-16 h-16 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg mb-1">Cancelación flexible</div>
+              <div class="text-slate-400 text-sm">Hasta 24h antes sin costo</div>
+            </div>
+          </div>
+          
+          <div class="flex flex-col items-center gap-4 group">
+            <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg mb-1">Pago 100% seguro</div>
+              <div class="text-slate-400 text-sm">Protección SSL certificada</div>
+            </div>
+          </div>
+          
+          <div class="flex flex-col items-center gap-4 group">
+            <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg mb-1">Satisfacción total</div>
+              <div class="text-slate-400 text-sm">O te devolvemos el dinero</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>

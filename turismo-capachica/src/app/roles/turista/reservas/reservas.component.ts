@@ -1,43 +1,53 @@
 // reservas.component.ts
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { ReservaService } from '../../../core/services/reserva.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { CarritoItem } from '../../../core/services/carrito.service';
+
+export interface Reserva {
+  id: string;
+  reservation_date: string;
+  cart: CarritoItem[];
+  total: number;
+  estado?: string;
+}
 
 @Component({
   standalone: true,
   selector: 'app-reservas',
-  imports: [CommonModule],
+  imports: [CommonModule, NgFor, NgIf],
   templateUrl: './reservas.component.html',
 })
-export class ReservasComponent {
+export class ReservasComponent implements OnInit{
+ reservas: any[] = [];
+  cargando = true;
 
+  constructor(private reservaSvc: ReservaService) {}
 
-  reservas: any[] = [];
-
-constructor(private reservaService: ReservaService, private authService: AuthService) {}
-
-ngOnInit(): void {
-  const user = this.authService.getUser();
-  if (user) {
-    this.reservas = this.reservaService.obtenerReservasPorUsuario(user.id);
+  ngOnInit(): void {
+    this.cargarReservas();
   }
-}
 
-cancelarReserva(reservaId: string) {
-  if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
-    this.reservaService.cancelarReserva(reservaId);
-
-    // 🔄 Recargar las reservas actualizadas
-    const user = this.authService.getUser();
-    if (user) {
-      this.reservas = this.reservaService.obtenerReservasPorUsuario(user.id);
+cargarReservas() {
+  this.reservaSvc.getMisReservas().subscribe({
+    next: (res) => {
+      this.reservas = res;  // res es el array de reservas
+      this.cargando = false;
+    },
+    error: (e) => {
+      console.error('Error al cargar reservas', e);
+      this.cargando = false;
     }
-  }
+  });
+}
+trackByReserva(index: number, reserva: any) {
+  return reserva.id;
+}
+
+trackByItem(index: number, item: any) {
+  return item.id;
 }
 
 
-
-  
 }
-

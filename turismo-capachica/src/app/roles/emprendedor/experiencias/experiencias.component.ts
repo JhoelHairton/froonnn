@@ -61,7 +61,7 @@ export class ExperienciasComponent implements OnInit {
     this.form = this.fb.group({
       title:               ['', Validators.required],
       description:         ['', Validators.required],
-      location:            ['', Validators.required],
+      ubicacion_detallada: ['', Validators.required],
       price:               [null, [Validators.required, Validators.min(0)]],
       capacity:            [1, Validators.required],
       duration:            ['', Validators.required],
@@ -105,7 +105,7 @@ export class ExperienciasComponent implements OnInit {
       const okSearch = !term
         || s.title.toLowerCase().includes(term)
         || s.description.toLowerCase().includes(term)
-        || s.location.toLowerCase().includes(term);
+        || s.ubicacion_detallada.toLowerCase().includes(term);
       const okStatus = !this.filterStatus || s.status === this.filterStatus;
       return okSearch && okStatus;
     });
@@ -135,7 +135,7 @@ export class ExperienciasComponent implements OnInit {
     this.form.patchValue({
       title:               s.title,
       description:         s.description,
-      location:            s.location,
+      ubicacion_detallada:            s.ubicacion_detallada,
       price:               s.price,
       capacity:            s.capacity,
       duration:            s.duration,
@@ -166,7 +166,7 @@ export class ExperienciasComponent implements OnInit {
       this.svc.updateServicioFields(this.editingId, {
         title:               v.title,
         description:         v.description,
-        location:            v.location,
+        ubicacion_detallada: v.ubicacion_detallada,
         price:               v.price,
         capacity:            v.capacity,
         duration:            v.duration,
@@ -195,7 +195,7 @@ export class ExperienciasComponent implements OnInit {
       const fd = new FormData();
       fd.append('title',                v.title);
       fd.append('description',          v.description);
-      fd.append('location',             v.location);
+      fd.append('ubicacion_detallada',  v.ubicacion_detallada);
       fd.append('price',                v.price.toString());
       fd.append('capacity',             v.capacity.toString());
       fd.append('duration',             v.duration);

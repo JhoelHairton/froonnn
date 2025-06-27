@@ -20,7 +20,6 @@ import { ChatbotComponent } from '../../../pages/chatbot/chatbot.component';
 export class LandingComponent implements OnInit, AfterViewInit {
   
 
-  isLoading = false;
 
   @ViewChild('myVideo') myVideo!: ElementRef<HTMLVideoElement>;
 

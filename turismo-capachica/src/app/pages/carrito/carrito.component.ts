@@ -1,157 +1,133 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+// src/app/pages/carrito/carrito.component.ts
+
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, switchMap, shareReplay, take } from 'rxjs/operators';
+
 import { CarritoService, CarritoItem } from '../../core/services/carrito.service';
 import { AuthService } from '../../core/services/auth.service';
-import { v4 as uuidv4 } from 'uuid'; // si no usas crypto.randomUUID()
-import { ReservaService } from '../../core/services/reserva.service';
-
+import { ReservaService, CheckoutPayload } from '../../core/services/reserva.service';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './carrito.component.html',
-  styleUrl: './carrito.component.css',
+  styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit {
-
-  @Input() items: CarritoItem[] = [];
   @Output() cerrar = new EventEmitter<void>();
-  @Output() confirmar = new EventEmitter<any>();
+
+  /** Stream de ítems, cacheado */
+  items$: Observable<CarritoItem[]>;
+
+  /** Total calculado a partir de items$ */
+  total$: Observable<number>;
 
   mostrarToast = false;
 
   constructor(
     private carritoService: CarritoService,
-    private authService: AuthService,
-    private router: Router,
-    private reservaService: ReservaService,
+    private auth:           AuthService,
+    private reservaSvc:     ReservaService,
+    private router:         Router
+  ) {
+    // 1) Carga inicial del carrito con replay para no repetir GET
+    this.items$ = this.carritoService.getCart().pipe(
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 
-  ) {}
-
-  ngOnInit(): void {
-    this.items = this.carritoService.obtenerItems();
+    // 2) Total = suma price * quantity
+    this.total$ = this.items$.pipe(
+      map(items => items.reduce((sum, i) => sum + i.price * i.quantity, 0))
+    );
   }
 
-  get total(): number {
-    return this.carritoService.obtenerTotal();
+  ngOnInit() {
+    // Dispara la primera carga
+    this.items$.subscribe();
   }
-
-  get totalFinal(): number {
-    return this.total - this.carritoService.calcularDescuento();
-  }
-
-  get descuento(): number {
-    return this.carritoService.calcularDescuento();
-  }
-
-  getTotalItems(): number {
-    return this.carritoService.obtenerCantidadTotal();
-  }
-
-cambiarCantidad(item: CarritoItem, cambio: number) {
-  const nuevaCantidad = item.cantidad + cambio;
-  const max = item.ref?.cupos ?? Infinity;
-
-  if (nuevaCantidad >= 1 && nuevaCantidad <= max) {
-    this.carritoService.actualizarCantidadPorUid(item.uid, nuevaCantidad); // ✅ Usa uid
-    this.items = [...this.carritoService.obtenerItems()];
-  }
-}
-
-
-eliminar(item: CarritoItem) {
-  this.carritoService.eliminarPorUid(item.uid);
-  this.items = this.carritoService.obtenerItems();
-}
-
 
   cerrarCarrito() {
     this.cerrar.emit();
   }
 
-confirmarReserva() {
-  if (!this.authService.isLoggedIn()) {
-    localStorage.setItem('carritoPendiente', JSON.stringify(this.items));
-    this.router.navigate(['/auth/login']);
-    return;
+  /** Refresca el stream items$ tras cada operación */
+  private recargar() {
+    this.items$ = this.carritoService.getCart().pipe(
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+    this.items$.subscribe(); // dispara la nueva carga
   }
 
-  const user = this.authService.getUser();
-  if (!user) {
-    alert('No se pudo identificar al usuario.');
-    return;
+  incrementar(item: CarritoItem) {
+    const call$ = item.type === 'service'
+      ? this.carritoService.addService(item.id)
+      : this.carritoService.addPromotion(item.id);
+
+    call$
+      .pipe(switchMap(() => this.carritoService.getCart()))
+      .subscribe(() => this.recargar());
   }
 
-  const reserva = {
-    id: crypto.randomUUID(),
-    usuario: {
-      id: user.id,
-      nombre: user.nombre,
-      email: user.email
-    },
-    items: this.items,
-    total: this.totalFinal,
-    descuento: this.descuento,
-    fecha: new Date().toISOString(),
-    estado: 'pendiente'
-  };
+  decrementar(item: CarritoItem) {
+    if (item.quantity > 1) {
+      this.carritoService.removeItem(item.type, item.id)
+        .pipe(switchMap(() => this.carritoService.getCart()))
+        .subscribe(() => this.recargar());
+    }
+  }
 
-  this.guardarReservaEnLocalStorage(reserva); // ✅ Aquí se guarda
+  eliminar(item: CarritoItem) {
+    this.carritoService.removeItem(item.type, item.id)
+      .pipe(switchMap(() => this.carritoService.getCart()))
+      .subscribe(() => this.recargar());
+  }
 
-  this.mostrarToast = true;
-  this.confirmar.emit(reserva);
+  vaciarCart() {
+    this.carritoService.clearCart()
+      .pipe(switchMap(() => this.carritoService.getCart()))
+      .subscribe(() => this.recargar());
+  }
 
-  setTimeout(() => {
-    this.mostrarToast = false;
-    this.carritoService.limpiar();
-    this.items = [];
-  }, 3000);
+  confirmarReserva() {
+  this.items$.pipe(take(1)).subscribe(items => {
+    const hoy = new Date().toISOString().split('T')[0];
+    const payload: CheckoutPayload = {
+      reservation_date: hoy,
+      cart: items.map(i => ({
+        id: i.id,
+        type: i.type,    // 👈 El checkout requiere type en cada item
+        quantity: i.quantity
+      }))
+    };
+
+    // Si no logueado, guardamos el carrito y redirigimos
+    if (!this.auth.isLoggedIn()) {
+      localStorage.setItem('carritoPendiente', JSON.stringify(payload));
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: this.router.url }
+      });
+      return;
+    }
+
+    // Si ya logueado, hacemos checkout directo
+    this.reservaSvc.checkout(payload).subscribe({
+      next: () => {
+        this.mostrarToast = true;
+        setTimeout(() => this.mostrarToast = false, 3000);
+        this.vaciarCart();
+        this.router.navigate(['/turista/reservas']);
+      },
+      error: err => console.error('Error en checkout', err)
+    });
+  });
 }
 
-guardarReservaEnLocalStorage(reserva: any) {
-  const reservas = JSON.parse(localStorage.getItem('reservas') || '{}');
-
-  if (!reservas[reserva.usuario.id]) {
-    reservas[reserva.usuario.id] = [];
-  }
-
-  reservas[reserva.usuario.id].push(reserva);
-  localStorage.setItem('reservas', JSON.stringify(reservas));
-}
-
-
-
-
-private getReservaData() {
-  const user = this.authService.getUser(); // ⚠️ Asegúrate de que esto devuelva un objeto real
-
-  return {
-    id: crypto.randomUUID(), // o uuidv4()
-    usuario: {
-      id: user?.id ?? 'anonimo',
-      nombre: user?.nombre ?? 'Sin nombre',
-      email: user?.email ?? '',
-    },
-    items: this.items,
-    total: this.totalFinal,
-    descuento: this.descuento,
-    fecha: new Date().toISOString(),
-    estado: 'pendiente'
-  };
-}
-
-
-  getCuposDisponibles(item: any): number {
-    return (item.ref?.cupos ?? 0) - (item.cantidad || 1) + 1;
-  }
-
-  getCuposClass(item: any): string {
-    const cuposDisponibles = this.getCuposDisponibles(item);
-    if (cuposDisponibles > 5) return 'bg-green-100 text-green-800';
-    if (cuposDisponibles > 2) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
+  /** Para optimizar ngFor */
+  trackByFn(_: number, item: CarritoItem) {
+    return item.id;
   }
 }

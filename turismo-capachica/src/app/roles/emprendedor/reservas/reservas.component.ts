@@ -1,37 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
-// Interfaces
-interface Turista {
-  id: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  pais?: string;
-  avatar?: string;
-}
-
-interface Servicio {
-  id: string;
-  nombre: string;
-  tipo: string;
-}
-
-interface Reserva {
-  id: string;
-  turista: Turista;
-  servicio: Servicio;
-  fechaReserva: Date;
-  fechaServicio: Date;
-  horaInicio: string;
-  horaFin: string;
-  numeroPersonas: number;
-  precioTotal: number;
-  estado: 'pendiente' | 'confirmada' | 'completada' | 'cancelada';
-  comentarios?: string;
-}
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule }    from '@angular/common';
+import { FormsModule }     from '@angular/forms';
+import Swal from 'sweetalert2';
+import { BookingService, Booking, BookingItem } from '../services/booking.service';
 
 interface Estadisticas {
   pendientes: number;
@@ -42,492 +13,221 @@ interface Estadisticas {
 
 @Component({
   selector: 'app-reservas',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: true,                     // <<--- aquí
+  imports: [
+    CommonModule,                       // para ngIf, ngFor, ngClass…
+    FormsModule                         // para ngModel
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],    // <<--- aquí para iconify-icon
   templateUrl: './reservas.component.html',
-  styleUrl: './reservas.component.css',
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  styleUrls: ['./reservas.component.css']
   
+
+
 })
 export class ReservasComponent implements OnInit {
-   
-  // Propiedades principales
-  reservas: Reserva[] = [];
-  reservasFiltradas: Reserva[] = [];
-  serviciosDisponibles: Servicio[] = [];
-  estadisticas: Estadisticas = {
-    pendientes: 0,
-    confirmadas: 0,
-    completadas: 0,
-    canceladas: 0
-  };
-  
-  // Filtros
-  filtroEstado: string = '';
-  filtroFecha: string = '';
-  filtroServicio: string = '';
-  
-  // Estados de la aplicación
-  loading: boolean = false;
+  reservas: Booking[] = [];
+  reservasFiltradas: Booking[] = [];
+  serviciosDisponibles: { id: number; title: string }[] = [];
 
-  constructor() {}
+  estadisticas: Estadisticas = { pendientes: 0, confirmadas: 0, completadas: 0, canceladas: 0 };
+
+  filtroEstado = '';
+  filtroFecha  = '';
+  filtroServicio = '';
+
+  loading = false;
+
+  constructor(private bookingSvc: BookingService) {}
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-  // Simular carga de datos desde API
-  async cargarDatos(): Promise<void> {
+  private cargarDatos(): void {
     this.loading = true;
-    
-    try {
-      // Simular delay de API
-      await this.delay(1000);
-      
-      // Datos de ejemplo
-      this.serviciosDisponibles = [
-        { id: '1', nombre: 'Tour Machupicchu', tipo: 'tour' },
-        { id: '2', nombre: 'Caminata Salkantay', tipo: 'aventura' },
-        { id: '3', nombre: 'Tour Laguna Humantay', tipo: 'tour' },
-        { id: '4', nombre: 'Rafting Urubamba', tipo: 'aventura' },
-        { id: '5', nombre: 'City Tour Cusco', tipo: 'cultural' }
-      ];
-
-      this.reservas = [
-        {
-          id: 'RES001',
-          turista: {
-            id: 'TUR001',
-            nombre: 'Carlos',
-            apellido: 'Rodriguez',
-            email: 'carlos.rodriguez@email.com',
-            telefono: '+51 987654321',
-            pais: 'Perú',
-            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'
-          },
-          servicio: this.serviciosDisponibles[0],
-          fechaReserva: new Date('2024-06-15T10:30:00'),
-          fechaServicio: new Date('2024-06-25'),
-          horaInicio: '08:00',
-          horaFin: '18:00',
-          numeroPersonas: 2,
-          precioTotal: 450,
-          estado: 'pendiente',
-          comentarios: 'Preferimos el tour en español'
-        },
-        {
-          id: 'RES002',
-          turista: {
-            id: 'TUR002',
-            nombre: 'María',
-            apellido: 'González',
-            email: 'maria.gonzalez@email.com',
-            telefono: '+34 612345678',
-            pais: 'España'
-          },
-          servicio: this.serviciosDisponibles[1],
-          fechaReserva: new Date('2024-06-16T14:20:00'),
-          fechaServicio: new Date('2024-06-28'),
-          horaInicio: '06:00',
-          horaFin: '17:00',
-          numeroPersonas: 4,
-          precioTotal: 800,
-          estado: 'confirmada'
-        },
-        {
-          id: 'RES003',
-          turista: {
-            id: 'TUR003',
-            nombre: 'John',
-            apellido: 'Smith',
-            email: 'john.smith@email.com',
-            telefono: '+1 555-0123',
-            pais: 'Estados Unidos',
-            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150'
-          },
-          servicio: this.serviciosDisponibles[2],
-          fechaReserva: new Date('2024-06-14T09:15:00'),
-          fechaServicio: new Date('2024-06-22'),
-          horaInicio: '07:30',
-          horaFin: '16:30',
-          numeroPersonas: 3,
-          precioTotal: 375,
-          estado: 'completada'
-        },
-        {
-          id: 'RES004',
-          turista: {
-            id: 'TUR004',
-            nombre: 'Ana',
-            apellido: 'Silva',
-            email: 'ana.silva@email.com',
-            telefono: '+55 11 98765-4321',
-            pais: 'Brasil'
-          },
-          servicio: this.serviciosDisponibles[3],
-          fechaReserva: new Date('2024-06-17T16:45:00'),
-          fechaServicio: new Date('2024-06-30'),
-          horaInicio: '09:00',
-          horaFin: '15:00',
-          numeroPersonas: 2,
-          precioTotal: 220,
-          estado: 'cancelada',
-          comentarios: 'Cancelado por condiciones climáticas'
-        },
-        {
-          id: 'RES005',
-          turista: {
-            id: 'TUR005',
-            nombre: 'Pierre',
-            apellido: 'Dubois',
-            email: 'pierre.dubois@email.com',
-            telefono: '+33 1 23 45 67 89',
-            pais: 'Francia',
-            avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=150'
-          },
-          servicio: this.serviciosDisponibles[4],
-          fechaReserva: new Date('2024-06-18T11:30:00'),
-          fechaServicio: new Date('2024-06-26'),
-          horaInicio: '10:00',
-          horaFin: '14:00',
-          numeroPersonas: 1,
-          precioTotal: 80,
-          estado: 'confirmada'
-        }
-      ];
-
-      this.reservasFiltradas = [...this.reservas];
-      this.calcularEstadisticas();
-      
-    } catch (error) {
-      console.error('Error al cargar las reservas:', error);
-    } finally {
-      this.loading = false;
-    }
-  }
-
-  // Calcular estadísticas
-  calcularEstadisticas(): void {
-    this.estadisticas = {
-      pendientes: this.reservas.filter(r => r.estado === 'pendiente').length,
-      confirmadas: this.reservas.filter(r => r.estado === 'confirmada').length,
-      completadas: this.reservas.filter(r => r.estado === 'completada').length,
-      canceladas: this.reservas.filter(r => r.estado === 'cancelada').length
-    };
-  }
-
-  // Aplicar filtros
-  aplicarFiltros(): void {
-    this.reservasFiltradas = this.reservas.filter(reserva => {
-      let cumpleEstado = true;
-      let cumpleFecha = true;
-      let cumpleServicio = true;
-
-      // Filtro por estado
-      if (this.filtroEstado) {
-        cumpleEstado = reserva.estado === this.filtroEstado;
+    this.bookingSvc.list().subscribe({
+      next: data => {
+        this.reservas = data;
+        this.reservasFiltradas = [...data];
+        this.extraerServicios(data);
+        this.calcularEstadisticas();
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        Swal.fire('Error', 'No se pudieron cargar las reservas', 'error');
       }
-
-      // Filtro por fecha
-      if (this.filtroFecha) {
-        const fechaFiltro = new Date(this.filtroFecha);
-        const fechaServicio = new Date(reserva.fechaServicio);
-        cumpleFecha = fechaServicio.toDateString() === fechaFiltro.toDateString();
-      }
-
-      // Filtro por servicio
-      if (this.filtroServicio) {
-        cumpleServicio = reserva.servicio.id === this.filtroServicio;
-      }
-
-      return cumpleEstado && cumpleFecha && cumpleServicio;
     });
   }
 
-  // Limpiar filtros
+  /** Extrae todos los servicios únicos para el select */
+  private extraerServicios(bookings: Booking[]): void {
+    const mapa = new Map<number,string>();
+    bookings.forEach(b =>
+      b.items.forEach(i =>
+        mapa.set(i.service.id, i.service.title)
+      )
+    );
+    this.serviciosDisponibles = Array.from(mapa, ([id, title]) => ({ id, title }));
+  }
+
+  /** Cuenta cada estado */
+  private calcularEstadisticas(): void {
+    this.estadisticas = {
+      pendientes:  this.reservas.filter(r => r.status === 'pending').length,
+      confirmadas: this.reservas.filter(r => r.status === 'confirmed').length,
+      completadas: this.reservas.filter(r => r.status === 'completed').length,
+      canceladas:  this.reservas.filter(r => r.status === 'cancelled').length,
+    };
+  }
+
+  aplicarFiltros(): void {
+    this.reservasFiltradas = this.reservas.filter(r => {
+      const byEstado   = this.filtroEstado   ? r.status === this.filtroEstado   : true;
+      const byFecha    = this.filtroFecha
+        ? new Date(r.reservation_date).toDateString() === new Date(this.filtroFecha).toDateString()
+        : true;
+      const byServicio = this.filtroServicio
+        ? r.items.some(i => String(i.service.id) === this.filtroServicio)
+        : true;
+      return byEstado && byFecha && byServicio;
+    });
+  }
+
   limpiarFiltros(): void {
     this.filtroEstado = '';
-    this.filtroFecha = '';
+    this.filtroFecha  = '';
     this.filtroServicio = '';
     this.reservasFiltradas = [...this.reservas];
   }
 
-  // Confirmar reserva
-  async confirmarReserva(reservaId: string): Promise<void> {
-    try {
-      const reserva = this.reservas.find(r => r.id === reservaId);
-      if (reserva) {
-        reserva.estado = 'confirmada';
-        this.calcularEstadisticas();
-        this.aplicarFiltros();
-        
-        // Simular API call
-        console.log(`Reserva ${reservaId} confirmada`);
-        
-        // Aquí enviarías una notificación al turista
-        await this.enviarNotificacion(reserva.turista.email, 'confirmacion');
-      }
-    } catch (error) {
-      console.error('Error al confirmar reserva:', error);
-    }
-  }
-
-  // Completar reserva
-  async completarReserva(reservaId: string): Promise<void> {
-    try {
-      const reserva = this.reservas.find(r => r.id === reservaId);
-      if (reserva) {
-        reserva.estado = 'completada';
-        this.calcularEstadisticas();
-        this.aplicarFiltros();
-        
-        console.log(`Reserva ${reservaId} completada`);
-        
-        // Solicitar calificación al turista
-        await this.solicitarCalificacion(reserva.turista.email, reservaId);
-      }
-    } catch (error) {
-      console.error('Error al completar reserva:', error);
-    }
-  }
-
-  // Cancelar reserva
-  async cancelarReserva(reservaId: string): Promise<void> {
-    if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
-      try {
-        const reserva = this.reservas.find(r => r.id === reservaId);
-        if (reserva) {
-          reserva.estado = 'cancelada';
-          this.calcularEstadisticas();
-          this.aplicarFiltros();
-          
-          console.log(`Reserva ${reservaId} cancelada`);
-          
-          // Notificar al turista
-          await this.enviarNotificacion(reserva.turista.email, 'cancelacion');
-        }
-      } catch (error) {
-        console.error('Error al cancelar reserva:', error);
-      }
-    }
-  }
-
-  // Ver detalles
-  verDetalles(reservaId: string): void {
-    console.log(`Ver detalles de reserva ${reservaId}`);
-    // Aquí podrías abrir un modal con más detalles o navegar a otra página
-    // this.router.navigate(['/reservas', reservaId]);
-  }
-
-  // Contactar turista
-  contactarTurista(turista: Turista): void {
-    console.log(`Contactar a ${turista.nombre} ${turista.apellido}`);
-    // Aquí podrías abrir un modal de chat o iniciar una conversación
-    // this.chatService.iniciarConversacion(turista.id);
-  }
-
-  // Obtener texto del estado
-  getEstadoTexto(estado: string): string {
-    const estados = {
-      'pendiente': 'Pendiente',
-      'confirmada': 'Confirmada',
-      'completada': 'Completada',
-      'cancelada': 'Cancelada'
-    };
-    return estados[estado as keyof typeof estados] || estado;
-  }
-
-  // Enviar notificación (simulado)
-  private async enviarNotificacion(email: string, tipo: string): Promise<void> {
-    console.log(`Enviando notificación de ${tipo} a ${email}`);
-    // Simular delay de envío
-    await this.delay(500);
-    
-    // Aquí integrarías con tu servicio de notificaciones
-    // await this.notificationService.enviar({
-    //   email,
-    //   tipo,
-    //   template: `${tipo}_reserva`
-    // });
-  }
-
-  // Solicitar calificación (simulado)
-  private async solicitarCalificacion(email: string, reservaId: string): Promise<void> {
-    console.log(`Solicitando calificación para reserva ${reservaId} a ${email}`);
-    await this.delay(300);
-    
-    // Aquí enviarías un email con el link para calificar
-    // await this.emailService.enviarSolicitudCalificacion({
-    //   email,
-    //   reservaId,
-    //   enlaceCalificacion: `${this.baseUrl}/calificar/${reservaId}`
-    // });
-  }
-
-  // Helper para simular delays
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  // Exportar reservas (opcional)
-  exportarReservas(): void {
-    const datos = this.reservasFiltradas.map(reserva => ({
-      ID: reserva.id,
-      'Nombre Turista': `${reserva.turista.nombre} ${reserva.turista.apellido}`,
-      'Email': reserva.turista.email,
-      'Servicio': reserva.servicio.nombre,
-      'Fecha Servicio': reserva.fechaServicio.toLocaleDateString(),
-      'Hora': `${reserva.horaInicio} - ${reserva.horaFin}`,
-      'Personas': reserva.numeroPersonas,
-      'Precio Total': reserva.precioTotal,
-      'Estado': this.getEstadoTexto(reserva.estado),
-      'Fecha Reserva': reserva.fechaReserva.toLocaleDateString()
-    }));
-
-    // Convertir a CSV
-    const csv = this.convertirACSV(datos);
-    this.descargarCSV(csv, 'reservas.csv');
-  }
-
-  // Convertir datos a CSV
-  private convertirACSV(datos: any[]): string {
-    if (datos.length === 0) return '';
-    
-    const headers = Object.keys(datos[0]);
-    const csvHeaders = headers.join(',');
-    
-    const csvRows = datos.map(row => 
-      headers.map(header => {
-        const value = row[header];
-        // Escapar valores que contienen comas o comillas
-        if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
-          return `"${value.replace(/"/g, '""')}"`;
-        }
-        return value;
-      }).join(',')
-    );
-    
-    return [csvHeaders, ...csvRows].join('\n');
-  }
-
-  // Descargar archivo CSV
-  private descargarCSV(csv: string, filename: string): void {
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', filename);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  }
-
-  // Filtrar por rango de fechas
-  filtrarPorRangoFechas(fechaInicio: string, fechaFin: string): void {
-    if (fechaInicio && fechaFin) {
-      const inicio = new Date(fechaInicio);
-      const fin = new Date(fechaFin);
-      
-      this.reservasFiltradas = this.reservas.filter(reserva => {
-        const fechaServicio = new Date(reserva.fechaServicio);
-        return fechaServicio >= inicio && fechaServicio <= fin;
-      });
-    }
-  }
-
-  // Buscar por texto
-  buscarTexto(texto: string): void {
-    if (!texto.trim()) {
-      this.aplicarFiltros();
-      return;
-    }
-
-    const terminoBusqueda = texto.toLowerCase();
-    
-    this.reservasFiltradas = this.reservas.filter(reserva => {
-      return (
-        reserva.id.toLowerCase().includes(terminoBusqueda) ||
-        reserva.turista.nombre.toLowerCase().includes(terminoBusqueda) ||
-        reserva.turista.apellido.toLowerCase().includes(terminoBusqueda) ||
-        reserva.turista.email.toLowerCase().includes(terminoBusqueda) ||
-        reserva.servicio.nombre.toLowerCase().includes(terminoBusqueda) ||
-        (reserva.comentarios && reserva.comentarios.toLowerCase().includes(terminoBusqueda))
-      );
+  confirmarReserva(id: number): void {
+    this.bookingSvc.updateStatus(id, 'confirmed').subscribe({
+      next: updated => this._actualizaLocal(updated, '¡Reserva confirmada!'),
+      error: () => Swal.fire('Error', 'No se pudo confirmar', 'error')
     });
   }
 
-  // Obtener resumen financiero
-  getResumenFinanciero() {
-    const confirmadas = this.reservas.filter(r => r.estado === 'confirmada');
-    const completadas = this.reservas.filter(r => r.estado === 'completada');
-    
-    return {
-      ingresosPendientes: confirmadas.reduce((sum, r) => sum + r.precioTotal, 0),
-      ingresosCompletados: completadas.reduce((sum, r) => sum + r.precioTotal, 0),
-      totalReservas: confirmadas.length + completadas.length
+  completarReserva(id: number): void {
+    this.bookingSvc.updateStatus(id, 'completed').subscribe({
+      next: updated => this._actualizaLocal(updated, '¡Reserva completada!'),
+      error: () => Swal.fire('Error', 'No se pudo completar', 'error')
+    });
+  }
+
+  cancelarReserva(id: number): void {
+    Swal.fire({
+      title: '¿Seguro que deseas cancelar?',
+      icon: 'warning',
+      showCancelButton: true
+    }).then(res => {
+      if (res.isConfirmed) {
+        this.bookingSvc.updateStatus(id, 'cancelled').subscribe({
+          next: updated => this._actualizaLocal(updated, 'Reserva cancelada'),
+          error: () => Swal.fire('Error', 'No se pudo cancelar', 'error')
+        });
+      }
+    });
+  }
+
+  /** Actualiza el array local y recuenta */
+  private _actualizaLocal(updated: Booking, msg: string): void {
+    const idx = this.reservas.findIndex(r => r.id === updated.id);
+    if (idx > -1) {
+      this.reservas[idx] = updated;
+      this.reservasFiltradas = [...this.reservas];
+      this.calcularEstadisticas();
+      Swal.fire('¡Hecho!', msg, 'success');
+    }
+  }
+
+   /**
+   * Abre un SweetAlert2 con el detalle de servicios y promociones
+   */
+   verDetalles(id: number): void {
+    this.bookingSvc.get(id).subscribe({
+      next: booking => {
+        // Construimos un HTML con Tailwind para SweetAlert2
+        const html = `
+          <div class="space-y-4 text-left">
+            <p class="text-sm text-gray-600 mb-2">
+              <strong>Reserva #${booking.id}</strong> — 
+              ${new Date(booking.reservation_date).toLocaleDateString()}
+            </p>
+            ${booking.items.map(item => {
+              const title = item.type === 'service'
+                ? item.service.title
+                : item.promotion?.title ?? '—';
+              return `
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="uppercase text-xs font-semibold text-gray-500">${item.type}</span>
+                    <span class="text-sm font-medium">${title}</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                    <div>
+                      <p class="text-gray-500">Antes</p>
+                      <p class="font-medium">S/. ${item.price_before}</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500">Después</p>
+                      <p class="font-medium">S/. ${item.price_after}</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500">Cantidad</p>
+                      <p class="font-medium">${item.quantity}</p>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+            <p class="text-right text-sm font-semibold mt-2">
+              Total: <span class="text-lg">S/. ${booking.total_amount}</span>
+            </p>
+          </div>
+        `;
+  
+        Swal.fire({
+          title: 'Detalle de Reserva',
+          html,
+          width: 600,
+          confirmButtonText: 'Cerrar',
+          customClass: {
+            popup: 'p-6'
+          }
+        });
+      },
+      error: () => Swal.fire('Error', 'No se pudo cargar el detalle', 'error')
+    });
+  }
+  
+
+
+
+  contactarTurista(email: string): void {
+    console.log('Contactar a', email);
+    // abrir chat o lo que uses
+  }
+
+  /** Mapea estado a texto humano */
+  getEstadoTexto(estado: Booking['status']): string {
+    const map: Record<string,string> = {
+      pending:   'Pendiente',
+      confirmed: 'Confirmada',
+      completed: 'Completada',
+      cancelled: 'Cancelada'
     };
+    return map[estado] || estado;
   }
 
-  // Obtener próximas reservas (hoy y mañana)
-  getProximasReservas(): Reserva[] {
-    const hoy = new Date();
-    const manana = new Date(hoy);
-    manana.setDate(hoy.getDate() + 1);
-    
-    return this.reservas.filter(reserva => {
-      if (reserva.estado !== 'confirmada') return false;
-      
-      const fechaServicio = new Date(reserva.fechaServicio);
-      return fechaServicio.toDateString() === hoy.toDateString() || 
-             fechaServicio.toDateString() === manana.toDateString();
-    }).sort((a, b) => new Date(a.fechaServicio).getTime() - new Date(b.fechaServicio).getTime());
+  /** Suma todas las cantidades para mostrar “Personas” */
+  getNumeroPersonas(r: Booking): number {
+    return r.items.reduce((sum, i) => sum + i.quantity, 0);
   }
 
-  // Marcar como no show (no se presentó)
-  async marcarNoShow(reservaId: string): Promise<void> {
-    if (confirm('¿Confirmas que el turista no se presentó al servicio?')) {
-      try {
-        const reserva = this.reservas.find(r => r.id === reservaId);
-        if (reserva) {
-          reserva.estado = 'cancelada';
-          reserva.comentarios = (reserva.comentarios || '') + ' [NO SHOW - Cliente no se presentó]';
-          
-          this.calcularEstadisticas();
-          this.aplicarFiltros();
-          
-          console.log(`Reserva ${reservaId} marcada como No Show`);
-          
-          // Aquí implementarías la lógica de penalización o políticas de cancelación
-          // await this.aplicarPoliticaNoShow(reserva);
-        }
-      } catch (error) {
-        console.error('Error al marcar como No Show:', error);
-      }
-    }
-  }
-
-  // Reactivar reserva cancelada
-  async reactivarReserva(reservaId: string): Promise<void> {
-    if (confirm('¿Deseas reactivar esta reserva?')) {
-      try {
-        const reserva = this.reservas.find(r => r.id === reservaId);
-        if (reserva && reserva.estado === 'cancelada') {
-          reserva.estado = 'pendiente';
-          
-          this.calcularEstadisticas();
-          this.aplicarFiltros();
-          
-          console.log(`Reserva ${reservaId} reactivada`);
-          
-          await this.enviarNotificacion(reserva.turista.email, 'reactivacion');
-        }
-      } catch (error) {
-        console.error('Error al reactivar reserva:', error);
-      }
-    }
+  /** Devuelve el total formateado */
+  getPrecioTotal(r: Booking): string {
+    return r.total_amount;
   }
 }

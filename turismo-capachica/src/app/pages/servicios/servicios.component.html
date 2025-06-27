@@ -1,1 +1,225 @@
-<p>servicios works!</p>
+<!-- services.component.html -->
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+  <!-- Header -->
+  <header class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Capahica</h1>
+            <p class="text-gray-600">Servicios de Emprendedores</p>
+          </div>
+        </div>
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Inicio</a>
+          <a href="#" class="text-blue-600 font-medium">Servicios</a>
+          <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Emprendedores</a>
+          <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Contacto</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">
+        Descubre Servicios Únicos
+      </h2>
+      <p class="text-xl mb-8 text-blue-100">
+        Conecta con emprendedores locales y encuentra el servicio perfecto para ti
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+        <input 
+          type="text" 
+          placeholder="Buscar servicios..." 
+          [(ngModel)]="searchTerm"
+          (input)="filterServices()"
+          class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300">
+        <select 
+          [(ngModel)]="selectedCategory" 
+          (change)="filterServices()"
+          class="w-full sm:w-auto px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <option value="">Todas las categorías</option>
+          <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Category Filters -->
+      <div class="flex flex-wrap gap-3 mb-8 justify-center">
+        <button 
+          (click)="setCategory('')"
+          [class]="selectedCategory === '' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+          class="px-6 py-2 rounded-full border transition-all duration-200 shadow-sm">
+          Todos
+        </button>
+        <button 
+          *ngFor="let category of categories"
+          (click)="setCategory(category)"
+          [class]="selectedCategory === category ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+          class="px-6 py-2 rounded-full border transition-all duration-200 shadow-sm">
+          {{category}}
+        </button>
+      </div>
+
+      <!-- Services Counter -->
+      <div class="text-center mb-8">
+        <p class="text-gray-600">
+          Mostrando {{filteredServices.length}} de {{services.length}} servicios
+        </p>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div 
+          *ngFor="let service of filteredServices" 
+          class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+          
+          <!-- Service Image -->
+          <div class="relative h-48 bg-gradient-to-br from-gray-200 to-gray-300">
+            <img 
+              [src]="service.image" 
+              [alt]="service.title"
+              class="w-full h-full object-cover"
+              (error)="onImageError($event)">
+            <div *ngIf="service.featured" class="absolute top-3 left-3">
+              <span class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                ⭐ Destacado
+              </span>
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
+                {{service.category}}
+              </span>
+            </div>
+          </div>
+
+          <!-- Service Content -->
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+              {{service.title}}
+            </h3>
+            <p class="text-gray-600 mb-4 text-sm line-clamp-3">
+              {{service.description}}
+            </p>
+            
+            <!-- Entrepreneur Info -->
+            <div class="flex items-center mb-4">
+              <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mr-3">
+                <span class="text-white text-sm font-semibold">
+                  {{service.entrepreneur.charAt(0).toUpperCase()}}
+                </span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">{{service.entrepreneur}}</p>
+                <p class="text-xs text-gray-500">📍 {{service.location}}</p>
+              </div>
+            </div>
+
+            <!-- Rating and Price -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <div class="flex text-yellow-400">
+                  <span *ngFor="let star of getStarArray(service.rating)">⭐</span>
+                </div>
+                <span class="text-sm text-gray-600 ml-2">({{service.rating}})</span>
+              </div>
+              <div class="text-right">
+                <span class="text-2xl font-bold text-blue-600">S/. {{service.price}}</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-2">
+              <button 
+                (click)="contactEntrepreneur(service)"
+                class="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 text-sm font-medium">
+                Contactar
+              </button>
+              <button 
+                (click)="viewDetails(service)"
+                class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200 text-sm font-medium">
+                Ver más
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="filteredServices.length === 0" class="text-center py-16">
+        <div class="text-gray-400 mb-4">
+          <svg class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-600 mb-2">No se encontraron servicios</h3>
+        <p class="text-gray-500">Prueba con otros términos de búsqueda o categorías</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold mb-4">¿Eres Emprendedor?</h2>
+      <p class="text-xl mb-8 text-indigo-100">
+        Únete a nuestra plataforma y comparte tus servicios con miles de clientes potenciales
+      </p>
+      <button class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
+        Registrar mi Servicio
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Capahica</h3>
+          <p class="text-gray-400 text-sm">
+            Conectando emprendedores con clientes en todo Perú
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Servicios</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors">Tecnología</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Gastronomía</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Artesanía</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Consultoría</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Empresa</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors">Sobre nosotros</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Términos</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Privacidad</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Ayuda</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Contacto</h4>
+          <p class="text-sm text-gray-400 mb-2">📧 infocapahica.com</p>
+          <p class="text-sm text-gray-400 mb-2">📞 +51 999 888 777</p>
+          <p class="text-sm text-gray-400">📍 Juliaca, Puno, Perú</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+        <p>&copy; 2025 Capahica. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</div>

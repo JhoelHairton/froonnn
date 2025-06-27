@@ -11,9 +11,9 @@ export interface Servicio {
 
   title: string;
   slug: string;
-  type: string;
+
   description: string;
-  location: string;
+  ubicacion_detallada: string; 
 
   price: string;
   capacity: number;
@@ -69,7 +69,7 @@ export class ServiceCreationService {
     return this.http.post<{ message: string; media: any[] }>(
       `${this.base}/${id}/media`,
       fd
-    );
+    ); 
   }
 
   deleteMedia(serviceId: number, mediaId: number): Observable<void> {

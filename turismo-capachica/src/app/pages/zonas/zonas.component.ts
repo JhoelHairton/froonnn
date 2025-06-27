@@ -49,12 +49,6 @@ export class ZonasComponent implements OnInit {
       }));
       this.comunidadesFiltradas = this.comunidades;
     });
-
-
-
-
-
-   
   }
 
 

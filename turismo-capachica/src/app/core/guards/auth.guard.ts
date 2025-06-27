@@ -12,7 +12,7 @@ export const authGuard = (rolRequerido?: string): CanActivateFn => () => {
 
   // 🔐 No logueado → redirigir al login
   if (!auth.isLoggedIn()) {
-    router.navigate(['/login']);
+    router.navigate(['/login'],  { queryParams: { returnUrl: router.url } });
     return false;
   }
 

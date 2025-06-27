@@ -1,173 +1,228 @@
-<!-- Fondo oscuro con efecto blur -->
-<div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 fade-in" (click)="cerrarCarrito()"></div>
+<!-- Backdrop con efecto glassmorphism -->
+<div class="fixed inset-0 bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-md z-40"
+  (click)="cerrarCarrito()"></div>
 
-<!-- Panel lateral derecho mejorado -->
-<div class="fixed inset-y-0 right-0 z-50 max-w-md w-full glass-effect shadow-2xl overflow-hidden flex flex-col cart-slide-in">
-  
-  <!-- Encabezado con gradiente -->
-  <div class="gradient-bg px-6 py-6 text-white">
-    <div class="flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
-          </svg>
-        </div>
-        <h2 class="text-xl font-bold">Mis Reservas</h2>
-      </div>
-      <button (click)="cerrarCarrito()" class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
+<!-- Drawer con diseño moderno -->
+<aside
+  class="fixed inset-y-0 right-0 z-50 w-full max-w-lg bg-gradient-to-b from-white to-blue-50/30 shadow-2xl transform translate-x-0 transition-all duration-300 border-l border-blue-100/50">
+  <!-- Header con gradiente inspirado en Capachica -->
+  <header class="relative overflow-hidden px-6 py-6 bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 text-white">
+    <!-- Patrón decorativo -->
+    <div class="absolute inset-0 opacity-10">
+      <svg class="w-full h-full" viewBox="0 0 100 100" fill="currentColor">
+        <circle cx="20" cy="20" r="2" />
+        <circle cx="40" cy="40" r="1.5" />
+        <circle cx="80" cy="30" r="2" />
+        <circle cx="70" cy="70" r="1" />
+        <circle cx="30" cy="80" r="1.5" />
+      </svg>
     </div>
-    <p class="text-white/80 text-sm mt-2">{{ items?.length || 0 }} {{ items?.length === 1 ? 'servicio seleccionado' : 'servicios seleccionados' }}</p>
-  </div>
 
-  <!-- Contenido con scroll personalizado -->
-  <div class="flex-1 overflow-y-auto custom-scrollbar">
-    <div class="p-6 space-y-4">
-      
-      <div *ngIf="items?.length; else estadoVacio">
-  <div *ngFor="let item of items; let i = index" class="item-card rounded-xl p-4 border border-gray-200">
-    <div class="flex gap-4">
-      
-      <!-- Imagen -->
-      <div class="relative">
-        <img [src]="item.imagen"
-             class="w-20 h-20 object-cover rounded-lg shadow-md"
-             [alt]="item.nombre" />
-        <div class="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-          {{ item.cantidad }}
-        </div>
-      </div>
-
-      <!-- Contenido -->
-      <div class="flex-1 space-y-2">
-        
-        <!-- Título + botón eliminar -->
-        <div class="flex justify-between items-start">
-          <h3 class="font-semibold text-gray-900 text-sm">{{ item.nombre }}</h3>
-          <button (click)="eliminar(item)" class="text-red-400 hover:text-red-600 transition-colors p-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7
-                    m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Descripción -->
-        <p class="text-xs text-gray-600 line-clamp-2">{{ item.descripcion }}</p>
-
-        <!-- Precio + control de cantidad -->
-        <div class="flex items-center justify-between">
-          <p class="text-lg font-bold text-emerald-600">S/ {{ item.precio }}</p>
-          
-          <div class="flex items-center gap-2 bg-white rounded-lg border shadow-sm">
-            <!-- Disminuir -->
-            <button 
-              (click)="cambiarCantidad(item, -1)"
-              [disabled]="item.cantidad <= 1"
-              class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-l-lg disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-              </svg>
-            </button>
-
-            <!-- Cantidad -->
-            <span class="w-8 text-center text-sm font-semibold">{{ item.cantidad }}</span>
-
-            <!-- Aumentar -->
-            <button 
-              (click)="cambiarCantidad(item, 1)"
-              [disabled]="item.ref?.cupos != null && item.cantidad >= item.ref.cupos"
-              class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-r-lg disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Cupos disponibles -->
-        <div class="flex items-center gap-2 text-xs">
-          <span [class]="getCuposClass(item)" class="px-2 py-1 rounded-full">
-            {{ getCuposDisponibles(item) }} cupos disponibles
+    <div class="relative flex items-center justify-between">
+      <div>
+        <h2 class="text-xl font-bold mb-1">Mi Carrito</h2>
+        <div class="flex items-center gap-2 text-blue-100">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+          </svg>
+          <span class="text-sm font-medium"> {{ (items$ | async)?.length || 0 }} servicios
           </span>
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
-
-
-      <!-- Estado vacío mejorado -->
-      <ng-template #estadoVacio>
-        <div class="empty-state rounded-xl p-8 text-center">
-          <div class="w-20 h-20 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-700 mb-2">Tu carrito está vacío</h3>
-          <p class="text-sm text-gray-500 mb-4">Explora nuestros servicios y paquetes para comenzar tu reserva</p>
-        </div>
-      </ng-template>
-
-    </div>
-  </div>
-
-  <!-- Resumen y total mejorado -->
-  <div class="border-t border-gray-200" *ngIf="items?.length">
-    <!-- Resumen rápido -->
-    <div class="px-6 py-3 bg-gray-50">
-      <div class="flex justify-between text-sm">
-        <span class="text-gray-600">Subtotal ({{ getTotalItems() }} items)</span>
-        <span class="font-semibold">S/ {{ total }}</span>
-      </div>
-      <div class="flex justify-between text-sm mt-1" *ngIf="descuento > 0">
-        <span class="text-gray-600">Descuento</span>
-        <span class="text-green-600 font-semibold">-S/ {{ descuento }}</span>
-      </div>
-    </div>
-    
-    <!-- Total final -->
-    <div class="total-section px-6 py-4 text-white">
-      <div class="flex justify-between items-center mb-4">
-        <span class="text-lg font-semibold">Total Final</span>
-        <span class="text-2xl font-bold">S/ {{ totalFinal }}</span>
-      </div>
-      
-      <button (click)="confirmarReserva()" class="confirm-btn w-full text-white py-3 rounded-xl text-sm font-semibold shadow-lg">
-        <span class="flex items-center justify-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-          </svg>
-          Confirmar Reserva
-        </span>
+      <button (click)="cerrarCarrito()" class="p-3 hover:bg-white/20 rounded-xl transition-all duration-200 group">
+        <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-200" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
-      
-      <p class="text-center text-white/80 text-xs mt-2">
-        🔒 Reserva segura • Cancela hasta 24h antes
-      </p>
     </div>
+  </header>
+
+  <!-- Contenido del carrito -->
+  <div class="flex-1 overflow-auto">
+    <ng-container *ngIf="items$ | async as items; else emptyCart">
+      <!-- Items del carrito -->
+      <div class="p-6 space-y-4">
+        <div *ngFor="let item of items; trackBy: trackByFn" 
+          class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+
+          <!-- Información del servicio -->
+          <div class="flex items-start gap-4 mb-4">
+            <!-- Icono del servicio -->
+            <div
+              class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white shadow-lg">
+              <svg *ngIf="item.type === 'service'" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="item.type === 'promotion'" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+
+            <!-- Detalles -->
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ item.title }}</h3>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                  [class]="item.type === 'service' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'">
+                  {{ item.type | titlecase }}
+                </span>
+              </div>
+              <div class="text-2xl font-bold text-blue-600">
+                S/ {{ item.price | number:'1.2-2' }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Controles y acciones -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+            <!-- Stepper mejorado -->
+            <div class="flex items-center bg-gray-50 rounded-xl p-1">
+              <button (click)="decrementar(item)" [disabled]="item.quantity <= 1"
+                class="w-10 h-10 bg-white rounded-lg shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold text-gray-600 hover:text-blue-600 transition-all duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+              </button>
+
+              <span class="w-12 text-center font-bold text-lg text-gray-900">{{ item.quantity }}</span>
+
+              <button (click)="incrementar(item)"
+                class="w-10 h-10 bg-white rounded-lg shadow-sm hover:shadow-md flex items-center justify-center font-bold text-gray-600 hover:text-blue-600 transition-all duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Subtotal y eliminar -->
+            <div class="text-right flex items-center gap-3">
+              <div>
+                <div class="text-sm text-gray-500">Subtotal</div>
+                <div class="text-xl font-bold text-gray-900">
+                  S/ {{ (item.price * item.quantity) | number:'1.2-2' }}
+                </div>
+              </div>
+
+              <button (click)="eliminar(item)"
+                class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200 group"
+                title="Eliminar servicio">
+                <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen y acciones -->
+      <div
+        class="sticky bottom-0 bg-gradient-to-t from-white via-white to-white/80 backdrop-blur-sm border-t border-gray-200 p-6 space-y-4">
+        <!-- Total con diseño destacado -->
+        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-gray-600 font-medium">Total de servicios:</span>
+            <span class="text-gray-900 font-semibold">{{ (items$ | async)?.length || 0 }}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xl font-bold text-gray-900">Total a pagar:</span>
+            <span class="text-3xl font-bold text-blue-600">S/ {{ total$ | async | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex gap-3">
+          <button (click)="vaciarCart()"
+            class="flex-1 py-4 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-semibold flex items-center justify-center gap-2 group">
+            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7" />
+            </svg>
+            Vaciar
+          </button>
+
+          <button (click)="confirmarReserva()"
+            class="flex-2 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl group">
+            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Confirmar Reserva
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Estado vacío mejorado -->
+    <ng-template #emptyCart>
+      <div class="flex flex-col items-center justify-center h-full p-8 text-center">
+        <div
+          class="w-24 h-24 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-3xl flex items-center justify-center mb-6">
+          <svg class="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+        </div>
+
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Tu carrito está vacío</h3>
+        <p class="text-gray-500 mb-6 max-w-sm">
+          Descubre nuestros increíbles servicios y promociones de Capachica para comenzar tu experiencia.
+        </p>
+
+        <div class="flex flex-col gap-2 text-sm text-gray-400">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd" />
+            </svg>
+            <span>Servicios de calidad</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd" />
+            </svg>
+            <span>Promociones exclusivas</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd" />
+            </svg>
+            <span>Experiencias únicas</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
-</div>
+</aside>
 
 <!-- Toast mejorado -->
-<div *ngIf="mostrarToast" class="fixed bottom-6 right-6 z-[100]">
-  <div class="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl bounce-in flex items-center gap-3">
-    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+<div *ngIf="mostrarToast"
+  class="fixed bottom-6 right-6 z-[60] bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4 rounded-2xl shadow-2xl border border-green-400/50 backdrop-blur-sm animate-bounce">
+  <div class="flex items-center gap-3">
+    <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
       </svg>
     </div>
     <div>
-      <p class="font-semibold">¡Reserva Confirmada!</p>
-      <p class="text-sm text-green-100">Te hemos enviado los detalles por email</p>
+      <div class="font-bold">¡Reserva confirmada!</div>
+      <div class="text-sm opacity-90">Te contactaremos pronto</div>
     </div>
   </div>
 </div>
