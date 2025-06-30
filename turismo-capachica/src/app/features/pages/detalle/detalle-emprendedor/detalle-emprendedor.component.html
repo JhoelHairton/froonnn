@@ -1,0 +1,438 @@
+<!-- Drawer del carrito -->
+<app-carrito
+  *ngIf="showCart"
+  (cerrar)="showCart = false"
+></app-carrito>
+
+
+<div *ngIf="loading" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div class="text-center">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+    <p class="text-indigo-600 font-medium">Cargando información...</p>
+  </div>
+</div>
+
+<div *ngIf="error" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-pink-100">
+  <div class="text-center p-8 bg-white rounded-2xl shadow-xl border border-red-100">
+    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
+    </div>
+    <p class="text-red-600 font-medium text-lg">{{ error }}</p>
+    <button class="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+      Reintentar
+    </button>
+  </div>
+</div>
+
+<div *ngIf="!loading && !error && emprendedor"
+  class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+
+  
+  <!-- Hero Section Rediseñado -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900">
+
+  <!-- Floating Geometric Shapes -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Large floating shapes -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-float-slow"></div>
+    <div class="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-br from-pink-500/20 to-indigo-500/20 rounded-full blur-3xl animate-float-reverse"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-cyan-500/15 to-blue-500/15 rounded-full blur-2xl animate-pulse"></div>
+    
+    <!-- Small decorative elements -->
+    <div class="absolute top-20 right-20 w-4 h-4 bg-white/30 rounded-full animate-ping"></div>
+    <div class="absolute bottom-32 left-16 w-3 h-3 bg-blue-400/40 rounded-full animate-pulse delay-100"></div>
+    <div class="absolute top-1/3 right-1/3 w-2 h-2 bg-purple-400/50 rounded-full animate-bounce delay-200"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 px-6 py-24 text-center max-w-6xl mx-auto">
+    
+    <!-- Profile Section -->
+    <div class="mb-12 flex justify-center">
+      <div class="relative group">
+        <!-- Animated Border -->
+        <div class="absolute -inset-4 bg-gradient-to-r from-cyan-400 via-blue-500 via-purple-500 to-pink-500 rounded-full opacity-75 group-hover:opacity-100 blur-lg animate-gradient-rotate"></div>
+        
+        <!-- Profile Image Container -->
+        <div class="relative bg-white/10 backdrop-blur-xl rounded-full p-2 border border-white/20 shadow-2xl">
+          <img [src]="emprendedor.logo" *ngIf="emprendedor.logo"
+            class="w-44 h-44 object-cover rounded-full shadow-xl border-4 border-white/30 transition-all duration-700 group-hover:scale-105 group-hover:rotate-3" 
+            alt="Logo del emprendedor" />
+          <div *ngIf="!emprendedor.logo"
+            class="w-44 h-44 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-xl rounded-full border-4 border-white/30 flex items-center justify-center shadow-xl transition-all duration-700 group-hover:scale-105">
+            <i class="fas fa-user text-white/80 text-7xl"></i>
+          </div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+          <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Title and Description -->
+    <div class="mb-16 space-y-6">
+      <div class="relative">
+        <h1 class="text-6xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-purple-100 mb-8 leading-none tracking-tight animate-text-shimmer">
+          {{ emprendedor.nombre }}
+        </h1>
+        
+        <!-- Decorative line -->
+        <div class="w-32 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent mx-auto mb-8 rounded-full"></div>
+      </div>
+      
+      <p class="text-2xl md:text-3xl text-white/90 max-w-4xl mx-auto leading-relaxed font-light tracking-wide">
+        {{ emprendedor.descripcion }}
+      </p>
+    </div>
+
+    <!-- Contact Information Cards -->
+    <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-16">
+      <div *ngIf="emprendedor.email" 
+        class="group relative overflow-hidden bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition-all duration-500 shadow-xl hover:shadow-2xl hover:scale-105 min-w-80">
+        <!-- Hover effect overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <div class="relative flex items-center gap-4">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-500">
+            <i class="fas fa-envelope text-white text-2xl"></i>
+          </div>
+          <div class="text-left">
+            <div class="text-sm text-white/70 font-medium uppercase tracking-wider mb-1">Email</div>
+            <div class="text-xl text-white font-semibold">{{ emprendedor.email }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="emprendedor.telefono" 
+        class="group relative overflow-hidden bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition-all duration-500 shadow-xl hover:shadow-2xl hover:scale-105 min-w-80">
+        <!-- Hover effect overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-green-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <div class="relative flex items-center gap-4">
+          <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-500">
+            <i class="fas fa-phone text-white text-2xl"></i>
+          </div>
+          <div class="text-left">
+            <div class="text-sm text-white/70 font-medium uppercase tracking-wider mb-1">Teléfono</div>
+            <div class="text-xl text-white font-semibold">{{ emprendedor.telefono }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+      <button *ngIf="emprendedor.email" 
+        class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white px-12 py-4 rounded-2xl font-bold text-lg shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105 active:scale-95 min-w-64">
+        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative flex items-center justify-center gap-3">
+          <i class="fas fa-envelope text-xl"></i>
+          <span>Contactar por Email</span>
+        </div>
+      </button>
+
+      <button *ngIf="emprendedor.telefono" 
+        class="group relative overflow-hidden bg-gradient-to-r from-green-600 to-blue-700 hover:from-green-700 hover:to-blue-800 text-white px-12 py-4 rounded-2xl font-bold text-lg shadow-2xl shadow-green-500/25 hover:shadow-green-500/40 transition-all duration-300 transform hover:scale-105 active:scale-95 min-w-64">
+        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative flex items-center justify-center gap-3">
+          <i class="fas fa-phone text-xl"></i>
+          <span>Llamar Ahora</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div class="w-8 h-12 border-2 border-white/30 rounded-full flex justify-center">
+        <div class="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Servicios Section Rediseñada -->
+<section *ngIf="servicios.length > 0" class="py-20 px-10">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Header de sección -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-3 bg-indigo-100 px-6 py-3 rounded-full mb-6">
+        <i class="fas fa-star text-indigo-600"></i>
+        <span class="text-indigo-800 font-semibold">Servicios Premium</span>
+      </div>
+      <h2 class="text-5xl font-black text-gray-900 mb-4">
+        Experiencias <span
+          class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Únicas</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Descubre nuestra selección cuidadosamente diseñada para crear momentos inolvidables
+      </p>
+    </div>
+
+
+
+    <!-- Grid de servicios con Stepper -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div *ngFor="let servicio of servicios; let i = index"
+    class="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-gray-100">
+
+    <!-- Imagen -->
+    <div class="relative overflow-hidden h-64">
+      <img [src]="servicio.imagen" [alt]="servicio.title"
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        loading="lazy" />
+
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+      <!-- Precio -->
+      <div class="absolute top-4 right-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 rounded-2xl font-bold shadow-lg">
+        <span class="text-sm">S/</span>
+        <span class="text-lg">{{ servicio.price }}</span>
+      </div>
+
+      <!-- Badge -->
+      <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded-full text-xs font-semibold text-gray-700 shadow-md">
+        Servicio #{{ i + 1 }}
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="p-8">
+      <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">
+        {{ servicio.title }}
+      </h3>
+      <p class="text-gray-600 leading-relaxed mb-6 line-clamp-3">
+        {{ servicio.description }}
+      </p>
+
+      <!-- Info adicional -->
+      <div class="flex items-center gap-6 mb-6 text-sm text-gray-500">
+        <div *ngIf="servicio.duracion" class="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+          <i class="fas fa-clock text-indigo-500"></i>
+          <span class="font-medium">{{ servicio.duracion }}</span>
+        </div>
+        <div *ngIf="servicio.cupos" class="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+          <i class="fas fa-users text-purple-500"></i>
+          <span class="font-medium">{{ servicio.cupos }} cupos</span>
+        </div>
+      </div>
+
+      <!-- Stepper y Botones -->
+      <div class="flex flex-col gap-3">
+
+        <!-- Stepper -->
+        <div class="flex items-center bg-gray-50 rounded-xl p-1">
+          <button (click)="decrementarCard(servicio)" [disabled]="servicio.quantity <= 1"
+            class="w-10 h-10 bg-white rounded-lg shadow-sm hover:shadow-md disabled:opacity-50 flex items-center justify-center">
+            <i class="fas fa-minus"></i>
+          </button>
+
+          <span class="w-12 text-center font-bold text-lg">{{ servicio.quantity }}</span>
+
+          <button (click)="incrementarCard(servicio)"
+            class="w-10 h-10 bg-white rounded-lg shadow-sm hover:shadow-md flex items-center justify-center">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+
+        <!-- Botones acción -->
+        <div class="flex gap-3">
+          <button (click)="verDetalles(servicio)"
+            class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2">
+            <i class="fas fa-info-circle"></i>
+            Ver Detalles
+          </button>
+
+          <button (click)="agregarServicio(servicio)"
+            class="px-4 py-2 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 flex items-center justify-center gap-2">
+            <i class="fas fa-shopping-cart"></i>
+            Añadir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+  <!-- Promociones Section Rediseñada -->
+<section *ngIf="paquetes.length > 0" class="py-24 px-6 bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 relative overflow-hidden">
+  <!-- Elementos decorativos de fondo -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-amber-200/30 to-orange-300/30 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-gradient-to-tr from-orange-200/30 to-pink-300/30 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    <!-- Header mejorado -->
+    <div class="text-center mb-20">
+      <div class="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white px-8 py-4 rounded-full mb-8 shadow-2xl shadow-amber-500/25 transform hover:scale-105 transition-all duration-300">
+        <i class="fas fa-gift animate-bounce text-xl"></i>
+        <span class="font-bold text-lg tracking-wide">Promociones Activas</span>
+        <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+      </div>
+      
+      <h2 class="text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 animate-gradient">
+          Paquetes
+        </span> 
+        <br class="hidden sm:block">
+        <span class="text-gray-800">con Descuento</span>
+      </h2>
+      
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        Explora nuestras ofertas exclusivas y vive experiencias únicas mientras ahorras
+      </p>
+      
+      <!-- Indicador de cantidad -->
+      <div class="mt-8 inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-amber-200">
+        <i class="fas fa-fire text-orange-500"></i>
+        <span class="text-sm font-semibold text-gray-700">{{ paquetes.length }} ofertas disponibles</span>
+      </div>
+    </div>
+
+    <!-- Grid de paquetes mejorado -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div *ngFor="let paquete of paquetes; let i = index"
+        class="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 overflow-hidden border border-white/50 hover:border-amber-300/50 transform hover:-translate-y-2">
+
+        <!-- Ribbon de promoción mejorado -->
+        <div class="absolute top-8 -right-14 bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white px-20 py-3 rotate-45 font-black text-base shadow-2xl z-20 animate-pulse">
+          <span class="drop-shadow-lg">{{ paquete.discount_percentage }}% OFF</span>
+        </div>
+
+        <!-- Efecto de brillo -->
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-10"></div>
+
+        <!-- Badge de posición -->
+        <div class="absolute top-6 left-6 w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center font-black text-white text-lg shadow-lg z-20">
+          {{ i + 1 }}
+        </div>
+
+        <!-- Contenido del paquete -->
+        <div class="p-10 pt-16">
+          <!-- Header de la card -->
+          <div class="flex items-start gap-6 mb-8">
+            <div class="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-orange-500/30 transform group-hover:rotate-12 transition-transform duration-500">
+              <i class="fas fa-gift text-white text-3xl"></i>
+            </div>
+            
+            <div class="flex-1">
+              <h3 class="text-4xl font-black text-gray-900 mb-3 group-hover:text-orange-600 transition-colors duration-300">
+                {{ paquete.title }}
+              </h3>
+              
+              <p class="text-gray-600 leading-relaxed mb-4 text-lg">
+                {{ paquete.description }}
+              </p>
+              
+              <!-- Información de vigencia -->
+              <div class="flex flex-wrap gap-4 mb-3">
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-full">
+                  <i class="far fa-calendar-alt text-amber-500"></i>
+                  <span class="text-sm font-medium text-gray-700">
+                    {{ paquete.start_date | date:'shortDate' }} - {{ paquete.end_date | date:'shortDate' }}
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Status badge -->
+              <div class="inline-flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full animate-pulse"
+                  [ngClass]="paquete.status === 'active' ? 'bg-green-400' : 'bg-gray-400'">
+                </div>
+                <span class="px-4 py-2 rounded-full text-sm font-bold"
+                  [ngClass]="paquete.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'">
+                  {{ paquete.status === 'active' ? 'Activa' : 'Inactiva' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección de controles -->
+          <div class="space-y-6">
+           
+
+            <!-- Botones de acción mejorados -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button (click)="verDetalles(paquete)"
+                class="flex-1 group/btn bg-gradient-to-r from-amber-100 to-orange-100 hover:from-amber-200 hover:to-orange-200 text-amber-800 border-2 border-amber-300 hover:border-amber-400 py-4 px-6 rounded-2xl font-bold flex items-center justify-center gap-3 transform hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <i class="fas fa-info-circle text-xl group-hover/btn:animate-spin"></i>
+                <span class="text-lg">Ver Detalles</span>
+              </button>
+
+              <button (click)="agregarPromocion(paquete)"
+                class="sm:w-auto w-full px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transform hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl hover:shadow-2xl shadow-indigo-500/25">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span>Añadir al Carrito</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicador de ahorro -->
+        <div class="absolute bottom-6 left-6 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+          <i class="fas fa-piggy-bank mr-2"></i>
+          ¡Ahorra más!
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA final -->
+    <div class="text-center mt-20">
+      <div class="inline-flex items-center gap-2 text-gray-600 text-sm">
+        <i class="fas fa-clock"></i>
+        <span>Ofertas por tiempo limitado</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Mapa Section Rediseñada -->
+  <section class="py-20 px-6 bg-gradient-to-r from-slate-900 to-slate-800">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full mb-6 border border-white/20">
+        <i class="fas fa-map-marker-alt text-blue-400"></i>
+        <span class="text-white font-semibold">Ubicación</span>
+      </div>
+      
+      <h2 class="text-4xl font-black text-white mb-4">
+        Encuéntranos en 
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Capachica</span>
+      </h2>
+
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        Visítanos en <span class="text-blue-400 font-semibold">Capachica</span> y descubre todo lo que tenemos para ofrecerte en nuestra hermosa comunidad.
+      </p>
+    </div>
+
+    <div class="relative group">
+      <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
+      </div>
+      
+      <div class="relative bg-white rounded-3xl p-2 shadow-2xl">
+        <iframe 
+          [src]="mapaUrl" 
+          width="100%" 
+          height="450" 
+          style="border:0;" 
+          allowfullscreen 
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" 
+          class="rounded-2xl">
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 export interface CarritoItem {
   type: 'service' | 'promotion';
@@ -8,7 +9,6 @@ export interface CarritoItem {
   title: string;
   price: number;
   quantity: number;
-
   cupos?: number;
 
 }
@@ -22,7 +22,8 @@ export interface CartSummary {
 
 @Injectable({ providedIn: 'root' })
 export class CarritoService {
-  private readonly API_BASE = 'http://localhost:8000/api/cart';
+
+  private readonly API_BASE = `${environment.apiUrl}/cart`;
 
   constructor(private http: HttpClient) {}
 

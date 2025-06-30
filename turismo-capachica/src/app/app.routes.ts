@@ -1,70 +1,70 @@
 import { Routes } from '@angular/router';
-import { AUTH_ROUTES } from './auth/auth.routes';
+import { AUTH_ROUTES } from './features/auth/auth.routes';
 import { authGuard } from './core/guards/auth.guard';
-import { AdminLayoutComponent } from './layout/admin/admin-layout.component';
-import { EmpresaLayoutComponent } from './layout/empresa/empresa-layout.component';
-import { TuristaLayoutComponent } from './layout/turista/turista-layout.component';
-import { EMPRENDEDOR_ROUTES } from './roles/emprendedor/emprededor.routes';
-import { TURISTA_ROUTES } from './roles/turista/turista.routes';
-import { SUPERADMIN_ROUTES } from './roles/superadmin/superadmin.routes';
+import { AdminLayoutComponent } from './shared/components/admin/admin-layout.component';
+import { EmpresaLayoutComponent } from './shared/components/empresa/empresa-layout.component';
+import { TuristaLayoutComponent } from './shared/components/turista/turista-layout.component';
+import { EMPRENDEDOR_ROUTES } from './features/roles/emprendedor/emprededor.routes';
+import { TURISTA_ROUTES } from './features/roles/turista/turista.routes';
+import { SUPERADMIN_ROUTES } from './features/roles/superadmin/superadmin.routes';
 
 export const APP_ROUTES: Routes = [
 
   {
     path: '',
     loadComponent: () =>
-      import('./portals/turismo-capachica/landing/landing.component').then(
+      import('../app/features/portals/turismo-capachica/landing/landing.component').then(
         (m) => m.LandingComponent
       ),
   },
   {
     path: 'zonas-turisticas',
     loadComponent: () =>
-      import('./pages/zonas/zonas.component').then((m) => m.ZonasComponent),
+      import('./features/pages/zonas/zonas.component').then((m) => m.ZonasComponent),
   },
   {
     path: 'paquetes',
     loadComponent: () =>
-      import('./pages/paquetes/paquetes.component').then(
+      import('./features/pages/paquetes/paquetes.component').then(
         (m) => m.PaquetesComponent
       ),
   },
   {
     path: 'servicios',
     loadComponent: () =>
-      import('./pages/servicios/servicios.component').then(
+      import('./features/pages/servicios/servicios.component').then(
         (m) => m.ServiciosComponent
       ),
   },
   {
     path: 'resenas',
     loadComponent: () =>
-      import('./pages/resenas/resenas.component').then(
+      import('./features/pages/resenas/resenas.component').then(
         (m) => m.ResenasComponent
       ),
   },
   {
     path: 'sobre-capachica',
     loadComponent: () =>
-      import('./pages/sobre/sobre.component').then((m) => m.SobreComponent),
+      import('./features/pages/sobre/sobre.component').then((m) => m.SobreComponent),
   },
   {
     path: 'reservar/:experienciaId',
     loadComponent: () =>
-      import('./pages/contacto/contacto.component').then(
+      import('./features/pages/contacto/contacto.component').then(
         (m) => m.ContactoComponent
       ),
   },
   {
     path: 'comunidad/:id',
     loadComponent: () =>
-      import('./pages/detalle/detalle-comunidad/detalle-comunidad.component')
+      import('./features/pages/detalle/detalle-comunidad/detalle-comunidad.component')
         .then(m => m.DetalleComunidadComponent)
   },
   {
   path: 'emprendedor/:locationId/:companyId',
   loadComponent: () =>
-    import('./pages/detalle/detalle-emprendedor/detalle-emprendedor.component')
+    import('./features/pages/detalle/detalle-emprendedor/detalle-emprendedor.component')
       .then(m => m.DetalleEmprendedorComponent)
 },
 
@@ -72,7 +72,7 @@ export const APP_ROUTES: Routes = [
  {
     path: 'carrito',
     loadComponent: () =>
-      import('./pages/carrito/carrito.component').then((m) => m.CarritoComponent),
+      import('./features/pages/carrito/carrito.component').then((m) => m.CarritoComponent),
   },
   {
     path: 'auth',
@@ -100,7 +100,7 @@ export const APP_ROUTES: Routes = [
     path: 'empresa/registrar-empresa',
     canActivate: [authGuard('emprendedor')],
     loadComponent: () =>
-      import('./roles/emprendedor/registrar-empresa/registrar-empresa.component').then(m => m.RegistrarEmpresaComponent)
+      import('../app/features/roles/emprendedor/registrar-empresa/registrar-empresa.component').then(m => m.RegistrarEmpresaComponent)
   },
   
   // 🧳 Rutas para turista
@@ -116,7 +116,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'unauthorized',
     loadComponent: () =>
-      import('./shared/unauthorized/unauthorized.component').then(
+      import('./shared/components/unauthorized/unauthorized.component').then(
         (m) => m.UnauthorizedComponent
       ),
   }

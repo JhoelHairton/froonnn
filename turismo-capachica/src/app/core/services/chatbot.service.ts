@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotService {
-  private apiUrl = 'http://localhost:8000/api/chatgpt'; // Ajusta según tu backend
+    private apiUrl = `${environment.apiUrl}/chatgpt`; // Ajusta según tu backend
 
   constructor(private http: HttpClient) {}
 

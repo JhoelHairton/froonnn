@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // NECESARIA
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../../environments/environment';  // ✅ Importa la config de entorno
+
 
 export interface JwtPayload {
   exp: number; // fecha de expiración como timestamp UNIX (segundos)
@@ -9,7 +11,8 @@ export interface JwtPayload {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api/auth';
+  
+  private apiUrl = `${environment.apiUrl}/auth`;  // ✅ Usando environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router) {}
 

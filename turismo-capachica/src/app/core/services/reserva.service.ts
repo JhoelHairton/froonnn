@@ -1,12 +1,9 @@
-// src/app/core/services/reserva.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-
 import { CarritoItem, CartSummary } from './carrito.service';
+import { environment } from '../../../environments/environment';
 
-/** Payload para el endpoint genérico de creación de reserva */
 export interface ReservaPayload {
   items: CarritoItem[];
   summary: CartSummary;
@@ -19,7 +16,6 @@ export interface ReservaPayload {
   estado?: string;
 }
 
-/** Payload específico para el checkout de turista */
 export interface CheckoutPayload {
   reservation_date: string;
   cart: { id: number; type: string; quantity: number }[];
@@ -28,43 +24,33 @@ export interface CheckoutPayload {
 
 @Injectable({ providedIn: 'root' })
 export class ReservaService {
-  private readonly RESERVAS_API   = 'http://localhost:8000/api/reservas';
-  private readonly TURISTA_API    = 'http://localhost:8000/api';
+  private readonly RESERVAS_API = `${environment.apiUrl}/reservas`;
+  private readonly TURISTA_API = `${environment.apiUrl}/turista`;
   private readonly STORAGE_KEY    = 'reservas_turistas';
 
   constructor(private http: HttpClient) {}
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // 1) Métodos de backend
-  // ─────────────────────────────────────────────────────────────────────────────
 
-  /** Crea una reserva genérica en /api/reservas */
   crearReserva(payload: ReservaPayload): Observable<any> {
     return this.http.post<any>(this.RESERVAS_API, payload);
   }
 
-  /** Checkout de turista: POST /api/turista/checkout */
   checkout(payload: CheckoutPayload): Observable<any> {
     return this.http.post(
-      `${this.TURISTA_API}/turista/checkout`,
+      `${this.TURISTA_API}/checkout`,
       payload,
       { withCredentials: true }
     );
   }
 
-  /** Obtiene las reservas del turista logueado: GET /api/turista/reservas */
 getMisReservas(): Observable<any[]> {
   return this.http.get<any>(
-    `${this.TURISTA_API}/turista/bookings`,
+    `${this.TURISTA_API}/bookings`,
     { withCredentials: true }
   ).pipe(
-    map(res => res.data)  // 👈 Solo devolvemos el array de reservas
+    map(res => res.data)  
   );
 }
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  // 2) Fallback/localStorage (si quieres guardar localmente)
-  // ─────────────────────────────────────────────────────────────────────────────
 
   guardarReservaLocal(reserva: any): void {
     const data = this.obtenerReservasLocal();
