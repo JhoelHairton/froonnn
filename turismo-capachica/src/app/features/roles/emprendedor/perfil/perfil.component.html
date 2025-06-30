@@ -1,100 +1,261 @@
-<div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow space-y-6">
-
-  <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-    <iconify-icon icon="mdi:briefcase-outline" width="26"></iconify-icon>
-    Perfil del Negocio
-  </h2>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <!-- Campo -->
-    <div>
-      <label class="text-sm font-medium text-gray-600">Razón Social</label>
-      <input [(ngModel)]="empresa.business_name" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             placeholder="Ej: Turismo Capachica">
+<div class="container mx-auto p-6 max-w-4xl">
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+      <h1 class="text-2xl font-bold text-white">Editar Perfil de Empresa</h1>
+      <p class="text-blue-100 mt-1">Actualiza la información de tu empresa</p>
     </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Nombre Comercial</label>
-      <input [(ngModel)]="empresa.trade_name" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             placeholder="Ej: Capachica Tours">
-    </div>
+    <!-- Form -->
+    <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Logo Section -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Logo de la Empresa</label>
+          <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0">
+              <img 
+                [src]="currentLogoUrl || '/assets/default-logo.png'" 
+                alt="Logo actual"
+                class="h-20 w-20 object-cover rounded-lg border-2 border-gray-200"
+                (error)="onImageError($event)">
+            </div>
+            <div class="flex-1">
+              <input 
+                type="file" 
+                (change)="onLogoChange($event)"
+                accept="image/*"
+                class="block w-full text-sm text-gray-500
+                       file:mr-4 file:py-2 file:px-4
+                       file:rounded-full file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-blue-50 file:text-blue-700
+                       hover:file:bg-blue-100">
+              <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF hasta 5MB</p>
+            </div>
+          </div>
+        </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Tipo de Servicio</label>
-      <input [(ngModel)]="empresa.service_type" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             placeholder="turismo vivencial">
-    </div>
+        <!-- Razón Social -->
+        <div>
+          <label for="business_name" class="block text-sm font-medium text-gray-700 mb-2">
+            Razón Social *
+          </label>
+          <input
+            type="text"
+            id="business_name"
+            formControlName="business_name"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('business_name')"
+            placeholder="Ingresa la razón social">
+          <div *ngIf="isFieldInvalid('business_name')" class="mt-1 text-sm text-red-600">
+            La razón social es requerida
+          </div>
+        </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Correo de Contacto</label>
-      <input [(ngModel)]="empresa.contact_email" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             type="email">
-    </div>
+        <!-- Nombre Comercial -->
+        <div>
+          <label for="trade_name" class="block text-sm font-medium text-gray-700 mb-2">
+            Nombre Comercial *
+          </label>
+          <input
+            type="text"
+            id="trade_name"
+            formControlName="trade_name"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('trade_name')"
+            placeholder="Ingresa el nombre comercial">
+          <div *ngIf="isFieldInvalid('trade_name')" class="mt-1 text-sm text-red-600">
+            El nombre comercial es requerido
+          </div>
+        </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Teléfono</label>
-      <input [(ngModel)]="empresa.phone" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             placeholder="+51 987654321">
-    </div>
+        <!-- RUC -->
+        <div>
+          <label for="ruc" class="block text-sm font-medium text-gray-700 mb-2">
+            RUC *
+          </label>
+          <input
+            type="text"
+            id="ruc"
+            formControlName="ruc"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('ruc')"
+            placeholder="Ingresa el RUC"
+            maxlength="11">
+          <div *ngIf="isFieldInvalid('ruc')" class="mt-1 text-sm text-red-600">
+            <span *ngIf="companyForm.get('ruc')?.hasError('required')">El RUC es requerido</span>
+            <span *ngIf="companyForm.get('ruc')?.hasError('pattern')">El RUC debe tener 11 dígitos</span>
+          </div>
+        </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Sitio Web</label>
-      <input [(ngModel)]="empresa.website" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             type="url">
-    </div>
+        <!-- Tipo de Servicio -->
+        <div>
+          <label for="service_type" class="block text-sm font-medium text-gray-700 mb-2">
+            Tipo de Servicio *
+          </label>
+          <select
+            id="service_type"
+            formControlName="service_type"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('service_type')">
+            <option value="">Selecciona un tipo de servicio</option>
+            <option value="hospedaje">Hospedaje</option>
+            <option value="tours">Tours</option>
+            <option value="hospedaje y tours">Hospedaje y Tours</option>
+            <option value="transporte">Transporte</option>
+            <option value="restaurante">Restaurante</option>
+            <option value="otros">Otros</option>
+          </select>
+          <div *ngIf="isFieldInvalid('service_type')" class="mt-1 text-sm text-red-600">
+            El tipo de servicio es requerido
+          </div>
+        </div>
 
-    <div class="md:col-span-2">
-      <label class="text-sm font-medium text-gray-600">Ubicación</label>
-      <input [(ngModel)]="empresa.location" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded"
-             placeholder="Capachica, Puno">
-    </div>
+        <!-- Email de Contacto -->
+        <div>
+          <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-2">
+            Email de Contacto *
+          </label>
+          <input
+            type="email"
+            id="contact_email"
+            formControlName="contact_email"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('contact_email')"
+            placeholder="contacto@empresa.com">
+          <div *ngIf="isFieldInvalid('contact_email')" class="mt-1 text-sm text-red-600">
+            <span *ngIf="companyForm.get('contact_email')?.hasError('required')">El email es requerido</span>
+            <span *ngIf="companyForm.get('contact_email')?.hasError('email')">Ingresa un email válido</span>
+          </div>
+        </div>
 
-    <div class="md:col-span-2">
-      <label class="text-sm font-medium text-gray-600">Descripción</label>
-      <textarea [(ngModel)]="empresa.description" [readonly]="!editando"
-                class="w-full mt-1 border px-3 py-2 rounded"
-                rows="3"
-                placeholder="Resumen del negocio..."></textarea>
-    </div>
+        <!-- Teléfono -->
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+            Teléfono *
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('phone')"
+            placeholder="987654321"
+            maxlength="9">
+          <div *ngIf="isFieldInvalid('phone')" class="mt-1 text-sm text-red-600">
+            <span *ngIf="companyForm.get('phone')?.hasError('required')">El teléfono es requerido</span>
+            <span *ngIf="companyForm.get('phone')?.hasError('pattern')">Ingresa un teléfono válido (9 dígitos)</span>
+          </div>
+        </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Facebook</label>
-      <input [(ngModel)]="empresa.facebook" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded">
-    </div>
+        <!-- Sitio Web -->
+        <div class="md:col-span-2">
+          <label for="website" class="block text-sm font-medium text-gray-700 mb-2">
+            Sitio Web
+          </label>
+          <input
+            type="url"
+            id="website"
+            formControlName="website"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('website')"
+            placeholder="https://www.empresa.com">
+          <div *ngIf="isFieldInvalid('website')" class="mt-1 text-sm text-red-600">
+            Ingresa una URL válida
+          </div>
+        </div>
 
-    <div>
-      <label class="text-sm font-medium text-gray-600">Instagram</label>
-      <input [(ngModel)]="empresa.instagram" [readonly]="!editando"
-             class="w-full mt-1 border px-3 py-2 rounded">
-    </div>
-  </div>
+        <!-- Descripción -->
+        <div class="md:col-span-2">
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+            Descripción *
+          </label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="4"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+            [class.border-red-500]="isFieldInvalid('description')"
+            placeholder="Describe tu empresa, servicios que ofreces, ubicación, etc."
+            maxlength="500"></textarea>
+          <div class="flex justify-between items-center mt-1">
+            <div *ngIf="isFieldInvalid('description')" class="text-sm text-red-600">
+              La descripción es requerida
+            </div>
+            <div class="text-sm text-gray-500">
+              {{ companyForm.get('description')?.value?.length || 0 }}/500 caracteres
+            </div>
+          </div>
+        </div>
 
-  <!-- Botones -->
-  <div class="flex justify-end gap-4 mt-4">
-    <button *ngIf="!editando"
-            (click)="editando = true"
-            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-      Editar Perfil
-    </button>
+        <!-- Ubicación -->
+        <div class="md:col-span-2">
+          <label for="location_id" class="block text-sm font-medium text-gray-700 mb-2">
+            Ubicación *
+          </label>
+          <select
+            id="location_id"
+            formControlName="location_id"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [class.border-red-500]="isFieldInvalid('location_id')">
+            <option value="">Selecciona una ubicación</option>
+            <option *ngFor="let location of locations" [value]="location.id">
+              {{ location.name }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('location_id')" class="mt-1 text-sm text-red-600">
+            La ubicación es requerida
+          </div>
+        </div>
+      </div>
 
-    <button *ngIf="editando"
-            (click)="guardarCambios()"
-            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-      Guardar Cambios
-    </button>
+      <!-- Estado de verificación -->
+      <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div class="w-3 h-3 rounded-full" 
+                 [ngClass]="{
+                   'bg-green-500': company?.status === 'aprobada',
+                   'bg-yellow-500': company?.status === 'pendiente',
+                   'bg-red-500': company?.status === 'rechazada'
+                 }"></div>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-gray-900">Estado de Verificación</h3>
+            <p class="text-sm text-gray-600">
+              <span class="capitalize">{{ company?.status }}</span>
+              <span *ngIf="company?.verified_at" class="ml-2">
+- Verificada el {{ formatDate(company?.verified_at) }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
 
-    <button *ngIf="editando"
-            (click)="editando = false"
-            class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
-      Cancelar
-    </button>
+      <!-- Botones de acción -->
+      <div class="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="companyForm.invalid || isLoading"
+          class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          <span *ngIf="isLoading" class="inline-flex items-center">
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Guardando...
+          </span>
+          <span *ngIf="!isLoading">Guardar Cambios</span>
+        </button>
+      </div>
+    </form>
   </div>
 </div>
