@@ -21,7 +21,7 @@ import { ComunidadPublica,  ComunidadPublicaService } from '../../../core/servic
     FooterComponent
   ],
   templateUrl: './zonas.component.html',
-  styleUrls: ['./zonas.component.scss'],
+  styleUrls: ['./zonas.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ZonasComponent implements OnInit {

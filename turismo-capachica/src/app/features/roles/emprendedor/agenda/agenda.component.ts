@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './agenda.component.html',
-  styleUrls: ['./agenda.component.scss']
+  styleUrls: ['./agenda.component.css']
 })
 export class AgendaComponent implements OnInit {
   
